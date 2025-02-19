@@ -54,7 +54,7 @@
                       <Component id="labelBienvenida" min="-2" pref="41" max="-2" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Component id="labelSaldo" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="114" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="128" max="-2" attributes="0"/>
                           <Component id="btnAgregarSaldo" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Component id="btnActualizarPerfil" min="-2" pref="129" max="-2" attributes="0"/>
