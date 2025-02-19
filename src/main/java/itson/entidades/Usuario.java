@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package itson.entidades;
 
 import java.util.Objects;
@@ -10,7 +7,7 @@ import java.util.Objects;
  *
  * @author juanpheras
  */
-public class usuario {
+public class Usuario {
     
     private String nombre;
     private String apellidoPaterno;
@@ -21,7 +18,7 @@ public class usuario {
     private float saldo;
     private int codigoDireccionUsuario;
 
-    public usuario(String nombre, String apellidoPaterno, String apellidoMaterno, String correoElectronico, String contraseñaHash, String fechaNacimiento, float saldo, int codigoDireccionUsuario) {
+    public Usuario(String nombre, String apellidoPaterno, String apellidoMaterno, String correoElectronico, String contraseñaHash, String fechaNacimiento, float saldo, int codigoDireccionUsuario) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -32,6 +29,7 @@ public class usuario {
         this.codigoDireccionUsuario = codigoDireccionUsuario;
     }
 
+    
     public String getNombre() {
         return nombre;
     }
@@ -121,7 +119,7 @@ public class usuario {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final usuario other = (usuario) obj;
+        final Usuario other = (Usuario) obj;
         if (Float.floatToIntBits(this.saldo) != Float.floatToIntBits(other.saldo)) {
             return false;
         }
