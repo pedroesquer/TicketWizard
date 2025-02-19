@@ -70,7 +70,7 @@ public class comprarBoleto extends javax.swing.JFrame {
                     .addComponent(labelBienvenida, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(labelSaldo)
-                        .addGap(114, 114, 114)
+                        .addGap(128, 128, 128)
                         .addComponent(btnAgregarSaldo))
                     .addComponent(btnActualizarPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
