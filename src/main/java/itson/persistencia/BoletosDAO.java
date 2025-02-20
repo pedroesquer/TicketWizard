@@ -2,10 +2,12 @@ package itson.persistencia;
 
 import itson.entidades.Boleto;
 import itson.usuariosDTOs.ActualizarBoletoDTO;
+import itson.usuariosDTOs.NuevoBoletoEventoDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -71,6 +73,40 @@ public class BoletosDAO {
                 int codigoEvento = resultadosConsulta.getInt("codigoEvento");
                 Boleto boleto = new Boleto(numeroControl, asiento, fila, numeroSerie, precioOriginal, estado, codigoUsuario, codigoEvento);
                 ListaBoletos.add(boleto);
+
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error al consultar los boletos: " + ex.getMessage());
+
+        }
+        return ListaBoletos;
+    }
+    
+        public List<NuevoBoletoEventoDTO> consultarBoletosEventos() {
+        String codigoSQL = """
+SELECT numeroControl as Id, ev.fechaHora as 'Fecha', ev.nombre as 'Evento', concat(asiento, fila) as 'Asiento', precioOriginal, concat(recinto, ', ', ciudad) as 'Lugar', bo.numeroserie, 
+                           		CASE 
+                                   WHEN codigoUsuario IS NULL THEN 'Boletera'
+                                   ELSE 'Reventa'
+                               END AS Tipo 
+                           FROM BOLETOS AS BO INNER JOIN EVENTOS AS EV ON BO.CODIGOEVENTO = EV.CODIGOEVENTO WHERE BO.ESTADO = "Disponible";                           
+                           """;
+        List<NuevoBoletoEventoDTO> ListaBoletos = new LinkedList<>();
+        try {
+            Connection conexion = this.manejadorConexiones.crearConexion();
+            PreparedStatement comando = conexion.prepareStatement(codigoSQL);
+            ResultSet resultadosConsulta = comando.executeQuery();
+
+            while (resultadosConsulta.next()) {
+                String Id = resultadosConsulta.getString("Id");
+                LocalDateTime fecha = resultadosConsulta.getTimestamp("Fecha").toLocalDateTime();
+                String evento = resultadosConsulta.getString("Evento");
+                String asiento = resultadosConsulta.getString("Asiento");
+                float precioOriginal = resultadosConsulta.getFloat("precioOriginal");
+                String lugar = resultadosConsulta.getString("lugar");
+                String tipo = resultadosConsulta.getString("Tipo");
+                NuevoBoletoEventoDTO boletoEvento = new NuevoBoletoEventoDTO(Id,asiento, precioOriginal, fecha, evento, lugar, tipo);
+                ListaBoletos.add(boletoEvento);
 
             }
         } catch (SQLException ex) {

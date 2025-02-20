@@ -7,6 +7,7 @@ package itson.presentacion;
 import itson.entidades.Boleto;
 import itson.persistencia.BoletosDAO;
 import itson.persistencia.ManejadorConexiones;
+import itson.usuariosDTOs.NuevoBoletoEventoDTO;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -29,15 +30,13 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author rauln
+ * @author Raul Montoya, Pedro Morales, Juan Heras
  */
-
 public class ComprarBoleto extends javax.swing.JFrame {
 
     /**
      * Creates new form ComprarBoleto
      */
-    
     private JTable tablaBoletos;
     private DefaultTableModel modeloTabla;
     private JScrollPane scrollPane;
@@ -46,13 +45,14 @@ public class ComprarBoleto extends javax.swing.JFrame {
     private JLabel lblSaldo;
     private JButton btnComprar;
     ManejadorConexiones manejadorConexiones = new ManejadorConexiones();
+
     public ComprarBoleto() {
         initComponents();
         inicializarComponentesPersonalizados();
-        
 
     }
-        /**
+
+    /**
      * Inicializa componentes personalizados sin modificar initComponents()
      */
     private void inicializarComponentesPersonalizados() {
@@ -79,17 +79,11 @@ public class ComprarBoleto extends javax.swing.JFrame {
         btnAgregarSaldo.setBounds(230, 20, 150, 30);
         panelPrincipal.add(btnAgregarSaldo);
 
-        // Barra de búsqueda
-        txtBusqueda = new JTextField();
-        txtBusqueda.setBounds(30, 90, 300, 30);
-        txtBusqueda.setToolTipText("Buscar evento...");
-        panelPrincipal.add(txtBusqueda);
-
         // Configuración del modelo de la tabla
         modeloTabla = new DefaultTableModel() {
             @Override
             public Class<?> getColumnClass(int column) {
-                if (column == 5) {
+                if (column == 7) {
                     return Boolean.class; // La última columna es un checkbox
                 }
                 return String.class;
@@ -97,16 +91,18 @@ public class ComprarBoleto extends javax.swing.JFrame {
 
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 5; // Solo se puede editar el checkbox
+                return column == 7; // Solo se puede editar el checkbox
             }
         };
 
         // Añadiendo columnas
+        modeloTabla.addColumn("ID");
         modeloTabla.addColumn("Fecha");
         modeloTabla.addColumn("Evento");
         modeloTabla.addColumn("Asiento");
         modeloTabla.addColumn("Precio");
         modeloTabla.addColumn("Lugar");
+        modeloTabla.addColumn("Tipo");
         modeloTabla.addColumn("Seleccionar");
 
         // Creación de la tabla con el modelo
@@ -125,12 +121,18 @@ public class ComprarBoleto extends javax.swing.JFrame {
         btnComprar = new JButton("Comprar boletos");
         btnComprar.setBounds(320, 410, 150, 30);
         panelPrincipal.add(btnComprar);
-
-        // Acción del botón para mostrar los boletos comprados
         btnComprar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mostrarBoletosComprados();
+                // Obtener las filas seleccionadas de la tabla
+                for (int i = 0; i < tablaBoletos.getRowCount(); i++) {
+                    Boolean seleccionado = (Boolean) tablaBoletos.getValueAt(i, 7); // Columna 6 es el checkbox
+                    if (seleccionado != null && seleccionado) {
+                        String idBoleto = (String) tablaBoletos.getValueAt(i, 0); // Suponiendo que la primera columna es el ID
+                        System.out.println("Número de control seleccionado: " + idBoleto);
+
+                    }
+                }
             }
         });
 
@@ -145,161 +147,23 @@ public class ComprarBoleto extends javax.swing.JFrame {
     private void llenarTablaBoletos() {
         BoletosDAO boletosDAO = new BoletosDAO(manejadorConexiones);
 
-        List<Boleto> listaArtistas = boletosDAO.consultarBoletos();
-        DefaultTableModel modelo = (DefaultTableModel)this.tablaBoletos.getModel();
-       //Por cada artista devuelto por la clase control lo agregamos a la JTable
-       for(Boleto boleto : listaArtistas){
-           Object [] fillTable = {
-               boleto.getNumeroSerie(),
-               boleto.getCodigoEvento(),
-               boleto.getFila(),
-               boleto.getEstado(),
-               boleto.getCodigoUsuario()
-           };
-           modelo.addRow(fillTable);
-       }
-    // Consulta SQL para obtener los boletos desde la base de datos
-        String consultaBoletos = "SELECT DATE(ev.fechaHora) as 'Fecha', ev.nombre as 'Evento', concat(asiento, fila) as 'Asiento', precioOriginal, concat(recinto, ', ', ciudad) as 'Lugar'  FROM BOLETOS AS BO INNER JOIN EVENTOS AS EV ON BO.CODIGOEVENTO = EV.CODIGOEVENTO;";
-
-        try (Connection conexion = manejadorConexiones.crearConexion();
-             PreparedStatement ps = conexion.prepareStatement(consultaBoletos);
-             ResultSet rs = ps.executeQuery()) {
-
-            
-
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error al cargar los boletos: " + ex.getMessage());
+        List<NuevoBoletoEventoDTO> listaBoletos = boletosDAO.consultarBoletosEventos();
+        DefaultTableModel modelo = (DefaultTableModel) this.tablaBoletos.getModel();
+        //Por cada artista devuelto por la clase control lo agregamos a la JTable
+        for (NuevoBoletoEventoDTO boleto : listaBoletos) {
+            Object[] fillTable = {
+                boleto.getID(),
+                boleto.getFechaHora(),
+                boleto.getNombreEv(),
+                boleto.getAsiento(),
+                boleto.getPrecioOriginal(),
+                boleto.getLugar(),
+                boleto.getTipo()
+            };
+            modelo.addRow(fillTable);
         }
+
     }
-
-
-    private void mostrarBoletosComprados() {
-        StringBuilder boletosComprados = new StringBuilder("Boletos Comprados:\n");
-        double totalCompra = 0.0;
-        Vector<String> boletosSeleccionados = new Vector<>();
-
-        // Recorrer filas y verificar los seleccionados
-        for (int i = 0; i < modeloTabla.getRowCount(); i++) {
-            Boolean seleccionado = (Boolean) modeloTabla.getValueAt(i, 5);
-
-            if (seleccionado != null && seleccionado) {
-                // Obtener información del boleto seleccionado
-                String evento = (String) modeloTabla.getValueAt(i, 3);
-                String lugar = (String) modeloTabla.getValueAt(i, 4);
-                String numeroBoleto = (String) modeloTabla.getValueAt(i, 0); // Ajusta el índice si es necesario
-
-                boletosComprados.append("- ")
-                        .append(evento).append(" | ")
-                        .append(lugar).append("\n");
-
-                boletosSeleccionados.add(numeroBoleto);
-
-                // Obtener precio del boleto
-                try (Connection conexion = manejadorConexiones.crearConexion()) {
-                    String consultaPrecio = "SELECT precioOriginal FROM boletos WHERE numeroControl = ?";
-                    PreparedStatement ps = conexion.prepareStatement(consultaPrecio);
-                    ps.setString(1, numeroBoleto);
-                    ResultSet rs = ps.executeQuery();
-
-                    if (rs.next()) {
-                        totalCompra += rs.getDouble("precioOriginal");
-                    }
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(this, "Error al consultar precio: " + ex.getMessage());
-                    return;
-                }
-            }
-        }
-
-        // Verificar si se seleccionó al menos un boleto
-        if (boletosSeleccionados.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No se ha seleccionado ningún boleto.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // Verificar saldo del usuario
-        double saldoUsuario = 0.0;
-        try (Connection conexion = manejadorConexiones.crearConexion()) {
-            String consultaSaldo = "SELECT saldo FROM usuarios WHERE codigoUsuario = ?";
-            PreparedStatement ps = conexion.prepareStatement(consultaSaldo);
-            ps.setInt(1, 1); // Ajusta el código de usuario según tu lógica de sesión
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                saldoUsuario = rs.getDouble("saldo");
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error al consultar saldo: " + ex.getMessage());
-            return;
-        }
-
-        if (saldoUsuario < totalCompra) {
-            JOptionPane.showMessageDialog(this, "Saldo insuficiente.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // Inicia la compra
-        try (Connection conexion = manejadorConexiones.crearConexion()) {
-            conexion.setAutoCommit(false);
-
-            // Descontar saldo
-            String actualizarSaldo = "UPDATE usuarios SET saldo = saldo - ? WHERE codigoUsuario = ?";
-            PreparedStatement psSaldo = conexion.prepareStatement(actualizarSaldo);
-            psSaldo.setDouble(1, totalCompra);
-            psSaldo.setInt(2, 1); // Ajusta el código de usuario
-            psSaldo.executeUpdate();
-
-            // Actualizar estado de boletos y registrar transacción
-            for (String numeroBoleto : boletosSeleccionados) {
-                // Actualizar estado de boleto
-                String actualizarEstado = "UPDATE boletos SET estado = 'Vendido' WHERE numeroControl = ?";
-                PreparedStatement psBoleto = conexion.prepareStatement(actualizarEstado);
-                psBoleto.setString(1, numeroBoleto);
-                psBoleto.executeUpdate();
-
-                // Registrar transacción
-                String insertarTransaccion = "INSERT INTO transacciones (monto, estado, fechaHora, codigoComprador) VALUES (?, 'Completado', NOW(), ?)";
-                PreparedStatement psTransaccion = conexion.prepareStatement(insertarTransaccion);
-                psTransaccion.setDouble(1, totalCompra);
-                psTransaccion.setInt(2, 1); // Ajusta el código de usuario
-                psTransaccion.executeUpdate();
-            }
-
-            // Confirmar transacción
-            conexion.commit();
-
-            JOptionPane.showMessageDialog(this, boletosComprados.toString(), "Compra Realizada", JOptionPane.INFORMATION_MESSAGE);
-
-            ocultarBoletosVendidos();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error en la compra: " + ex.getMessage());
-        }
-    }
-
-
-    private void ocultarBoletosVendidos() {
-        Vector<Vector<Object>> filasVisibles = new Vector<>();
-
-        for (int i = 0; i < modeloTabla.getRowCount(); i++) {
-            String estado = (String) modeloTabla.getValueAt(i, 4);
-
-            // Solo se mantienen las filas que no están vendidas
-            if (!"Vendido".equals(estado)) {
-                Vector<Object> fila = new Vector<>();
-                for (int j = 0; j < modeloTabla.getColumnCount(); j++) {
-                    fila.add(modeloTabla.getValueAt(i, j));
-                }
-                filasVisibles.add(fila);
-            }
-        }
-
-        modeloTabla.setRowCount(0);
-        for (Vector<Object> fila : filasVisibles) {
-            modeloTabla.addRow(fila.toArray());
-        }
-    }
-
-
 
     /**
      * This method is called from within the constructor to initialize the form.
