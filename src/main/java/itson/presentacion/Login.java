@@ -1,18 +1,18 @@
-
 package itson.presentacion;
 
+import itson.entidades.Usuario;
+import itson.usuariosDTOs.AccesoUsuarioDTO;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class Login extends javax.swing.JFrame {
 
-  
     public Login() {
         initComponents();
     }
 
- 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -184,21 +184,16 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonRegistrarmeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarmeActionPerformed
-        
+
         SignUp SignUpFrame = new SignUp();
         SignUpFrame.setVisible(true);
         SignUpFrame.pack();
-        SignUpFrame.setLocationRelativeTo(null); 
-        
+        SignUpFrame.setLocationRelativeTo(null);
+
     }//GEN-LAST:event_botonRegistrarmeActionPerformed
 
     private void botonIngresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonIngresarMouseClicked
-        // TODO add your handling code here:
-//        Menu menuFrame = new Menu();
-//        menuFrame.setVisible(true);
-//        menuFrame.pack();
-//        menuFrame.setLocationRelativeTo(null);
-//        this.dispose();
+
     }//GEN-LAST:event_botonIngresarMouseClicked
 
     private void campoCorreoElectronicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoCorreoElectronicoActionPerformed
@@ -208,20 +203,36 @@ public class Login extends javax.swing.JFrame {
     private void botonIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonIngresarActionPerformed
         String regexCorreo = "^[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}$";
         String correo = this.campoCorreoElectronico.getText();
+
+        char[] contraseniaConvertir = campoContrasenia.getPassword();
+        String contraseniaPlana = new String(contraseniaConvertir);
         
+
         Pattern pattern = Pattern.compile(regexCorreo);
         Matcher matcher = pattern.matcher(correo);
-        
+
         if (!matcher.matches()) {
             JOptionPane.showMessageDialog(null, "Ingresa un correo válido.", "Información", JOptionPane.INFORMATION_MESSAGE);
         }
-        
+
+        AccesoUsuarioDTO accesoUsuarioDTO = new AccesoUsuarioDTO(correo, contraseniaPlana);
+
+        //Llamamos al metodo para ver si accede a la cuenta 
+        if (accesoUsuarioDTO.accederUsuario(accesoUsuarioDTO)) {
+            Menu menuFrame = new Menu();
+            menuFrame.setVisible(true);
+            menuFrame.pack();
+            menuFrame.setLocationRelativeTo(null);
+            this.dispose();
+        } else{
+            JOptionPane.showMessageDialog(null, "Correo o contraseña incorrectos", "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
+
     }//GEN-LAST:event_botonIngresarActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Left;
