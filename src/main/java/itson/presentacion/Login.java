@@ -1,15 +1,20 @@
+
 package itson.presentacion;
 
+import itson.control.ControlRegistrarUsuario;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
 
+  
+    private ControlRegistrarUsuario control;
     public Login() {
         initComponents();
     }
 
+ 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -181,12 +186,12 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonRegistrarmeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarmeActionPerformed
-
-        SignUp SignUpFrame = new SignUp();
+        //ControlRegistrarUsuario controlRegistro = new ControlRegistrarUsuario();
+        SignUp SignUpFrame = new SignUp(controlRegistro);
         SignUpFrame.setVisible(true);
         SignUpFrame.pack();
-        SignUpFrame.setLocationRelativeTo(null);
-        this.dispose();
+        SignUpFrame.setLocationRelativeTo(null); 
+        
     }//GEN-LAST:event_botonRegistrarmeActionPerformed
 
     private void botonIngresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonIngresarMouseClicked
@@ -205,18 +210,19 @@ public class Login extends javax.swing.JFrame {
     private void botonIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonIngresarActionPerformed
         String regexCorreo = "^[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}$";
         String correo = this.campoCorreoElectronico.getText();
-
+        
         Pattern pattern = Pattern.compile(regexCorreo);
         Matcher matcher = pattern.matcher(correo);
-
+        
         if (!matcher.matches()) {
-            JOptionPane.showMessageDialog(null, "Ingresa un correo válido.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Ingresa un correo válido.", "Información", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_botonIngresarActionPerformed
 
     /**
      * @param args the command line arguments
      */
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Left;
