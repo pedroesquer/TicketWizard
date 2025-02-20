@@ -1,18 +1,19 @@
-
 package itson.presentacion;
 
+import itson.entidades.Usuario;
+import itson.usuariosDTOs.AccesoUsuarioDTO;
+import itson.usuariosDTOs.SesionDTO;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class Login extends javax.swing.JFrame {
 
-  
     public Login() {
         initComponents();
     }
 
- 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -28,6 +29,7 @@ public class Login extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         botonRegistrarme = new javax.swing.JButton();
         mensajeCorreo = new javax.swing.JLabel();
+        mensajeLabel = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
 
@@ -87,6 +89,8 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        mensajeLabel.setText("jLabel6");
+
         javax.swing.GroupLayout LeftLayout = new javax.swing.GroupLayout(Left);
         Left.setLayout(LeftLayout);
         LeftLayout.setHorizontalGroup(
@@ -106,19 +110,24 @@ public class Login extends javax.swing.JFrame {
                         .addComponent(botonRegistrarme)))
                 .addContainerGap(27, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LeftLayout.createSequentialGroup()
-                .addContainerGap(83, Short.MAX_VALUE)
+                .addContainerGap(81, Short.MAX_VALUE)
                 .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LeftLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(61, 61, 61))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LeftLayout.createSequentialGroup()
                         .addComponent(mensajeCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(178, 178, 178))))
+                        .addGap(178, 178, 178))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LeftLayout.createSequentialGroup()
+                        .addComponent(mensajeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(121, 121, 121))))
         );
         LeftLayout.setVerticalGroup(
             LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LeftLayout.createSequentialGroup()
-                .addGap(44, 44, 44)
+                .addGap(16, 16, 16)
+                .addComponent(mensajeLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
                 .addGap(47, 47, 47)
                 .addComponent(jLabel2)
@@ -140,7 +149,7 @@ public class Login extends javax.swing.JFrame {
         );
 
         jPanel1.add(Left);
-        Left.setBounds(400, 0, 400, 516);
+        Left.setBounds(400, 0, 400, 515);
 
         jPanel2.setBackground(new java.awt.Color(0, 102, 102));
         jPanel2.setForeground(new java.awt.Color(0, 102, 102));
@@ -182,23 +191,51 @@ public class Login extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+// En tu LoginFrame o donde manejes el login
 
+    private void procesarLogin(String correo, String contrasenia) {
+        AccesoUsuarioDTO accesoDTO = new AccesoUsuarioDTO(correo, contrasenia);
+        Usuario usuario = accesoDTO.autenticarUsuario();
+
+        if (usuario != null) {
+            // Iniciar sesión usando el DTO
+            SesionDTO.getInstancia().iniciarSesion(usuario);
+            // Abrir menú principal
+            new Menu().setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this,
+                "Correo o contraseña incorrectos",
+                "Error de autenticación",
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+// En cualquier otra ventana que necesite verificar la sesión
+    private void verificarAcceso() {
+        if (!SesionDTO.getInstancia().haySesionActiva()) {
+            // Redirigir al login
+            new Login().setVisible(true);
+        }
+    }
+
+// Para obtener datos del usuario actual
+    private void mostrarDatosUsuario() {
+        Usuario usuarioActual = SesionDTO.getInstancia().getUsuarioActual();
+        if (usuarioActual != null) {
+            mensajeLabel.setText("Bienvenido, " + usuarioActual.getNombre());
+        }
+    }
     private void botonRegistrarmeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarmeActionPerformed
-        
+
         SignUp SignUpFrame = new SignUp();
         SignUpFrame.setVisible(true);
         SignUpFrame.pack();
-        SignUpFrame.setLocationRelativeTo(null); 
-        
+        SignUpFrame.setLocationRelativeTo(null);
+
     }//GEN-LAST:event_botonRegistrarmeActionPerformed
 
     private void botonIngresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonIngresarMouseClicked
-        // TODO add your handling code here:
-//        Menu menuFrame = new Menu();
-//        menuFrame.setVisible(true);
-//        menuFrame.pack();
-//        menuFrame.setLocationRelativeTo(null);
-//        this.dispose();
+
     }//GEN-LAST:event_botonIngresarMouseClicked
 
     private void campoCorreoElectronicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoCorreoElectronicoActionPerformed
@@ -208,20 +245,41 @@ public class Login extends javax.swing.JFrame {
     private void botonIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonIngresarActionPerformed
         String regexCorreo = "^[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}$";
         String correo = this.campoCorreoElectronico.getText();
-        
+
+        char[] contraseniaConvertir = campoContrasenia.getPassword();
+        String contraseniaPlana = new String(contraseniaConvertir);
+
         Pattern pattern = Pattern.compile(regexCorreo);
         Matcher matcher = pattern.matcher(correo);
-        
+
         if (!matcher.matches()) {
             JOptionPane.showMessageDialog(null, "Ingresa un correo válido.", "Información", JOptionPane.INFORMATION_MESSAGE);
         }
-        
+
+        AccesoUsuarioDTO accesoDTO = new AccesoUsuarioDTO(correo, contraseniaPlana);
+        Usuario usuario = accesoDTO.autenticarUsuario();
+        if (usuario != null) {
+            // Login exitoso
+            SesionDTO.getInstancia().iniciarSesion(usuario);
+            this.dispose();
+            new Menu().setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Correo o contraseña incorrectos",
+                    "Error de autenticación",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        // Obtener la contraseña en char[]
+        char[] contraseniaChars = campoContrasenia.getPassword();
+
+        // Limpiar la contraseña del array por seguridad
+        java.util.Arrays.fill(contraseniaChars, '0');
+
     }//GEN-LAST:event_botonIngresarActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Left;
@@ -237,5 +295,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel mensajeCorreo;
+    private javax.swing.JLabel mensajeLabel;
     // End of variables declaration//GEN-END:variables
 }

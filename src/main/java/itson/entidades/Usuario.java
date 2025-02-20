@@ -1,4 +1,3 @@
-
 package itson.entidades;
 
 import java.util.Objects;
@@ -8,8 +7,8 @@ import java.util.Objects;
  * @author juanpheras
  */
 public class Usuario {
-    
-    private Integer codigoUsuario; 
+
+    private Integer codigoUsuario;
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
@@ -21,6 +20,20 @@ public class Usuario {
     private String calle;
     private String colonia;
     private String numero;
+
+    public Usuario(int codigoUsuario, String nombre, String apellidoPaterno, String apellidoMaterno, String correoElectronico, String fechaNacimiento, String ciudad, String calle, String colonia, float saldo) {
+        this.codigoUsuario = codigoUsuario;
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.correoElectronico = correoElectronico;
+        this.fechaNacimiento = fechaNacimiento;
+        this.saldo = saldo;
+        this.ciudad = ciudad;
+        this.calle = calle;
+        this.colonia = colonia;
+        this.numero = numero;
+    }
 
     public Usuario(Integer codigoUsuario, String nombre, String apellidoPaterno, String apellidoMaterno, String correoElectronico, String contraseñaHash, String fechaNacimiento, float saldo, String ciudad, String calle, String colonia, String numero) {
         this.codigoUsuario = codigoUsuario;
@@ -37,6 +50,9 @@ public class Usuario {
         this.numero = numero;
     }
 
+    
+    
+    
     public Usuario(String nombre, String apellidoPaterno, String apellidoMaterno, String correoElectronico, String contraseñaHash, String fechaNacimiento, String ciudad, String calle) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
@@ -217,12 +233,4 @@ public class Usuario {
         return "Usuario{" + "nombre=" + nombre + ", apellidoPaterno=" + apellidoPaterno + ", apellidoMaterno=" + apellidoMaterno + ", correoElectronico=" + correoElectronico + ", contrase\u00f1aHash=" + contraseñaHash + ", fechaNacimiento=" + fechaNacimiento + ", ciudad=" + ciudad + ", calle=" + calle + ", colonia=" + colonia + ", numero=" + numero + '}';
     }
 
-    
-
-
-    
-    
-    
-    
-    
 }

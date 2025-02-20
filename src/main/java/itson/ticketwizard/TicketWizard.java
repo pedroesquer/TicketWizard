@@ -9,6 +9,8 @@ import itson.persistencia.ManejadorConexiones;
 import itson.persistencia.UsuariosDAO;
 import itson.presentacion.Login;
 import java.util.List;
+import java.util.Scanner;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *
@@ -17,8 +19,7 @@ import java.util.List;
 public class TicketWizard {
 
     public static void main(String[] args) {
-        
-        
+
         ManejadorConexiones manejadorConexiones = new ManejadorConexiones();
         UsuariosDAO usuariosDAO = new UsuariosDAO(manejadorConexiones);
         
