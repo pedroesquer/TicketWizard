@@ -19,19 +19,7 @@ import org.mindrot.jbcrypt.BCrypt;
 public class TicketWizard {
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Ingresa contra1");
-        String contra1 = sc.nextLine();
-        String contraseniaHasheada1 = BCrypt.hashpw(contra1, BCrypt.gensalt(12));
-        System.out.println(contraseniaHasheada1);
-        
-        System.out.println("Ingresa contra2");
-        String contra2 = sc.nextLine();
-        String contraseniaHasheada2 = BCrypt.hashpw(contra2, BCrypt.gensalt(12));
-        System.out.println(contraseniaHasheada2);
-        System.out.println(BCrypt.checkpw(contra2, contraseniaHasheada1));
-        
-        
+
         ManejadorConexiones manejadorConexiones = new ManejadorConexiones();
         UsuariosDAO usuariosDAO = new UsuariosDAO(manejadorConexiones);
         

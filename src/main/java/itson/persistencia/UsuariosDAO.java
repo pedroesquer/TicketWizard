@@ -1,7 +1,6 @@
 package itson.persistencia;
 
 import itson.entidades.Usuario;
-import itson.usuariosDTOs.AccesoUsuarioDTO;
 import itson.usuariosDTOs.NuevoUsuarioDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -65,51 +64,57 @@ public class UsuariosDAO {
 
     /**
      * Método que devuelve true si encontro coincidencias para el login
+     * @param correoElectronico
+     * @param contrasenia
+     * @return 
      */
-    public boolean accederUsuario(AccesoUsuarioDTO accesoUsuario) {
+    public Usuario autenticarUsuario(String correoElectronico, String contrasenia) {
         String codigoSQL = """
-        SELECT CORREOELECTRONICO, CONTRASEÑA_HASH as contraseña
-        FROM USUARIOS
-        WHERE CORREOELECTRONICO LIKE ?;
-    """;
-
-        // Obtener correo electrónico y contraseña en texto claro desde el DTO
-        String correo = accesoUsuario.getCorreoElectronico();
-        String contraseniaPlana = accesoUsuario.getContraseniaPlana(); // Esta es la contraseña que el usuario ingresa
-
+            SELECT CODIGOUSUARIO,NOMBRE, APELLIDOPATERNO, APELLIDOMATERNO, CORREOELECTRONICO,
+                   CONTRASEÑA_HASH, CIUDAD, CALLE, COLONIA, NUMERO , SALDO
+            FROM usuarios 
+            WHERE CORREOELECTRONICO = ?
+            """;
+            
         try {
-            // Establecer la conexión con la base de datos
             Connection conexion = manejadorConexiones.crearConexion();
-
-            // Construir el comando SQL
             PreparedStatement comando = conexion.prepareStatement(codigoSQL);
-
-            // Establecer el valor del parámetro de correo
-            comando.setString(1, "%" + correo + "%");
-
-            // Ejecutar la consulta
-            ResultSet resultadoConsulta = comando.executeQuery();
-
-            // Verificar si se encontró un resultado
-            if (resultadoConsulta.next()) {
-                String contraseniaHasheada = resultadoConsulta.getString("contraseña");
-
-                // Usar bcrypt para comparar la contraseña proporcionada con la almacenada en la base de datos
-                if (BCrypt.checkpw(contraseniaPlana, contraseniaHasheada)) {
-                    //System.out.println("Se encontró una coincidencia");
-                    return true;  // Si las contraseñas coinciden
-                } else {
-                    //System.out.println("Contraseña incorrecta");
-                    return false;  // Si no coinciden
+            comando.setString(1, correoElectronico);
+            
+            ResultSet resultados = comando.executeQuery();
+            
+            if (resultados.next()) {
+                String contraseniaHashAlmacenada = resultados.getString("CONTRASEÑA_HASH");
+                
+                // Verifica la contraseña usando el mismo método de hash que usaste en el registro
+                if (verificarContrasenia(contrasenia, contraseniaHashAlmacenada)) {
+                    return new Usuario(
+                        resultados.getInt("CODIGOUSUARIO"),
+                        resultados.getString("NOMBRE"),
+                        resultados.getString("APELLIDOPATERNO"),
+                        resultados.getString("APELLIDOMATERNO"),
+                        resultados.getString("CORREOELECTRONICO"),
+                        resultados.getString("CIUDAD"),
+                        resultados.getString("CALLE"),
+                        resultados.getString("COLONIA"),
+                        resultados.getString("NUMERO"),
+                        resultados.getFloat("SALDO")
+                    );
                 }
-            } else {
-                System.out.println("No se encontró el usuario");
-                return false;  // Si no se encuentra el usuario
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;  // Si ocurre un error en la base de datos
+            return null; // Usuario no encontrado o contraseña incorrecta
+            
+        } catch (SQLException ex) {
+            System.err.println("Error al autenticar usuario: " + ex.getMessage());
+            return null;
         }
     }
 
+    private boolean verificarContrasenia(String contraseniaIngresada, String contraseniaHashAlmacenada) {
+        // Aquí debes usar el mismo método de hash que usaste en el registro
+        // Por ejemplo, si usaste BCrypt:
+        return BCrypt.checkpw(contraseniaIngresada, contraseniaHashAlmacenada);
+        
+        // Si usaste otro método de hash, ajusta esta verificación según corresponda
+    }
 }
