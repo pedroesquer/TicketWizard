@@ -12,6 +12,7 @@ public class Login extends javax.swing.JFrame {
 
     public Login() {
         initComponents();
+      
     }
 
     @SuppressWarnings("unchecked")
@@ -29,7 +30,6 @@ public class Login extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         botonRegistrarme = new javax.swing.JButton();
         mensajeCorreo = new javax.swing.JLabel();
-        mensajeLabel = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
 
@@ -89,8 +89,6 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        mensajeLabel.setText("jLabel6");
-
         javax.swing.GroupLayout LeftLayout = new javax.swing.GroupLayout(Left);
         Left.setLayout(LeftLayout);
         LeftLayout.setHorizontalGroup(
@@ -117,17 +115,12 @@ public class Login extends javax.swing.JFrame {
                         .addGap(61, 61, 61))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LeftLayout.createSequentialGroup()
                         .addComponent(mensajeCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(178, 178, 178))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LeftLayout.createSequentialGroup()
-                        .addComponent(mensajeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(121, 121, 121))))
+                        .addGap(178, 178, 178))))
         );
         LeftLayout.setVerticalGroup(
             LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LeftLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(mensajeLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(44, 44, 44)
                 .addComponent(jLabel1)
                 .addGap(47, 47, 47)
                 .addComponent(jLabel2)
@@ -191,40 +184,7 @@ public class Login extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-// En tu LoginFrame o donde manejes el login
 
-    private void procesarLogin(String correo, String contrasenia) {
-        AccesoUsuarioDTO accesoDTO = new AccesoUsuarioDTO(correo, contrasenia);
-        Usuario usuario = accesoDTO.autenticarUsuario();
-
-        if (usuario != null) {
-            // Iniciar sesión usando el DTO
-            SesionDTO.getInstancia().iniciarSesion(usuario);
-            // Abrir menú principal
-            new Menu().setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(this,
-                "Correo o contraseña incorrectos",
-                "Error de autenticación",
-                JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-// En cualquier otra ventana que necesite verificar la sesión
-    private void verificarAcceso() {
-        if (!SesionDTO.getInstancia().haySesionActiva()) {
-            // Redirigir al login
-            new Login().setVisible(true);
-        }
-    }
-
-// Para obtener datos del usuario actual
-    private void mostrarDatosUsuario() {
-        Usuario usuarioActual = SesionDTO.getInstancia().getUsuarioActual();
-        if (usuarioActual != null) {
-            mensajeLabel.setText("Bienvenido, " + usuarioActual.getNombre());
-        }
-    }
     private void botonRegistrarmeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarmeActionPerformed
 
         SignUp SignUpFrame = new SignUp();
@@ -295,6 +255,5 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel mensajeCorreo;
-    private javax.swing.JLabel mensajeLabel;
     // End of variables declaration//GEN-END:variables
 }

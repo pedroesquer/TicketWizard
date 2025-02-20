@@ -4,6 +4,9 @@
  */
 package itson.presentacion;
 
+import itson.entidades.Usuario;
+import itson.usuariosDTOs.SesionDTO;
+
 /**
  *
  * @author rauln
@@ -15,7 +18,17 @@ public class Menu extends javax.swing.JFrame {
      */
     public Menu() {
         initComponents();
+        mostrarDatosUsuario();
     }
+    
+    // Para obtener datos del usuario actual
+    private void mostrarDatosUsuario() {
+        Usuario usuarioActual = SesionDTO.getInstancia().getUsuarioActual();
+        if (usuarioActual != null) {
+            usuarioLabel.setText("Bienvenido, " + usuarioActual.getNombre());
+        }
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -30,6 +43,7 @@ public class Menu extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        usuarioLabel = new javax.swing.JLabel();
 
         jLabel5.setBackground(new java.awt.Color(0, 102, 102));
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -66,8 +80,13 @@ public class Menu extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addGap(313, 313, 313))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(279, 279, 279)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(279, 279, 279)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(239, 239, 239)
+                        .addComponent(usuarioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -75,7 +94,9 @@ public class Menu extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(jLabel6)
-                .addGap(57, 57, 57)
+                .addGap(9, 9, 9)
+                .addComponent(usuarioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1)
                 .addContainerGap(363, Short.MAX_VALUE))
         );
@@ -113,5 +134,6 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel usuarioLabel;
     // End of variables declaration//GEN-END:variables
 }
