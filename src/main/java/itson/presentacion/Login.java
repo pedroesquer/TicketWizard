@@ -1,6 +1,9 @@
 
 package itson.presentacion;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
 
@@ -24,6 +27,7 @@ public class Login extends javax.swing.JFrame {
         botonIngresar = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         botonRegistrarme = new javax.swing.JButton();
+        mensajeCorreo = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
 
@@ -47,6 +51,11 @@ public class Login extends javax.swing.JFrame {
 
         campoCorreoElectronico.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         campoCorreoElectronico.setForeground(new java.awt.Color(102, 102, 102));
+        campoCorreoElectronico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoCorreoElectronicoActionPerformed(evt);
+            }
+        });
 
         jLabel3.setBackground(new java.awt.Color(102, 102, 102));
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -59,6 +68,11 @@ public class Login extends javax.swing.JFrame {
         botonIngresar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 botonIngresarMouseClicked(evt);
+            }
+        });
+        botonIngresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonIngresarActionPerformed(evt);
             }
         });
 
@@ -92,9 +106,14 @@ public class Login extends javax.swing.JFrame {
                         .addComponent(botonRegistrarme)))
                 .addContainerGap(27, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LeftLayout.createSequentialGroup()
-                .addContainerGap(64, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(61, 61, 61))
+                .addContainerGap(83, Short.MAX_VALUE)
+                .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LeftLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(61, 61, 61))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LeftLayout.createSequentialGroup()
+                        .addComponent(mensajeCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(178, 178, 178))))
         );
         LeftLayout.setVerticalGroup(
             LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -105,7 +124,9 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(campoCorreoElectronico, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(1, 1, 1)
+                .addComponent(mensajeCorreo)
+                .addGap(1, 1, 1)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(campoContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -115,16 +136,14 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(botonRegistrarme))
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(108, Short.MAX_VALUE))
         );
 
         jPanel1.add(Left);
-        Left.setBounds(400, 0, 400, 515);
+        Left.setBounds(400, 0, 400, 516);
 
         jPanel2.setBackground(new java.awt.Color(0, 102, 102));
         jPanel2.setForeground(new java.awt.Color(0, 102, 102));
-
-        jLabel5.setIcon(new javax.swing.ImageIcon("C:\\Users\\rauln\\Documents\\NetBeansProjects\\TicketWizard\\src\\main\\java\\itson\\media\\icon.png")); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -182,6 +201,22 @@ public class Login extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_botonIngresarMouseClicked
 
+    private void campoCorreoElectronicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoCorreoElectronicoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoCorreoElectronicoActionPerformed
+
+    private void botonIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonIngresarActionPerformed
+        String regexCorreo = "^[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}$";
+        String correo = this.campoCorreoElectronico.getText();
+        
+        Pattern pattern = Pattern.compile(regexCorreo);
+        Matcher matcher = pattern.matcher(correo);
+        
+        if (!matcher.matches()) {
+        JOptionPane.showMessageDialog(null, "Ingresa un correo válido.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_botonIngresarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -200,5 +235,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel mensajeCorreo;
     // End of variables declaration//GEN-END:variables
 }
