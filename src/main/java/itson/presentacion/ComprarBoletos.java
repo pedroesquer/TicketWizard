@@ -30,10 +30,10 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Raul Montoya, Pedro Morales, Juan Heras
  */
-public class ComprarBoleto extends javax.swing.JFrame {
+public class ComprarBoletos extends javax.swing.JFrame {
 
     /**
-     * Creates new form ComprarBoleto
+     * Creates new form ComprarBoletos
      */
     private JTable tablaBoletos;
     private DefaultTableModel modeloTabla;
@@ -44,7 +44,7 @@ public class ComprarBoleto extends javax.swing.JFrame {
     private JButton btnComprar;
     ManejadorConexiones manejadorConexiones = new ManejadorConexiones();
 
-    public ComprarBoleto() {
+    public ComprarBoletos() {
         initComponents();
         inicializarComponentesPersonalizados();
         mostrarDatosUsuario();
@@ -192,23 +192,38 @@ public class ComprarBoleto extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setName("comprarBoletoFrame"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(800, 500));
+        setSize(new java.awt.Dimension(800, 500));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 800, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 500, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        Menu menu = new Menu();
+        menu.setVisible(true);
+        menu.pack();
+        menu.setLocationRelativeTo(null);
+        dispose();
+    }//GEN-LAST:event_formWindowClosing
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }
