@@ -5,9 +5,11 @@
 package itson.presentacion;
 
 import itson.entidades.Boleto;
+import itson.entidades.Usuario;
 import itson.persistencia.BoletosDAO;
 import itson.persistencia.ManejadorConexiones;
 import itson.usuariosDTOs.NuevoBoletoEventoDTO;
+import itson.usuariosDTOs.SesionDTO;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -43,12 +45,20 @@ public class ComprarBoleto extends javax.swing.JFrame {
     public ComprarBoleto() {
         initComponents();
         inicializarComponentesPersonalizados();
-
+        mostrarDatosUsuario();
     }
 
     /**
      * Inicializa componentes personalizados sin modificar initComponents()
      */
+        // Para obtener datos del usuario actual
+    private void mostrarDatosUsuario() {
+        Usuario usuarioActual = SesionDTO.getInstancia().getUsuarioActual();
+        if (usuarioActual != null) {
+            lblUsuario.setText("Bienvenido, " + usuarioActual.getNombre());
+            lblSaldo.setText("Saldo: $" + usuarioActual.getSaldo());
+        }
+    }
     private void inicializarComponentesPersonalizados() {
         // Panel principal para mantener el layout personalizado
         JPanel panelPrincipal = new JPanel();
@@ -58,12 +68,12 @@ public class ComprarBoleto extends javax.swing.JFrame {
         add(panelPrincipal);
 
         // Información del usuario (parte superior)
-        lblUsuario = new JLabel("¡Hola, usuario!");
+        lblUsuario = new JLabel();
         lblUsuario.setFont(new Font("Arial", Font.BOLD, 18));
         lblUsuario.setBounds(30, 10, 200, 30);
         panelPrincipal.add(lblUsuario);
 
-        lblSaldo = new JLabel("Saldo: $1500");
+        lblSaldo = new JLabel();
         lblSaldo.setForeground(Color.RED);
         lblSaldo.setFont(new Font("Arial", Font.BOLD, 18));
         lblSaldo.setBounds(30, 40, 200, 30);
