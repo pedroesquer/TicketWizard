@@ -4,7 +4,12 @@
 
 package itson.ticketwizard;
 
+import itson.control.ControlLogin;
+import itson.control.ControlRegistrarUsuario;
+import itson.persistencia.ManejadorConexiones;
+import itson.persistencia.UsuariosDAO;
 import itson.presentacion.Login;
+import java.util.List;
 
 /**
  *
@@ -13,9 +18,21 @@ import itson.presentacion.Login;
 public class TicketWizard {
 
     public static void main(String[] args) {
-        Login LoginFrame = new Login();
-        LoginFrame.setVisible(true);
-        LoginFrame.pack();
-        LoginFrame.setLocationRelativeTo(null); 
+        
+        
+        ManejadorConexiones manejadorConexiones = new ManejadorConexiones();
+        UsuariosDAO usuariosDAO = new UsuariosDAO(manejadorConexiones);
+        
+        
+        
+        
+        ControlLogin control = new ControlLogin();
+        control.iniciarFlujo();
+        
+        
+//        Login LoginFrame = new Login();
+//        LoginFrame.setVisible(true);
+//        LoginFrame.pack();
+//        LoginFrame.setLocationRelativeTo(null); 
     }
 }

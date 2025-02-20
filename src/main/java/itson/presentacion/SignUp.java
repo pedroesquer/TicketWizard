@@ -1,7 +1,9 @@
 
 package itson.presentacion;
 
+import itson.control.ControlRegistrarUsuario;
 import itson.entidades.Usuario;
+import itson.usuariosDTOs.NuevoUsuarioDTO;
 import java.time.LocalDateTime;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -10,11 +12,21 @@ public class SignUp extends javax.swing.JFrame {
 
  
     
+    
+    private final ControlRegistrarUsuario control;
+    
+    /**
+     * Creates new form RegistroArtista
+     */
+    
+    
     /**
      * Constructor de la ventana de registrarse el cual limpia todos los componentes del JComboBox para agregar los estados 
+     * @param control
      * */
-    public SignUp() {
+        public SignUp(ControlRegistrarUsuario control) {
         initComponents();
+        this.control = control;
         String[] estados = {
             "Aguascalientes", "Baja California", "Baja California Sur", "Campeche", "Chiapas", "Chihuahua",
             "Coahuila", "Colima", "Ciudad de México", "Durango", "Estado de México", "Guanajuato", "Guerrero",
@@ -469,6 +481,7 @@ public class SignUp extends javax.swing.JFrame {
 
     private void botonRegistrarseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonRegistrarseMouseClicked
         // TODO add your handling code here:
+        
         Menu menuFrame = new Menu();
         menuFrame.setVisible(true);
         menuFrame.pack();
@@ -488,6 +501,10 @@ public class SignUp extends javax.swing.JFrame {
         String fechaNacimiento = campoFechaNacimiento.getText();
         String contraseniaPlana = campoContrasenia.getText();
         String contraseniaHasheada = BCrypt.hashpw(contraseniaPlana, BCrypt.gensalt(12));
+        
+        NuevoUsuarioDTO nuevoUsuarioDTO = new NuevoUsuarioDTO(nombre, apellidoP, apellidoM, correo, contraseniaHasheada, 
+                fechaNacimiento, ciudad, calle, colonia, nombre);
+        this.control.registrarUsuario(nuevoUsuarioDTO);
         
        
         

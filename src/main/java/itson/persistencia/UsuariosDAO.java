@@ -18,11 +18,11 @@ public class UsuariosDAO {
         this.manejadorConexiones = manejadorConexiones;
     }
 
-    public Usuario registrarUsuario(NuevoUsuarioDTO usuarioDTO, int idDireccion) {
+    public Usuario registrarUsuario(NuevoUsuarioDTO usuarioDTO) {
         String codigoSQL = """
             INSERT INTO usuarios(NOMBRE,APELLIDOPATERNO, APELLIDOMATERNO, CORREOELECTRONICO, CONTRASEÑAHASH,
-                           FECHA_NACIMIENTO, CODIGODIRECCIONUSUARIO)
-                                                  VALUES(?, ?, ? , ?,?,?, ?);
+                           FECHA_NACIMIENTO, CIUDAD, CALLE, COLONIA, NUMERO)
+                                                  VALUES(?, ?, ? , ?,?,?, ?, ?, ?, ?);
                            """;
 
         try {
@@ -36,10 +36,26 @@ public class UsuariosDAO {
             comando.setString(4, usuarioDTO.getCorreoElectronico());
             comando.setString(5, usuarioDTO.getContraseniaHash());
             comando.setString(6, usuarioDTO.getFechaNacimiento());
-            comando.setInt(7, usuarioDTO.getCodigoDireccionUsuario());
+            comando.setString(7, usuarioDTO.getCiudad());
+            comando.setString(8, usuarioDTO.getCalle());
+            comando.setString(9, usuarioDTO.getColonia());
+            comando.setString(10, usuarioDTO.getNumero());
 
+            // Ejecutar la inserción
+        int filasAfectadas = comando.executeUpdate();
+        
+        if (filasAfectadas > 0) {
+            // Si se registró correctamente, devolver el usuario
+            return new Usuario(usuarioDTO.getNombre(), usuarioDTO.getApellidoPaterno(),
+                    usuarioDTO.getApellidoMaterno(), usuarioDTO.getCorreoElectronico(),
+                    usuarioDTO.getCiudad(),usuarioDTO.getCalle(), usuarioDTO.getColonia(), usuarioDTO.getNumero());  //
+
+        } else {
+            return null;  // Si no se registró, devolver null o manejar el error de otra manera
+        }
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
+            return null;
         }
 
         

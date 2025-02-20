@@ -9,7 +9,7 @@ import java.util.Objects;
  */
 public class Usuario {
     
-    private Integer 
+    private Integer codigoUsuario; 
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
@@ -17,9 +17,13 @@ public class Usuario {
     private String contraseñaHash;
     private String fechaNacimiento;
     private float saldo;
-    private int codigoDireccionUsuario;
+    private String ciudad;
+    private String calle;
+    private String colonia;
+    private String numero;
 
-    public Usuario(String nombre, String apellidoPaterno, String apellidoMaterno, String correoElectronico, String contraseñaHash, String fechaNacimiento, float saldo, int codigoDireccionUsuario) {
+    public Usuario(Integer codigoUsuario, String nombre, String apellidoPaterno, String apellidoMaterno, String correoElectronico, String contraseñaHash, String fechaNacimiento, float saldo, String ciudad, String calle, String colonia, String numero) {
+        this.codigoUsuario = codigoUsuario;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -27,10 +31,33 @@ public class Usuario {
         this.contraseñaHash = contraseñaHash;
         this.fechaNacimiento = fechaNacimiento;
         this.saldo = saldo;
-        this.codigoDireccionUsuario = codigoDireccionUsuario;
+        this.ciudad = ciudad;
+        this.calle = calle;
+        this.colonia = colonia;
+        this.numero = numero;
     }
 
-    
+    public Usuario(String nombre, String apellidoPaterno, String apellidoMaterno, String correoElectronico, String contraseñaHash, String fechaNacimiento, String ciudad, String calle) {
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.correoElectronico = correoElectronico;
+        this.contraseñaHash = contraseñaHash;
+        this.fechaNacimiento = fechaNacimiento;
+        this.ciudad = ciudad;
+        this.calle = calle;
+        this.colonia = colonia;
+        this.numero = numero;
+    }
+
+    public Integer getCodigoUsuario() {
+        return codigoUsuario;
+    }
+
+    public void setCodigoUsuario(Integer codigoUsuario) {
+        this.codigoUsuario = codigoUsuario;
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -87,17 +114,42 @@ public class Usuario {
         this.saldo = saldo;
     }
 
-    public int getCodigoDireccionUsuario() {
-        return codigoDireccionUsuario;
+    public String getCiudad() {
+        return ciudad;
     }
 
-    public void setCodigoDireccionUsuario(int codigoDireccionUsuario) {
-        this.codigoDireccionUsuario = codigoDireccionUsuario;
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public String getCalle() {
+        return calle;
+    }
+
+    public void setCalle(String calle) {
+        this.calle = calle;
+    }
+
+    public String getColonia() {
+        return colonia;
+    }
+
+    public void setColonia(String colonia) {
+        this.colonia = colonia;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
+        int hash = 5;
+        hash = 97 * hash + Objects.hashCode(this.codigoUsuario);
         hash = 97 * hash + Objects.hashCode(this.nombre);
         hash = 97 * hash + Objects.hashCode(this.apellidoPaterno);
         hash = 97 * hash + Objects.hashCode(this.apellidoMaterno);
@@ -105,7 +157,10 @@ public class Usuario {
         hash = 97 * hash + Objects.hashCode(this.contraseñaHash);
         hash = 97 * hash + Objects.hashCode(this.fechaNacimiento);
         hash = 97 * hash + Float.floatToIntBits(this.saldo);
-        hash = 97 * hash + this.codigoDireccionUsuario;
+        hash = 97 * hash + Objects.hashCode(this.ciudad);
+        hash = 97 * hash + Objects.hashCode(this.calle);
+        hash = 97 * hash + Objects.hashCode(this.colonia);
+        hash = 97 * hash + Objects.hashCode(this.numero);
         return hash;
     }
 
@@ -124,9 +179,6 @@ public class Usuario {
         if (Float.floatToIntBits(this.saldo) != Float.floatToIntBits(other.saldo)) {
             return false;
         }
-        if (this.codigoDireccionUsuario != other.codigoDireccionUsuario) {
-            return false;
-        }
         if (!Objects.equals(this.nombre, other.nombre)) {
             return false;
         }
@@ -142,14 +194,32 @@ public class Usuario {
         if (!Objects.equals(this.contraseñaHash, other.contraseñaHash)) {
             return false;
         }
-        return Objects.equals(this.fechaNacimiento, other.fechaNacimiento);
+        if (!Objects.equals(this.fechaNacimiento, other.fechaNacimiento)) {
+            return false;
+        }
+        if (!Objects.equals(this.ciudad, other.ciudad)) {
+            return false;
+        }
+        if (!Objects.equals(this.calle, other.calle)) {
+            return false;
+        }
+        if (!Objects.equals(this.colonia, other.colonia)) {
+            return false;
+        }
+        if (!Objects.equals(this.numero, other.numero)) {
+            return false;
+        }
+        return Objects.equals(this.codigoUsuario, other.codigoUsuario);
     }
 
     @Override
     public String toString() {
-        return "usuario{" + "nombre=" + nombre + ", apellidoPaterno=" + apellidoPaterno + 
-                ", apellidoMaterno=" + apellidoMaterno + ", correoElectronico=" + correoElectronico + ", fechaNacimiento=" + fechaNacimiento + ", saldo=" + saldo + '}';
+        return "Usuario{" + "nombre=" + nombre + ", apellidoPaterno=" + apellidoPaterno + ", apellidoMaterno=" + apellidoMaterno + ", correoElectronico=" + correoElectronico + ", contrase\u00f1aHash=" + contraseñaHash + ", fechaNacimiento=" + fechaNacimiento + ", ciudad=" + ciudad + ", calle=" + calle + ", colonia=" + colonia + ", numero=" + numero + '}';
     }
+
+    
+
+
     
     
     

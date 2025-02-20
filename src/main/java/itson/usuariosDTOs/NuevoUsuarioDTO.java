@@ -8,7 +8,7 @@ import java.util.Date;
 
 /**
  *
- * @author juanpheras
+ * @author Juan Pablo Heras
  */
 public class NuevoUsuarioDTO {
     
@@ -18,7 +18,28 @@ public class NuevoUsuarioDTO {
     private String correoElectronico;
     private String contraseniaHash;
     private String fechaNacimiento;
-    private int codigoDireccionUsuario;
+    private String ciudad;
+    private String calle;
+    private String colonia;
+    private String numero;
+
+    public NuevoUsuarioDTO(String nombre, String apellidoPaterno, String apellidoMaterno, String correoElectronico, String contraseniaHash, 
+            String fechaNacimiento, String ciudad, String calle, String colonia, String numero) {
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.correoElectronico = correoElectronico;
+        this.contraseniaHash = contraseniaHash;
+        this.fechaNacimiento = fechaNacimiento;
+        this.ciudad = ciudad;
+        this.calle = calle;
+        this.colonia = colonia;
+        this.numero = numero;
+    }
+
+    
+    
+    
 
     public String getNombre() {
         return nombre;
@@ -44,9 +65,23 @@ public class NuevoUsuarioDTO {
         return fechaNacimiento;
     }
 
-    public int getCodigoDireccionUsuario() {
-        return codigoDireccionUsuario;
+    public String getCiudad() {
+        return ciudad;
     }
+
+    public String getCalle() {
+        return calle;
+    }
+
+    public String getColonia() {
+        return colonia;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    
     
     
     
