@@ -119,24 +119,24 @@
                       <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" attributes="0">
-                              <Component id="misBoletosLabel2" min="-2" pref="100" max="-2" attributes="0"/>
+                              <Component id="cerrarSesionLabel" min="-2" pref="100" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
-                              <Component id="misBoletosLabel3" min="-2" pref="100" max="-2" attributes="0"/>
+                              <Component id="boletosApartadosLabel" min="-2" pref="100" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
-                              <Component id="misBoletosLabel1" min="-2" pref="100" max="-2" attributes="0"/>
+                              <Component id="misBoletosLabel" min="-2" pref="100" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
-                              <Component id="misBoletosLabel5" min="-2" pref="100" max="-2" attributes="0"/>
+                              <Component id="comprarBoletosLabel" min="-2" pref="100" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
-                              <Component id="misBoletosLabel4" min="-2" pref="100" max="-2" attributes="0"/>
+                              <Component id="transaccionesLabel" min="-2" pref="100" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
-                              <Component id="misBoletosLabel" min="-2" pref="100" max="-2" attributes="0"/>
+                              <Component id="venderBoletosLabel" min="-2" pref="100" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace pref="87" max="32767" attributes="0"/>
@@ -148,15 +148,15 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="venderBoletosLabel" min="-2" pref="100" max="-2" attributes="0"/>
                           <Component id="misBoletosLabel" min="-2" pref="100" max="-2" attributes="0"/>
-                          <Component id="misBoletosLabel1" min="-2" pref="100" max="-2" attributes="0"/>
-                          <Component id="misBoletosLabel5" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="comprarBoletosLabel" min="-2" pref="100" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="misBoletosLabel3" min="-2" pref="100" max="-2" attributes="0"/>
-                          <Component id="misBoletosLabel2" min="-2" pref="100" max="-2" attributes="0"/>
-                          <Component id="misBoletosLabel4" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="boletosApartadosLabel" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="cerrarSesionLabel" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="transaccionesLabel" min="-2" pref="100" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="51" max="32767" attributes="0"/>
                   </Group>
@@ -164,52 +164,58 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="misBoletosLabel">
+            <Component class="javax.swing.JLabel" name="venderBoletosLabel">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/VenderBoletos.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="venderBoletosLabelMouseClicked"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JLabel" name="misBoletosLabel1">
+            <Component class="javax.swing.JLabel" name="misBoletosLabel">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/MisBoletos.png"/>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="misBoletosLabel1MouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="misBoletosLabelMouseClicked"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JLabel" name="misBoletosLabel2">
+            <Component class="javax.swing.JLabel" name="cerrarSesionLabel">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/CerrarSesion.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="cerrarSesionLabelMouseClicked"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JLabel" name="misBoletosLabel3">
+            <Component class="javax.swing.JLabel" name="boletosApartadosLabel">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/BoletosApartados.png"/>
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="misBoletosLabel4">
+            <Component class="javax.swing.JLabel" name="transaccionesLabel">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/HistorialTransacciones.png"/>
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="misBoletosLabel5">
+            <Component class="javax.swing.JLabel" name="comprarBoletosLabel">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/ComprarBoletos.png"/>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="misBoletosLabel5MouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="comprarBoletosLabelMouseClicked"/>
               </Events>
             </Component>
           </SubComponents>

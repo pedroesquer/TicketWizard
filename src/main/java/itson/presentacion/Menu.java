@@ -43,12 +43,12 @@ public class Menu extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
+        venderBoletosLabel = new javax.swing.JLabel();
         misBoletosLabel = new javax.swing.JLabel();
-        misBoletosLabel1 = new javax.swing.JLabel();
-        misBoletosLabel2 = new javax.swing.JLabel();
-        misBoletosLabel3 = new javax.swing.JLabel();
-        misBoletosLabel4 = new javax.swing.JLabel();
-        misBoletosLabel5 = new javax.swing.JLabel();
+        cerrarSesionLabel = new javax.swing.JLabel();
+        boletosApartadosLabel = new javax.swing.JLabel();
+        transaccionesLabel = new javax.swing.JLabel();
+        comprarBoletosLabel = new javax.swing.JLabel();
         usuarioLabel = new javax.swing.JLabel();
 
         jLabel5.setBackground(new java.awt.Color(0, 102, 102));
@@ -67,25 +67,35 @@ public class Menu extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        misBoletosLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VenderBoletos.png"))); // NOI18N
-
-        misBoletosLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MisBoletos.png"))); // NOI18N
-        misBoletosLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        venderBoletosLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VenderBoletos.png"))); // NOI18N
+        venderBoletosLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                misBoletosLabel1MouseClicked(evt);
+                venderBoletosLabelMouseClicked(evt);
             }
         });
 
-        misBoletosLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/CerrarSesion.png"))); // NOI18N
-
-        misBoletosLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BoletosApartados.png"))); // NOI18N
-
-        misBoletosLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HistorialTransacciones.png"))); // NOI18N
-
-        misBoletosLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ComprarBoletos.png"))); // NOI18N
-        misBoletosLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+        misBoletosLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MisBoletos.png"))); // NOI18N
+        misBoletosLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                misBoletosLabel5MouseClicked(evt);
+                misBoletosLabelMouseClicked(evt);
+            }
+        });
+
+        cerrarSesionLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/CerrarSesion.png"))); // NOI18N
+        cerrarSesionLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cerrarSesionLabelMouseClicked(evt);
+            }
+        });
+
+        boletosApartadosLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BoletosApartados.png"))); // NOI18N
+
+        transaccionesLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HistorialTransacciones.png"))); // NOI18N
+
+        comprarBoletosLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ComprarBoletos.png"))); // NOI18N
+        comprarBoletosLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                comprarBoletosLabelMouseClicked(evt);
             }
         });
 
@@ -97,20 +107,20 @@ public class Menu extends javax.swing.JFrame {
                 .addGap(83, 83, 83)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(misBoletosLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cerrarSesionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(74, 74, 74)
-                        .addComponent(misBoletosLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(boletosApartadosLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(misBoletosLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(misBoletosLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(74, 74, 74)
-                        .addComponent(misBoletosLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(comprarBoletosLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(74, 74, 74)
-                        .addComponent(misBoletosLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(transaccionesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(74, 74, 74)
-                        .addComponent(misBoletosLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(venderBoletosLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(87, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -118,14 +128,14 @@ public class Menu extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(51, 51, 51)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(venderBoletosLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(misBoletosLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(misBoletosLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(misBoletosLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comprarBoletosLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(41, 41, 41)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(misBoletosLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(misBoletosLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(misBoletosLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(boletosApartadosLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cerrarSesionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(transaccionesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(51, Short.MAX_VALUE))
         );
 
@@ -174,32 +184,49 @@ public class Menu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void misBoletosLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_misBoletosLabel5MouseClicked
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_misBoletosLabel5MouseClicked
-
-    private void misBoletosLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_misBoletosLabel1MouseClicked
+    private void comprarBoletosLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comprarBoletosLabelMouseClicked
         // TODO add your handling code here:
         ComprarBoleto comprarBoleto = new ComprarBoleto();
         comprarBoleto.setVisible(true);
         comprarBoleto.pack();
         comprarBoleto.setLocationRelativeTo(null);
+        this.dispose();        
+    }//GEN-LAST:event_comprarBoletosLabelMouseClicked
+
+    private void misBoletosLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_misBoletosLabelMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_misBoletosLabelMouseClicked
+
+    private void venderBoletosLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_venderBoletosLabelMouseClicked
+        // TODO add your handling code here:
+        VenderBoletos venderBoletos = new VenderBoletos();
+        venderBoletos.setVisible(true);
+        venderBoletos.pack();
+        venderBoletos.setLocationRelativeTo(null);
         this.dispose();
-    }//GEN-LAST:event_misBoletosLabel1MouseClicked
+    }//GEN-LAST:event_venderBoletosLabelMouseClicked
+
+    private void cerrarSesionLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cerrarSesionLabelMouseClicked
+        // TODO add your handling code here:
+        Login login = new Login();
+        login.setVisible(true);
+        login.pack();
+        login.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_cerrarSesionLabelMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel boletosApartadosLabel;
+    private javax.swing.JLabel cerrarSesionLabel;
+    private javax.swing.JLabel comprarBoletosLabel;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel misBoletosLabel;
-    private javax.swing.JLabel misBoletosLabel1;
-    private javax.swing.JLabel misBoletosLabel2;
-    private javax.swing.JLabel misBoletosLabel3;
-    private javax.swing.JLabel misBoletosLabel4;
-    private javax.swing.JLabel misBoletosLabel5;
+    private javax.swing.JLabel transaccionesLabel;
     private javax.swing.JLabel usuarioLabel;
+    private javax.swing.JLabel venderBoletosLabel;
     // End of variables declaration//GEN-END:variables
 }
