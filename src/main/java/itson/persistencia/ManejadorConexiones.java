@@ -13,11 +13,11 @@ import java.sql.SQLException;
  * @author pedro
  */
 public class ManejadorConexiones {
-            //Información para conectarme a la bd
+        //Información para conectarme a la bd
         private final String cadenaConexion = "jdbc:mysql://localhost/TICKETWIZARD";
         private final String usuario = "root";
         //Colocar su contraseña de la BDD
-        private final String contrasenia = "qtrmxpkr28esc";
+        private final String contrasenia = "TicketWizard!";
         
         public Connection crearConexion() throws SQLException{
             Connection conexion = DriverManager.getConnection(

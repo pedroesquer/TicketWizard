@@ -187,10 +187,10 @@ public class Login extends javax.swing.JFrame {
 
     private void botonRegistrarmeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarmeActionPerformed
         //ControlRegistrarUsuario controlRegistro = new ControlRegistrarUsuario();
-        SignUp SignUpFrame = new SignUp(controlRegistro);
-        SignUpFrame.setVisible(true);
-        SignUpFrame.pack();
-        SignUpFrame.setLocationRelativeTo(null); 
+//        SignUp SignUpFrame = new SignUp(controlRegistro);
+//        SignUpFrame.setVisible(true);
+//        SignUpFrame.pack();
+//        SignUpFrame.setLocationRelativeTo(null); 
         
     }//GEN-LAST:event_botonRegistrarmeActionPerformed
 
