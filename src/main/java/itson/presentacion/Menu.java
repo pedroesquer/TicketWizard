@@ -67,17 +67,27 @@ public class Menu extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        misBoletosLabel.setIcon(new javax.swing.ImageIcon("C:\\Users\\rauln\\Documents\\GitHub\\TicketWizard\\src\\main\\java\\itson\\media\\VenderBoletos.png")); // NOI18N
+        misBoletosLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VenderBoletos.png"))); // NOI18N
 
-        misBoletosLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\rauln\\Documents\\GitHub\\TicketWizard\\src\\main\\java\\itson\\media\\MisBoletos.png")); // NOI18N
+        misBoletosLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MisBoletos.png"))); // NOI18N
+        misBoletosLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                misBoletosLabel1MouseClicked(evt);
+            }
+        });
 
-        misBoletosLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\rauln\\Documents\\GitHub\\TicketWizard\\src\\main\\java\\itson\\media\\CerrarSesion.png")); // NOI18N
+        misBoletosLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/CerrarSesion.png"))); // NOI18N
 
-        misBoletosLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\rauln\\Documents\\GitHub\\TicketWizard\\src\\main\\java\\itson\\media\\CerrarSesion.png")); // NOI18N
+        misBoletosLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/BoletosApartados.png"))); // NOI18N
 
-        misBoletosLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\rauln\\Documents\\GitHub\\TicketWizard\\src\\main\\java\\itson\\media\\HistorialTransacciones.png")); // NOI18N
+        misBoletosLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/HistorialTransacciones.png"))); // NOI18N
 
-        misBoletosLabel5.setIcon(new javax.swing.ImageIcon("C:\\Users\\rauln\\Documents\\GitHub\\TicketWizard\\src\\main\\java\\itson\\media\\ComprarBoletos.png")); // NOI18N
+        misBoletosLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ComprarBoletos.png"))); // NOI18N
+        misBoletosLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                misBoletosLabel5MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -163,6 +173,20 @@ public class Menu extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void misBoletosLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_misBoletosLabel5MouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_misBoletosLabel5MouseClicked
+
+    private void misBoletosLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_misBoletosLabel1MouseClicked
+        // TODO add your handling code here:
+        ComprarBoleto comprarBoleto = new ComprarBoleto();
+        comprarBoleto.setVisible(true);
+        comprarBoleto.pack();
+        comprarBoleto.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_misBoletosLabel1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

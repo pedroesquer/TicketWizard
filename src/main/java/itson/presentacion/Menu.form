@@ -167,44 +167,50 @@
             <Component class="javax.swing.JLabel" name="misBoletosLabel">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\rauln\Documents\GitHub\TicketWizard\src\main\java\itson\media\VenderBoletos.png"/>
+                  <Image iconType="3" name="/VenderBoletos.png"/>
                 </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="misBoletosLabel1">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\rauln\Documents\GitHub\TicketWizard\src\main\java\itson\media\MisBoletos.png"/>
+                  <Image iconType="3" name="/MisBoletos.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="misBoletosLabel1MouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="misBoletosLabel2">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\rauln\Documents\GitHub\TicketWizard\src\main\java\itson\media\CerrarSesion.png"/>
+                  <Image iconType="3" name="/CerrarSesion.png"/>
                 </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="misBoletosLabel3">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\rauln\Documents\GitHub\TicketWizard\src\main\java\itson\media\CerrarSesion.png"/>
+                  <Image iconType="3" name="/BoletosApartados.png"/>
                 </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="misBoletosLabel4">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\rauln\Documents\GitHub\TicketWizard\src\main\java\itson\media\HistorialTransacciones.png"/>
+                  <Image iconType="3" name="/HistorialTransacciones.png"/>
                 </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="misBoletosLabel5">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\rauln\Documents\GitHub\TicketWizard\src\main\java\itson\media\ComprarBoletos.png"/>
+                  <Image iconType="3" name="/ComprarBoletos.png"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="misBoletosLabel5MouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
