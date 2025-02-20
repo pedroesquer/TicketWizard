@@ -28,7 +28,7 @@ public class ControlRegistrarUsuario {
     
     
     public void iniciarFlujo() {
-        this.formRegistroUsuario = new SignUp(this);
+        //this.formRegistroUsuario = new SignUp(this);
         this.formRegistroUsuario.setVisible(true);
     }
     
