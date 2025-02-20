@@ -1,20 +1,19 @@
-
 package itson.presentacion;
 
 import itson.entidades.Usuario;
+import itson.usuariosDTOs.NuevoUsuarioDTO;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 import org.mindrot.jbcrypt.BCrypt;
 
-
 public class SignUp extends javax.swing.JFrame {
 
- 
-    
     /**
-     * Constructor de la ventana de registrarse el cual limpia todos los componentes del JComboBox para agregar los estados 
-     * */
+     * Constructor de la ventana de registrarse el cual limpia todos los
+     * componentes del JComboBox para agregar los estados 
+     *
+     */
     public SignUp() {
         initComponents();
         String[] estados = {
@@ -31,7 +30,6 @@ public class SignUp extends javax.swing.JFrame {
         }
     }
 
-  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -64,7 +62,7 @@ public class SignUp extends javax.swing.JFrame {
         campoCalle = new javax.swing.JTextField();
         campoColonia = new javax.swing.JTextField();
         jLabel26 = new javax.swing.JLabel();
-        campoApellidoMaterno1 = new javax.swing.JTextField();
+        campoNumeroCasa = new javax.swing.JTextField();
         campoFechaNacimiento = new com.toedter.calendar.JDateChooser();
         jPanel5 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -81,7 +79,7 @@ public class SignUp extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(0, 0, 255));
         jLabel8.setText("Tengo una cuenta");
 
-        botonRegistrarse.setBackground(new java.awt.Color(0, 102, 102));
+        botonRegistrarse.setBackground(new java.awt.Color(153, 255, 255));
         botonRegistrarse.setForeground(new java.awt.Color(255, 255, 255));
         botonRegistrarse.setText("Sign Up");
         botonRegistrarse.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -225,11 +223,11 @@ public class SignUp extends javax.swing.JFrame {
         jLabel26.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel26.setText("Fecha de nacimiento");
 
-        campoApellidoMaterno1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        campoApellidoMaterno1.setForeground(new java.awt.Color(102, 102, 102));
-        campoApellidoMaterno1.addActionListener(new java.awt.event.ActionListener() {
+        campoNumeroCasa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        campoNumeroCasa.setForeground(new java.awt.Color(102, 102, 102));
+        campoNumeroCasa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoApellidoMaterno1ActionPerformed(evt);
+                campoNumeroCasaActionPerformed(evt);
             }
         });
 
@@ -274,7 +272,7 @@ public class SignUp extends javax.swing.JFrame {
                                         .addGap(2, 2, 2))
                                     .addGroup(jPanel4Layout.createSequentialGroup()
                                         .addGap(18, 18, 18)
-                                        .addComponent(campoApellidoMaterno1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(campoNumeroCasa, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(0, 0, Short.MAX_VALUE)))))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
@@ -331,7 +329,7 @@ public class SignUp extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(campoCalle, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(campoApellidoMaterno1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(campoNumeroCasa, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel22)
@@ -382,8 +380,6 @@ public class SignUp extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(0, 102, 102));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\rauln\\Documents\\NetBeansProjects\\TicketWizard\\src\\main\\java\\itson\\media\\icon.png")); // NOI18N
-
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -418,9 +414,9 @@ public class SignUp extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void campoApellidoMaterno1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoApellidoMaterno1ActionPerformed
+    private void campoNumeroCasaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoNumeroCasaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_campoApellidoMaterno1ActionPerformed
+    }//GEN-LAST:event_campoNumeroCasaActionPerformed
 
     private void campoColoniaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoColoniaActionPerformed
         // TODO add your handling code here:
@@ -468,6 +464,7 @@ public class SignUp extends javax.swing.JFrame {
     }//GEN-LAST:event_botonIniciarSesionActionPerformed
 
     private void botonRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarseActionPerformed
+       
         // TODO add your handling code here:
         String correo = campoCorreo.getText();
         String nombre = campoNombre.getText();
@@ -476,10 +473,25 @@ public class SignUp extends javax.swing.JFrame {
         String calle = campoCalle.getText();
         String ciudad = campoCiudad.getText();
         String colonia = campoColonia.getText();
+        
+        //Obtenemos la fecha en formato Date para convertirla al formato de nuestro gusto 
         Date fechaNacimientoDate = campoFechaNacimiento.getDate();
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         String fechaNacimiento = formato.format(fechaNacimientoDate);
-        String contraseniaHasheada = BCrypt.hashpw(campoContrasenia.getText(), BCrypt.gensalt(12));
+        
+        /*Para convertir el campo de JPassword primero convertimos a un arreglo de caracteres
+        despues ese arreglo lo hacemos string
+        */
+        char[] contraseniaConvertir = campoContrasenia.getPassword();
+        String contraseniaPlana = new String(contraseniaConvertir);
+        String contraseniaHasheada = BCrypt.hashpw(contraseniaPlana, BCrypt.gensalt(12));
+        String numeroCasa = campoNumeroCasa.getText();
+
+        //Se llama al metodo de la clase de NuevoUsuarioDTO y registra al Usuario en BDD
+        NuevoUsuarioDTO nuevoUsuarioDTO = new NuevoUsuarioDTO(nombre, apellidoP, apellidoM, correo, contraseniaHasheada,
+                fechaNacimiento, ciudad, calle, colonia, numeroCasa);
+        nuevoUsuarioDTO.registrarUsuario(nuevoUsuarioDTO);
+
 
     }//GEN-LAST:event_botonRegistrarseActionPerformed
 
@@ -496,7 +508,6 @@ public class SignUp extends javax.swing.JFrame {
     private javax.swing.JButton botonIniciarSesion;
     private javax.swing.JButton botonRegistrarse;
     private javax.swing.JTextField campoApellidoMaterno;
-    private javax.swing.JTextField campoApellidoMaterno1;
     private javax.swing.JTextField campoApellidoPaterno;
     private javax.swing.JTextField campoCalle;
     private javax.swing.JTextField campoCiudad;
@@ -505,6 +516,7 @@ public class SignUp extends javax.swing.JFrame {
     private javax.swing.JTextField campoCorreo;
     private com.toedter.calendar.JDateChooser campoFechaNacimiento;
     private javax.swing.JTextField campoNombre;
+    private javax.swing.JTextField campoNumeroCasa;
     private javax.swing.JComboBox<String> estadosBox;
     private com.toedter.calendar.JCalendar jCalendar1;
     private javax.swing.JLabel jLabel11;

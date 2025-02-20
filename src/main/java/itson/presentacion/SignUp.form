@@ -111,7 +111,7 @@
             <Component class="javax.swing.JButton" name="botonRegistrarse">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="66" green="66" red="0" type="rgb"/>
+                  <Color blue="ff" green="ff" red="99" type="rgb"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -189,7 +189,7 @@
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                  <Component id="campoApellidoMaterno1" min="-2" pref="138" max="-2" attributes="0"/>
+                                                  <Component id="campoNumeroCasa" min="-2" pref="138" max="-2" attributes="0"/>
                                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                               </Group>
                                           </Group>
@@ -264,7 +264,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="campoCalle" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
-                              <Component id="campoApellidoMaterno1" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="campoNumeroCasa" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -535,7 +535,7 @@
                     <Property name="text" type="java.lang.String" value="Fecha de nacimiento"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="campoApellidoMaterno1">
+                <Component class="javax.swing.JTextField" name="campoNumeroCasa">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="14" style="0"/>
@@ -545,7 +545,7 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campoApellidoMaterno1ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campoNumeroCasaActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="com.toedter.calendar.JDateChooser" name="campoFechaNacimiento">
@@ -588,11 +588,6 @@
           </Layout>
           <SubComponents>
             <Component class="javax.swing.JLabel" name="jLabel2">
-              <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\rauln\Documents\NetBeansProjects\TicketWizard\src\main\java\itson\media\icon.png"/>
-                </Property>
-              </Properties>
             </Component>
           </SubComponents>
         </Container>

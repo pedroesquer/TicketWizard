@@ -1,7 +1,6 @@
 
 package itson.presentacion;
 
-import itson.control.ControlRegistrarUsuario;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
@@ -9,7 +8,6 @@ import javax.swing.JOptionPane;
 public class Login extends javax.swing.JFrame {
 
   
-    private ControlRegistrarUsuario control;
     public Login() {
         initComponents();
     }
@@ -186,21 +184,21 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonRegistrarmeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarmeActionPerformed
-        //ControlRegistrarUsuario controlRegistro = new ControlRegistrarUsuario();
-//        SignUp SignUpFrame = new SignUp(controlRegistro);
-//        SignUpFrame.setVisible(true);
-//        SignUpFrame.pack();
-//        SignUpFrame.setLocationRelativeTo(null); 
+        
+        SignUp SignUpFrame = new SignUp();
+        SignUpFrame.setVisible(true);
+        SignUpFrame.pack();
+        SignUpFrame.setLocationRelativeTo(null); 
         
     }//GEN-LAST:event_botonRegistrarmeActionPerformed
 
     private void botonIngresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonIngresarMouseClicked
         // TODO add your handling code here:
-        Menu menuFrame = new Menu();
-        menuFrame.setVisible(true);
-        menuFrame.pack();
-        menuFrame.setLocationRelativeTo(null);
-        this.dispose();
+//        Menu menuFrame = new Menu();
+//        menuFrame.setVisible(true);
+//        menuFrame.pack();
+//        menuFrame.setLocationRelativeTo(null);
+//        this.dispose();
     }//GEN-LAST:event_botonIngresarMouseClicked
 
     private void campoCorreoElectronicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoCorreoElectronicoActionPerformed
@@ -215,8 +213,9 @@ public class Login extends javax.swing.JFrame {
         Matcher matcher = pattern.matcher(correo);
         
         if (!matcher.matches()) {
-        JOptionPane.showMessageDialog(null, "Ingresa un correo válido.", "Información", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Ingresa un correo válido.", "Información", JOptionPane.INFORMATION_MESSAGE);
         }
+        
     }//GEN-LAST:event_botonIngresarActionPerformed
 
     /**

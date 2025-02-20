@@ -4,8 +4,7 @@
 
 package itson.ticketwizard;
 
-import itson.control.ControlLogin;
-import itson.control.ControlRegistrarUsuario;
+
 import itson.persistencia.ManejadorConexiones;
 import itson.persistencia.UsuariosDAO;
 import itson.presentacion.Login;
@@ -26,13 +25,11 @@ public class TicketWizard {
         
         
         
-        ControlLogin control = new ControlLogin();
-        control.iniciarFlujo();
         
         
-//        Login LoginFrame = new Login();
-//        LoginFrame.setVisible(true);
-//        LoginFrame.pack();
-//        LoginFrame.setLocationRelativeTo(null); 
+        Login LoginFrame = new Login();
+        LoginFrame.setVisible(true);
+        LoginFrame.pack();
+        LoginFrame.setLocationRelativeTo(null); 
     }
 }

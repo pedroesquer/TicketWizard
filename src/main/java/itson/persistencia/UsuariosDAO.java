@@ -20,7 +20,7 @@ public class UsuariosDAO {
 
     public Usuario registrarUsuario(NuevoUsuarioDTO usuarioDTO) {
         String codigoSQL = """
-            INSERT INTO usuarios(NOMBRE,APELLIDOPATERNO, APELLIDOMATERNO, CORREOELECTRONICO, CONTRASEÑAHASH,
+            INSERT INTO usuarios(NOMBRE,APELLIDOPATERNO, APELLIDOMATERNO, CORREOELECTRONICO, CONTRASEÑA_HASH,
                            FECHA_NACIMIENTO, CIUDAD, CALLE, COLONIA, NUMERO)
                                                   VALUES(?, ?, ? , ?,?,?, ?, ?, ?, ?);
                            """;

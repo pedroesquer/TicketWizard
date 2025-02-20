@@ -4,6 +4,8 @@
  */
 package itson.usuariosDTOs;
 
+import itson.persistencia.ManejadorConexiones;
+import itson.persistencia.UsuariosDAO;
 import java.util.Date;
 
 /**
@@ -35,6 +37,19 @@ public class NuevoUsuarioDTO {
         this.calle = calle;
         this.colonia = colonia;
         this.numero = numero;
+    }
+    
+    
+    /**
+     * Método que llama a la entidad usuariosDAO para poder registrar al usuario
+     * 
+     * @param nuevoUsuarioDTO un objeto de esta clase el cual tiene sus atributos para mandarselos a la DAO y comunicarse con la BDD.
+     * */
+    
+    public void registrarUsuario(NuevoUsuarioDTO nuevoUsuarioDTO){
+        ManejadorConexiones manejadorConexiones = new ManejadorConexiones();
+        UsuariosDAO usuariosDAO = new UsuariosDAO(manejadorConexiones);
+        usuariosDAO.registrarUsuario(nuevoUsuarioDTO);
     }
 
     
