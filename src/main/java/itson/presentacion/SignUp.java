@@ -497,10 +497,10 @@ public class SignUp extends javax.swing.JFrame {
 
     private void botonRegistrarseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonRegistrarseMouseClicked
         // TODO add your handling code here:
-        Menu menuFrame = new Menu();
-        menuFrame.setVisible(true);
-        menuFrame.pack();
-        menuFrame.setLocationRelativeTo(null);
+        Login login = new Login();
+        login.setVisible(true);
+        login.pack();
+        login.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_botonRegistrarseMouseClicked
 
