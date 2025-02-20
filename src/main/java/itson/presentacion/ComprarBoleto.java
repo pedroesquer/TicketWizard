@@ -5,6 +5,7 @@
 package itson.presentacion;
 
 import itson.entidades.Boleto;
+import itson.persistencia.BoletosDAO;
 import itson.persistencia.ManejadorConexiones;
 import java.awt.Color;
 import java.awt.Font;
@@ -14,6 +15,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -101,9 +103,9 @@ public class ComprarBoleto extends javax.swing.JFrame {
 
         // Añadiendo columnas
         modeloTabla.addColumn("Fecha");
-        modeloTabla.addColumn("Día");
-        modeloTabla.addColumn("Hora");
         modeloTabla.addColumn("Evento");
+        modeloTabla.addColumn("Asiento");
+        modeloTabla.addColumn("Precio");
         modeloTabla.addColumn("Lugar");
         modeloTabla.addColumn("Seleccionar");
 
@@ -112,7 +114,7 @@ public class ComprarBoleto extends javax.swing.JFrame {
         tablaBoletos.setRowHeight(40);
 
         // Cargar datos de boletos (precargados)
-        cargarBoletos();
+        llenarTablaBoletos();
 
         // Configuración del JScrollPane para hacer la tabla desplazable
         scrollPane = new JScrollPane(tablaBoletos);
@@ -140,38 +142,30 @@ public class ComprarBoleto extends javax.swing.JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    private void cargarBoletos() {
-        // Consulta SQL para obtener los boletos desde la base de datos
-        String consultaBoletos = "SELECT numeroControl, asiento, fila, precioOriginal, estado, codigoEvento FROM boletos WHERE estado = 'Disponible'";
+    private void llenarTablaBoletos() {
+        BoletosDAO boletosDAO = new BoletosDAO(manejadorConexiones);
+
+        List<Boleto> listaArtistas = boletosDAO.consultarBoletos();
+        DefaultTableModel modelo = (DefaultTableModel)this.tablaBoletos.getModel();
+       //Por cada artista devuelto por la clase control lo agregamos a la JTable
+       for(Boleto boleto : listaArtistas){
+           Object [] fillTable = {
+               boleto.getNumeroSerie(),
+               boleto.getCodigoEvento(),
+               boleto.getFila(),
+               boleto.getEstado(),
+               boleto.getCodigoUsuario()
+           };
+           modelo.addRow(fillTable);
+       }
+    // Consulta SQL para obtener los boletos desde la base de datos
+        String consultaBoletos = "SELECT DATE(ev.fechaHora) as 'Fecha', ev.nombre as 'Evento', concat(asiento, fila) as 'Asiento', precioOriginal, concat(recinto, ', ', ciudad) as 'Lugar'  FROM BOLETOS AS BO INNER JOIN EVENTOS AS EV ON BO.CODIGOEVENTO = EV.CODIGOEVENTO;";
 
         try (Connection conexion = manejadorConexiones.crearConexion();
              PreparedStatement ps = conexion.prepareStatement(consultaBoletos);
              ResultSet rs = ps.executeQuery()) {
 
-            // Limpiar el modelo antes de agregar nuevos datos
-            modeloTabla.setRowCount(0);
-
-            // Iterar sobre los resultados de la consulta y agregar filas a la tabla
-            while (rs.next()) {
-                String numeroControl = rs.getString("numeroControl");
-                Integer numeroAsiento = rs.getInt("Asiento");
-                String fila = rs.getString("fila");
-                float precioOriginal = rs.getFloat("precioOriginal");
-                String estado = rs.getString("estado");
-                Integer codigoEvento = rs.getInt("codigoEvento");
-
-                // Crear un objeto Boleto con los datos obtenidos
-                Boleto boleto = new Boleto(numeroControl, numeroAsiento, fila, precioOriginal, estado, codigoEvento);
-
-                // Agregar la fila a la tabla
-                modeloTabla.addRow(new Object[]{
-                    numeroControl,
-                    fila + " " + numeroAsiento,  // Mostrar el número de asiento y la fila juntos
-                    boleto.getPrecioOriginal(),  // Precio del boleto
-                    estado,  // Estado del boleto
-                    false  // Inicialmente, no está seleccionado
-                });
-            }
+            
 
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Error al cargar los boletos: " + ex.getMessage());

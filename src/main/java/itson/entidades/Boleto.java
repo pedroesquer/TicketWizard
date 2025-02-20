@@ -18,6 +18,29 @@ public class Boleto {
     private Integer codigoEvento; //codigo al cual Evento le pertenece el boleto
 
     
+    
+    /**
+     * Constructor el cual recibe todos los atributos.
+     * @param numeroControl Numero interno del control.
+     * @param numeroAsiento El numero de asiento que ira acompañado del atributo fila.
+     * @param numeroSerie = El número de serie de cada boleto.
+     * @param fila Numero de fila donde se ubica el asiento.
+     * @param precioOriginal Precio al cual se adquirió el boleto desde la boletera directa.
+     * @param estado    Disponible, Vendido o Pendiente de pago.
+     * @param codigoEvento El evento al cual pertenece el boleto. 
+     */
+    public Boleto(String numeroControl, Integer numeroAsiento, String fila, String numeroSerie, float precioOriginal, String estado, Integer codigoUsuario, Integer codigoEvento) {
+        this.numeroControl = numeroControl;
+        this.numeroAsiento = numeroAsiento;
+        this.fila = fila;
+        this.numeroSerie = numeroSerie;
+        this.precioOriginal = precioOriginal;
+        this.estado = estado;
+        this.codigoUsuario = codigoUsuario;
+        this.codigoEvento = codigoEvento;
+    }
+
+    
     /**
      * Constructor el cual recibe todos los atributos menos los que dependen de que el boleto lo tenga un usuario.
      * @param numeroControl Numero interno del control.

@@ -4,7 +4,10 @@ import itson.entidades.Boleto;
 import itson.usuariosDTOs.ActualizarBoletoDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -37,5 +40,43 @@ public class BoletosDAO {
             System.err.println(ex.getMessage());
         }
         return null;
+    }
+
+    public List<Boleto> consultarBoletos() {
+        String codigoSQL = """
+                           SELECT numeroControl, 
+                           asiento, 
+                           fila, 
+                           numeroSerie, 
+                           precioOriginal, 
+                           estado, 
+                           codigoUsuario, 
+                           codigoEvento 
+                           FROM BOLETOS;
+                           """;
+        List<Boleto> ListaBoletos = new LinkedList<>();
+        try {
+            Connection conexion = this.manejadorConexiones.crearConexion();
+            PreparedStatement comando = conexion.prepareStatement(codigoSQL);
+            ResultSet resultadosConsulta = comando.executeQuery();
+
+            while (resultadosConsulta.next()) {
+                String numeroControl = resultadosConsulta.getString("numeroControl");
+                int asiento = resultadosConsulta.getInt("asiento");
+                String fila = resultadosConsulta.getString("fila");
+                String numeroSerie = resultadosConsulta.getString("numeroSerie");;
+                float precioOriginal = resultadosConsulta.getFloat("precioOriginal");
+                String estado = resultadosConsulta.getString("estado");
+                int codigoUsuario = resultadosConsulta.getInt("codigoUsuario");
+                int codigoEvento = resultadosConsulta.getInt("codigoEvento");
+                Boleto boleto = new Boleto(numeroControl, asiento, fila, numeroSerie, precioOriginal, estado, codigoUsuario, codigoEvento);
+                ListaBoletos.add(boleto);
+
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error al consultar los boletos: " + ex.getMessage());
+
+        }
+        return ListaBoletos;
     }
 }
