@@ -1,28 +1,29 @@
 package itson.usuariosDTOs;
 
+import itson.persistencia.BoletosDAO;
+import itson.persistencia.ManejadorConexiones;
+import itson.persistencia.UsuariosDAO;
+
 /**
  *
  * @author pedro
  */
 public class ActualizarBoletoDTO {
+
     public enum Estado {
         Disponible,
         Vendido,
         Pendiente
     }
-    
-    private String numeroSerie;
+
+    private String numeroControl;
     private int codigoUsuario;
     private Estado estado;
 
-    public ActualizarBoletoDTO(String numeroSerie, int codigoUsuario, Estado estado) {
-        this.numeroSerie = numeroSerie;
+    public ActualizarBoletoDTO(String numeroControl, int codigoUsuario, Estado estado) {
+        this.numeroControl = numeroControl;
         this.codigoUsuario = codigoUsuario;
         this.estado = estado;
-    }
-
-    public String getNumeroSerie() {
-        return numeroSerie;
     }
 
     public int getCodigoUsuario() {
@@ -32,11 +33,16 @@ public class ActualizarBoletoDTO {
     public Estado getEstado() {
         return estado;
     }
-    
-    
-    
-    
+
+    public String getNumeroControl() {
+        return numeroControl;
+    }
 
     
-    
+    public void actualizarBoleto(ActualizarBoletoDTO actualizarBoletoDTO) {
+        ManejadorConexiones manejadorConexiones = new ManejadorConexiones();
+        BoletosDAO boletosDAO = new BoletosDAO(manejadorConexiones);
+        boletosDAO.actualizarBoleto(actualizarBoletoDTO);
+    }
+
 }

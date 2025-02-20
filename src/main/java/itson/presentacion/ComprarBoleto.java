@@ -8,6 +8,7 @@ import itson.entidades.Boleto;
 import itson.entidades.Usuario;
 import itson.persistencia.BoletosDAO;
 import itson.persistencia.ManejadorConexiones;
+import itson.usuariosDTOs.ActualizarBoletoDTO;
 import itson.usuariosDTOs.NuevoBoletoEventoDTO;
 import itson.usuariosDTOs.SesionDTO;
 import java.awt.Color;
@@ -22,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -51,7 +53,7 @@ public class ComprarBoleto extends javax.swing.JFrame {
     /**
      * Inicializa componentes personalizados sin modificar initComponents()
      */
-        // Para obtener datos del usuario actual
+    // Para obtener datos del usuario actual
     private void mostrarDatosUsuario() {
         Usuario usuarioActual = SesionDTO.getInstancia().getUsuarioActual();
         if (usuarioActual != null) {
@@ -59,6 +61,7 @@ public class ComprarBoleto extends javax.swing.JFrame {
             lblSaldo.setText("Saldo: $" + usuarioActual.getSaldo());
         }
     }
+
     private void inicializarComponentesPersonalizados() {
         // Panel principal para mantener el layout personalizado
         JPanel panelPrincipal = new JPanel();
@@ -125,19 +128,30 @@ public class ComprarBoleto extends javax.swing.JFrame {
         btnComprar = new JButton("Comprar boletos");
         btnComprar.setBounds(320, 410, 150, 30);
         panelPrincipal.add(btnComprar);
+
         btnComprar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Obtener las filas seleccionadas de la tabla
+                Integer usuarioActualCodigo = SesionDTO.getInstancia().getUsuarioActual().getCodigoUsuario();
                 for (int i = 0; i < tablaBoletos.getRowCount(); i++) {
-                    Boolean seleccionado = (Boolean) tablaBoletos.getValueAt(i, 7); // Columna 6 es el checkbox
+                    Boolean seleccionado = (Boolean) tablaBoletos.getValueAt(i, 7); // Columna 7 es el checkbox
                     if (seleccionado != null && seleccionado) {
                         String idBoleto = (String) tablaBoletos.getValueAt(i, 0); // Suponiendo que la primera columna es el ID
                         System.out.println("Número de control seleccionado: " + idBoleto);
-
+                        ActualizarBoletoDTO actualizarBoletoDTO = new ActualizarBoletoDTO(idBoleto, usuarioActualCodigo, ActualizarBoletoDTO.Estado.Vendido);
+                        actualizarBoletoDTO.actualizarBoleto(actualizarBoletoDTO);
                     }
                 }
+                Menu menuFrame = new Menu();
+                menuFrame.setVisible(true);
+                menuFrame.pack();
+                menuFrame.setLocationRelativeTo(null);
+                JFrame frameActual = (JFrame) SwingUtilities.getWindowAncestor(btnComprar);
+                frameActual.dispose();
+
             }
+
         });
 
         // Configuración del JFrame

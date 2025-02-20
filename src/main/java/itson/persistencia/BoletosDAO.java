@@ -23,9 +23,9 @@ public class BoletosDAO {
         this.manejadorConexiones = manejadorConexiones;
     }
 
-    public Boleto actualizar(ActualizarBoletoDTO boletoDTOActualizado) {
+    public Boleto actualizarBoleto(ActualizarBoletoDTO boletoDTOActualizado) {
         String codigoSQL = """
-                UPDATE BOLETOS SET numeroSerie = ?, codigoUsuario = ?, estado = ? WHERE numeroControl = ?;
+                UPDATE BOLETOS SET codigoUsuario = ?, estado = ? WHERE numeroControl = ?;
             """;
 
         try {
@@ -33,9 +33,9 @@ public class BoletosDAO {
             Connection conexion = manejadorConexiones.crearConexion();
             //Construye un comando que se podrá ejecutar posteriormente
             PreparedStatement comando = conexion.prepareStatement(codigoSQL);
-            comando.setString(1, boletoDTOActualizado.getNumeroSerie());
-            comando.setInt(2, boletoDTOActualizado.getCodigoUsuario());
-            comando.setString(3, boletoDTOActualizado.getEstado().name());
+            comando.setInt(1, boletoDTOActualizado.getCodigoUsuario());
+            comando.setString(2, boletoDTOActualizado.getEstado().name());
+            comando.setString(3, boletoDTOActualizado.getNumeroControl());
             int filasAfectadas = comando.executeUpdate();
             System.out.println("Se actualizó el boleto");
         } catch (SQLException ex) {
