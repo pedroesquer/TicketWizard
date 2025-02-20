@@ -16,7 +16,7 @@ public class AccesoUsuarioDTO {
         this.correoElectronico = correoElectronico;
         this.contraseniaPlana = contraseniaHasheada;
     }
-    
+    //metodo para entrar al login del usuario
      public boolean accederUsuario(AccesoUsuarioDTO accesoUsuarioDTO){
         ManejadorConexiones manejadorConexiones = new ManejadorConexiones();
         UsuariosDAO usuariosDAO = new UsuariosDAO(manejadorConexiones);
