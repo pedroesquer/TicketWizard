@@ -9,6 +9,7 @@ import java.util.Objects;
  */
 public class Usuario {
     
+    private Integer 
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;

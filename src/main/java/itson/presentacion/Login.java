@@ -1,4 +1,3 @@
-
 package itson.presentacion;
 
 import java.util.regex.Matcher;
@@ -7,12 +6,10 @@ import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
 
-  
     public Login() {
         initComponents();
     }
 
- 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -188,7 +185,7 @@ public class Login extends javax.swing.JFrame {
         SignUp SignUpFrame = new SignUp();
         SignUpFrame.setVisible(true);
         SignUpFrame.pack();
-        SignUpFrame.setLocationRelativeTo(null); 
+        SignUpFrame.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_botonRegistrarmeActionPerformed
 
@@ -208,19 +205,18 @@ public class Login extends javax.swing.JFrame {
     private void botonIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonIngresarActionPerformed
         String regexCorreo = "^[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}$";
         String correo = this.campoCorreoElectronico.getText();
-        
+
         Pattern pattern = Pattern.compile(regexCorreo);
         Matcher matcher = pattern.matcher(correo);
-        
+
         if (!matcher.matches()) {
-        JOptionPane.showMessageDialog(null, "Ingresa un correo válido.", "Información", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Ingresa un correo válido.", "Información", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_botonIngresarActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Left;
