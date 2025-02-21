@@ -1,5 +1,6 @@
 package itson.presentacion;
 
+import itson.control.ControlIniciarSesion;
 import itson.entidades.Usuario;
 import itson.usuariosDTOs.AccesoUsuarioDTO;
 import itson.usuariosDTOs.SesionDTO;
@@ -10,8 +11,11 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class Login extends javax.swing.JFrame {
 
-    public Login() {
+    private final ControlIniciarSesion control;
+    
+    public Login(ControlIniciarSesion control) {
         initComponents();
+        this.control = control;
       
     }
 
@@ -189,7 +193,7 @@ public class Login extends javax.swing.JFrame {
 
     private void botonRegistrarmeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarmeActionPerformed
 
-        SignUp SignUpFrame = new SignUp();
+        SignUp SignUpFrame = new SignUp(control);
         SignUpFrame.setVisible(true);
         SignUpFrame.pack();
         SignUpFrame.setLocationRelativeTo(null);
@@ -219,12 +223,12 @@ public class Login extends javax.swing.JFrame {
         }
 
         AccesoUsuarioDTO accesoDTO = new AccesoUsuarioDTO(correo, contraseniaPlana);
-        Usuario usuario = accesoDTO.autenticarUsuario();
+        Usuario usuario =control.autenticarUsuario(accesoDTO);
         if (usuario != null) {
             // Login exitoso
             SesionDTO.getInstancia().iniciarSesion(usuario);
-            this.dispose();
-            new Menu().setVisible(true);
+//            this.dispose();
+//            new Menu().setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this,
                     "Correo o contraseña incorrectos",

@@ -1,6 +1,7 @@
 package itson.persistencia;
 
 import itson.entidades.Usuario;
+import itson.usuariosDTOs.AccesoUsuarioDTO;
 import itson.usuariosDTOs.NuevoUsuarioDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -64,11 +65,10 @@ public class UsuariosDAO {
 
     /**
      * Método que devuelve true si encontro coincidencias para el login
-     * @param correoElectronico
-     * @param contrasenia
+     * @param accesoUsuarioDTO objeto
      * @return 
      */
-    public Usuario autenticarUsuario(String correoElectronico, String contrasenia) {
+    public Usuario autenticarUsuario(AccesoUsuarioDTO accesoUsuarioDTO) {
         String codigoSQL = """
             SELECT CODIGOUSUARIO,NOMBRE, APELLIDOPATERNO, APELLIDOMATERNO, CORREOELECTRONICO,
                    CONTRASEÑA_HASH, CIUDAD, CALLE, COLONIA, NUMERO , SALDO
@@ -79,7 +79,7 @@ public class UsuariosDAO {
         try {
             Connection conexion = manejadorConexiones.crearConexion();
             PreparedStatement comando = conexion.prepareStatement(codigoSQL);
-            comando.setString(1, correoElectronico);
+            comando.setString(1, accesoUsuarioDTO.getCorreoElectronico());
             
             ResultSet resultados = comando.executeQuery();
             
@@ -87,7 +87,7 @@ public class UsuariosDAO {
                 String contraseniaHashAlmacenada = resultados.getString("CONTRASEÑA_HASH");
                 
                 // Verifica la contraseña usando el mismo método de hash que usaste en el registro
-                if (verificarContrasenia(contrasenia, contraseniaHashAlmacenada)) {
+                if (verificarContrasenia(accesoUsuarioDTO.getContrasenia(), contraseniaHashAlmacenada)) {
                     return new Usuario(
                         resultados.getInt("CODIGOUSUARIO"),
                         resultados.getString("NOMBRE"),
@@ -110,6 +110,8 @@ public class UsuariosDAO {
         }
     }
 
+    
+    //Metodo que compara las 2 contraseñas y regresa un booleano dependiendo si la contraseñas coinciden. 
     private boolean verificarContrasenia(String contraseniaIngresada, String contraseniaHashAlmacenada) {
         // Aquí debes usar el mismo método de hash que usaste en el registro
         // Por ejemplo, si usaste BCrypt:

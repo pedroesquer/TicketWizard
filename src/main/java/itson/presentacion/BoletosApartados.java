@@ -4,6 +4,8 @@
  */
 package itson.presentacion;
 
+import itson.control.ControlIniciarSesion;
+
 /**
  *
  * @author rauln
@@ -13,8 +15,11 @@ public class BoletosApartados extends javax.swing.JFrame {
     /**
      * Creates new form BoletosApartados
      */
-    public BoletosApartados() {
+    private final ControlIniciarSesion control;
+    
+    public BoletosApartados(ControlIniciarSesion control) {
         initComponents();
+        this.control = control;
     }
 
     /**
@@ -49,7 +54,7 @@ public class BoletosApartados extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        Menu menu = new Menu();
+        Menu menu = new Menu(control);
         menu.setVisible(true);
         menu.pack();
         menu.setLocationRelativeTo(null);

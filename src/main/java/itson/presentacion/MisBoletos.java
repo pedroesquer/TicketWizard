@@ -4,6 +4,8 @@
  */
 package itson.presentacion;
 
+import itson.control.ControlIniciarSesion;
+
 /**
  *
  * @author rauln
@@ -13,8 +15,10 @@ public class MisBoletos extends javax.swing.JFrame {
     /**
      * Creates new form MisBoletos
      */
-    public MisBoletos() {
+    private final ControlIniciarSesion controlInicio;
+    public MisBoletos(ControlIniciarSesion controlInicio) {
         initComponents();
+        this.controlInicio = controlInicio;
     }
 
     /**
@@ -49,7 +53,7 @@ public class MisBoletos extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        Menu menu = new Menu();
+        Menu menu = new Menu(this.controlInicio);
         menu.setVisible(true);
         menu.pack();
         menu.setLocationRelativeTo(null);

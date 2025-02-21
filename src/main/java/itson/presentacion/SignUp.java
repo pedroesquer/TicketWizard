@@ -1,5 +1,6 @@
 package itson.presentacion;
 
+import itson.control.ControlIniciarSesion;
 import itson.entidades.Usuario;
 import itson.usuariosDTOs.NuevoUsuarioDTO;
 import java.text.SimpleDateFormat;
@@ -9,12 +10,15 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class SignUp extends javax.swing.JFrame {
 
+    
+    private final  ControlIniciarSesion controlInicio;
     /**
      * Constructor de la ventana de registrarse el cual limpia todos los
      * componentes del JComboBox para agregar los estados 
      *
+     * @param control
      */
-    public SignUp() {
+    public SignUp(ControlIniciarSesion controlInicio) {
         initComponents();
         String[] estados = {
             "Aguascalientes", "Baja California", "Baja California Sur", "Campeche", "Chiapas", "Chihuahua",
@@ -23,7 +27,7 @@ public class SignUp extends javax.swing.JFrame {
             "Quintana Roo", "San Luis Potosí", "Sinaloa", "Sonora", "Tabasco", "Tamaulipas", "Tlaxcala",
             "Veracruz", "Yucatán", "Zacatecas"
         };
-
+        this.controlInicio = controlInicio;
         estadosBox.removeAllItems(); // Limpia cualquier dato previo
         for (String estado : estados) {
             estadosBox.addItem(estado); // Agrega cada estado al JComboBox
@@ -458,7 +462,7 @@ public class SignUp extends javax.swing.JFrame {
 
     private void botonIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonIniciarSesionActionPerformed
         // TODO add your handling code here:
-        Login LoginFrame = new Login();
+        Login LoginFrame = new Login(this.controlInicio);
         LoginFrame.setVisible(true);
         LoginFrame.pack();
         LoginFrame.setLocationRelativeTo(null);
@@ -499,7 +503,7 @@ public class SignUp extends javax.swing.JFrame {
 
     private void botonRegistrarseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonRegistrarseMouseClicked
         // TODO add your handling code here:
-        Login login = new Login();
+        Login login = new Login(this.controlInicio);
         login.setVisible(true);
         login.pack();
         login.setLocationRelativeTo(null);

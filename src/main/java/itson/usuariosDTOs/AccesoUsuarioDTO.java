@@ -27,21 +27,25 @@ public class AccesoUsuarioDTO {
      * Intenta autenticar al usuario con las credenciales proporcionadas
      * @return Usuario si la autenticación es exitosa, null si falla
      */
-    public Usuario autenticarUsuario() {
-        try {
-            ManejadorConexiones manejadorConexiones = new ManejadorConexiones();
-            UsuariosDAO usuariosDAO = new UsuariosDAO(manejadorConexiones);
-            
-            // Intentar autenticar usando el DAO
-            return usuariosDAO.autenticarUsuario(this.correoElectronico, this.contrasenia);
-        } catch (Exception e) {
-            System.err.println("Error en la autenticación: " + e.getMessage());
-            return null;
-        }
-    }
+//    public Usuario autenticarUsuario() {
+//        try {
+//            ManejadorConexiones manejadorConexiones = new ManejadorConexiones();
+//            UsuariosDAO usuariosDAO = new UsuariosDAO(manejadorConexiones);
+//            
+//            // Intentar autenticar usando el DAO
+//            return usuariosDAO.autenticarUsuario(this.correoElectronico, this.contrasenia);
+//        } catch (Exception e) {
+//            System.err.println("Error en la autenticación: " + e.getMessage());
+//            return null;
+//        }
+//    }
 
     // Getters - No incluimos setters por seguridad
     public String getCorreoElectronico() {
         return correoElectronico;
+    }
+    
+    public String getContrasenia(){
+        return contrasenia;
     }
 }

@@ -5,6 +5,7 @@
 package itson.ticketwizard;
 
 
+import itson.control.ControlIniciarSesion;
 import itson.persistencia.ManejadorConexiones;
 import itson.persistencia.UsuariosDAO;
 import itson.presentacion.Login;
@@ -23,14 +24,12 @@ public class TicketWizard {
         ManejadorConexiones manejadorConexiones = new ManejadorConexiones();
         UsuariosDAO usuariosDAO = new UsuariosDAO(manejadorConexiones);
         
+        ControlIniciarSesion control =  new ControlIniciarSesion(usuariosDAO);
+        control.iniciarFlujo();
         
         
         
         
-        
-        Login LoginFrame = new Login();
-        LoginFrame.setVisible(true);
-        LoginFrame.pack();
-        LoginFrame.setLocationRelativeTo(null); 
+         
     }
 }

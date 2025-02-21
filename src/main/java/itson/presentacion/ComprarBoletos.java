@@ -4,6 +4,7 @@
  */
 package itson.presentacion;
 
+import itson.control.ControlIniciarSesion;
 import itson.entidades.Boleto;
 import itson.entidades.Usuario;
 import itson.persistencia.BoletosDAO;
@@ -43,11 +44,13 @@ public class ComprarBoletos extends javax.swing.JFrame {
     private JLabel lblSaldo;
     private JButton btnComprar;
     ManejadorConexiones manejadorConexiones = new ManejadorConexiones();
+    private final ControlIniciarSesion controlInicio;
 
-    public ComprarBoletos() {
+    public ComprarBoletos(ControlIniciarSesion controlInicio) {
         initComponents();
         inicializarComponentesPersonalizados();
         mostrarDatosUsuario();
+        this.controlInicio = controlInicio;
     }
 
     /**
@@ -143,12 +146,12 @@ public class ComprarBoletos extends javax.swing.JFrame {
                         actualizarBoletoDTO.actualizarBoleto(actualizarBoletoDTO);
                     }
                 }
-                Menu menuFrame = new Menu();
-                menuFrame.setVisible(true);
-                menuFrame.pack();
-                menuFrame.setLocationRelativeTo(null);
-                JFrame frameActual = (JFrame) SwingUtilities.getWindowAncestor(btnComprar);
-                frameActual.dispose();
+//                Menu menuFrame = new Menu(control);
+//                menuFrame.setVisible(true);
+//                menuFrame.pack();
+//                menuFrame.setLocationRelativeTo(null);
+//                JFrame frameActual = (JFrame) SwingUtilities.getWindowAncestor(btnComprar);
+//                frameActual.dispose();
 
             }
 
@@ -217,7 +220,7 @@ public class ComprarBoletos extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        Menu menu = new Menu();
+        Menu menu = new Menu(this.controlInicio);
         menu.setVisible(true);
         menu.pack();
         menu.setLocationRelativeTo(null);
