@@ -4,6 +4,7 @@
  */
 package itson.presentacion;
 
+import itson.control.ControlActualizarBoleto;
 import itson.control.ControlIniciarSesion;
 import itson.entidades.Boleto;
 import itson.entidades.Usuario;
@@ -24,7 +25,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -45,12 +45,17 @@ public class ComprarBoletos extends javax.swing.JFrame {
     private JButton btnComprar;
     ManejadorConexiones manejadorConexiones = new ManejadorConexiones();
     private final ControlIniciarSesion controlInicio;
+    private final ControlActualizarBoleto controlActualizar;
 
-    public ComprarBoletos(ControlIniciarSesion controlInicio) {
+
+
+    public ComprarBoletos(ControlIniciarSesion controlInicio, ControlActualizarBoleto controlActualizar) {
         initComponents();
         inicializarComponentesPersonalizados();
         mostrarDatosUsuario();
         this.controlInicio = controlInicio;
+        this.controlActualizar = controlActualizar;
+
     }
 
     /**
@@ -135,6 +140,7 @@ public class ComprarBoletos extends javax.swing.JFrame {
         btnComprar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                final ComprarBoletos frame = ComprarBoletos.this;
                 // Obtener las filas seleccionadas de la tabla
                 Integer usuarioActualCodigo = SesionDTO.getInstancia().getUsuarioActual().getCodigoUsuario();
                 for (int i = 0; i < tablaBoletos.getRowCount(); i++) {
@@ -143,15 +149,9 @@ public class ComprarBoletos extends javax.swing.JFrame {
                         String idBoleto = (String) tablaBoletos.getValueAt(i, 0); // Suponiendo que la primera columna es el ID
                         System.out.println("Número de control seleccionado: " + idBoleto);
                         ActualizarBoletoDTO actualizarBoletoDTO = new ActualizarBoletoDTO(idBoleto, usuarioActualCodigo, ActualizarBoletoDTO.Estado.Vendido);
-                        actualizarBoletoDTO.actualizarBoleto(actualizarBoletoDTO);
+                        frame.controlActualizar.actualizarBoleto(actualizarBoletoDTO);
                     }
                 }
-//                Menu menuFrame = new Menu(control);
-//                menuFrame.setVisible(true);
-//                menuFrame.pack();
-//                menuFrame.setLocationRelativeTo(null);
-//                JFrame frameActual = (JFrame) SwingUtilities.getWindowAncestor(btnComprar);
-//                frameActual.dispose();
 
             }
 
@@ -220,7 +220,7 @@ public class ComprarBoletos extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        Menu menu = new Menu(this.controlInicio);
+        Menu menu = new Menu(this.controlInicio, this.controlActualizar);
         menu.setVisible(true);
         menu.pack();
         menu.setLocationRelativeTo(null);

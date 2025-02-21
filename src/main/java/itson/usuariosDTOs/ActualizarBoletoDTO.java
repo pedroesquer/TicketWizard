@@ -38,11 +38,6 @@ public class ActualizarBoletoDTO {
         return numeroControl;
     }
 
-    
-    public void actualizarBoleto(ActualizarBoletoDTO actualizarBoletoDTO) {
-        ManejadorConexiones manejadorConexiones = new ManejadorConexiones();
-        BoletosDAO boletosDAO = new BoletosDAO(manejadorConexiones);
-        boletosDAO.actualizarBoleto(actualizarBoletoDTO);
-    }
+
 
 }

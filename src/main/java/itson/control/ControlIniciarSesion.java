@@ -15,6 +15,7 @@ public class ControlIniciarSesion {
     private UsuariosDAO usuariosDAO;
     private Login formLogin;
     private Menu formMenu;
+    private ControlActualizarBoleto controlActualizar;
 
     public ControlIniciarSesion(UsuariosDAO usuariosDAO) {
         this.usuariosDAO = usuariosDAO;
@@ -34,7 +35,7 @@ public class ControlIniciarSesion {
     }
 
     private void mostrarFormularioMenu() {
-        this.formMenu = new Menu(this);
+        this.formMenu = new Menu(this, controlActualizar);
         this.formMenu.setVisible(true);
 
     }

@@ -4,6 +4,7 @@
  */
 package itson.presentacion;
 
+import itson.control.ControlActualizarBoleto;
 import itson.control.ControlIniciarSesion;
 
 /**
@@ -16,9 +17,12 @@ public class VenderBoletos extends javax.swing.JFrame {
      * Creates new form VenderBoletos
      */
     private final ControlIniciarSesion controlInicio;
-    public VenderBoletos(ControlIniciarSesion controlInicio) {
+    private final ControlActualizarBoleto controlActualizar;
+
+    public VenderBoletos(ControlIniciarSesion controlInicio, ControlActualizarBoleto controlActualizar) {
         initComponents();
         this.controlInicio = controlInicio;
+        this.controlActualizar = controlActualizar;
     }
 
     /**
@@ -63,7 +67,7 @@ public class VenderBoletos extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        Menu menu = new Menu(this.controlInicio);
+        Menu menu = new Menu(this.controlInicio, this.controlActualizar);
         menu.setVisible(true);
         menu.pack();
         menu.setLocationRelativeTo(null);

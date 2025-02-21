@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
  *
  * @author rauln
  */
+
 public class SesionDTO extends JOptionPane {
 
     private static SesionDTO instancia;
