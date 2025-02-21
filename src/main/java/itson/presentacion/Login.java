@@ -193,10 +193,7 @@ public class Login extends javax.swing.JFrame {
 
     private void botonRegistrarmeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarmeActionPerformed
 
-        SignUp SignUpFrame = new SignUp(control);
-        SignUpFrame.setVisible(true);
-        SignUpFrame.pack();
-        SignUpFrame.setLocationRelativeTo(null);
+        this.control.mostarFormularioRegistro();
 
     }//GEN-LAST:event_botonRegistrarmeActionPerformed
 
@@ -218,9 +215,9 @@ public class Login extends javax.swing.JFrame {
         Pattern pattern = Pattern.compile(regexCorreo);
         Matcher matcher = pattern.matcher(correo);
 
-        if (!matcher.matches()) {
-            JOptionPane.showMessageDialog(null, "Ingresa un correo válido.", "Información", JOptionPane.INFORMATION_MESSAGE);
-        }
+//        if (!matcher.matches()) {
+//            JOptionPane.showMessageDialog(null, "Ingresa un correo válido.", "Información", JOptionPane.INFORMATION_MESSAGE);
+//        }
 
         AccesoUsuarioDTO accesoDTO = new AccesoUsuarioDTO(correo, contraseniaPlana);
         Usuario usuario =control.autenticarUsuario(accesoDTO);

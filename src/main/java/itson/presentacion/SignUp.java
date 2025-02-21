@@ -10,11 +10,11 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class SignUp extends javax.swing.JFrame {
 
-    
-    private final  ControlIniciarSesion controlInicio;
+    private final ControlIniciarSesion controlInicio;
+
     /**
      * Constructor de la ventana de registrarse el cual limpia todos los
-     * componentes del JComboBox para agregar los estados 
+     * componentes del JComboBox para agregar los estados
      *
      * @param control
      */
@@ -470,7 +470,7 @@ public class SignUp extends javax.swing.JFrame {
     }//GEN-LAST:event_botonIniciarSesionActionPerformed
 
     private void botonRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarseActionPerformed
-       
+
         // TODO add your handling code here:
         String correo = campoCorreo.getText();
         String nombre = campoNombre.getText();
@@ -479,15 +479,22 @@ public class SignUp extends javax.swing.JFrame {
         String calle = campoCalle.getText();
         String ciudad = campoCiudad.getText();
         String colonia = campoColonia.getText();
-        
+
+        String fechaNacimiento;
         //Obtenemos la fecha en formato Date para convertirla al formato de nuestro gusto 
-        Date fechaNacimientoDate = campoFechaNacimiento.getDate();
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-        String fechaNacimiento = formato.format(fechaNacimientoDate);
-        
+        try {
+            Date fechaNacimientoDate = campoFechaNacimiento.getDate();
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+             fechaNacimiento = formato.format(fechaNacimientoDate);
+        } catch (NullPointerException e) {
+            System.out.println("Se atrapó el error");
+             fechaNacimiento = " ";
+
+        }
+
         /*Para convertir el campo de JPassword primero convertimos a un arreglo de caracteres
         despues ese arreglo lo hacemos string
-        */
+         */
         char[] contraseniaConvertir = campoContrasenia.getPassword();
         String contraseniaPlana = new String(contraseniaConvertir);
         String contraseniaHasheada = BCrypt.hashpw(contraseniaPlana, BCrypt.gensalt(12));
@@ -496,7 +503,7 @@ public class SignUp extends javax.swing.JFrame {
         //Se llama al metodo de la clase de NuevoUsuarioDTO y registra al Usuario en BDD
         NuevoUsuarioDTO nuevoUsuarioDTO = new NuevoUsuarioDTO(nombre, apellidoP, apellidoM, correo, contraseniaHasheada,
                 fechaNacimiento, ciudad, calle, colonia, numeroCasa);
-        nuevoUsuarioDTO.registrarUsuario(nuevoUsuarioDTO);
+        this.controlInicio.registrarUsuario(nuevoUsuarioDTO);
 
 
     }//GEN-LAST:event_botonRegistrarseActionPerformed
