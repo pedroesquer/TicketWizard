@@ -6,6 +6,7 @@ import itson.usuariosDTOs.NuevoUsuarioDTO;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class SignUp extends javax.swing.JFrame {
@@ -503,18 +504,17 @@ public class SignUp extends javax.swing.JFrame {
         //Se llama al metodo de la clase de NuevoUsuarioDTO y registra al Usuario en BDD
         NuevoUsuarioDTO nuevoUsuarioDTO = new NuevoUsuarioDTO(nombre, apellidoP, apellidoM, correo, contraseniaHasheada,
                 fechaNacimiento, ciudad, calle, colonia, numeroCasa);
-        this.controlInicio.registrarUsuario(nuevoUsuarioDTO);
-
+        Usuario usuario = this.controlInicio.registrarUsuario(nuevoUsuarioDTO);
+        if (usuario != null) {
+        JOptionPane.showMessageDialog(this, "Usuario registrado exitosamente.", "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
+        this.controlInicio.mostrarMenu();
+        this.dispose(); // Cierra SignUp y libera memoria
+    }
 
     }//GEN-LAST:event_botonRegistrarseActionPerformed
 
     private void botonRegistrarseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonRegistrarseMouseClicked
         // TODO add your handling code here:
-        Login login = new Login(this.controlInicio);
-        login.setVisible(true);
-        login.pack();
-        login.setLocationRelativeTo(null);
-        this.dispose();
     }//GEN-LAST:event_botonRegistrarseMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

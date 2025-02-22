@@ -237,7 +237,8 @@ public class Login extends javax.swing.JFrame {
 
         // Limpiar la contraseña del array por seguridad
         java.util.Arrays.fill(contraseniaChars, '0');
-
+        setVisible(false);
+        
     }//GEN-LAST:event_botonIngresarActionPerformed
 
     /**

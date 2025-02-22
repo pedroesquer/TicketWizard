@@ -31,7 +31,7 @@ public class Menu extends javax.swing.JFrame {
     private void mostrarDatosUsuario() {
         Usuario usuarioActual = SesionDTO.getInstancia().getUsuarioActual();
         if (usuarioActual != null) {
-            usuarioLabel.setText(usuarioActual.getNombre()+"!");
+            usuarioLabel.setText(usuarioActual.getNombre() + "!");
         }
     }
 
@@ -211,29 +211,29 @@ public class Menu extends javax.swing.JFrame {
 
     private void comprarBoletosLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comprarBoletosLabelMouseClicked
         // TODO add your handling code here:
-        ComprarBoletos comprarBoleto = new ComprarBoletos(this.controlInicio, this.controlActualizar);
+        ComprarBoletos comprarBoleto = new ComprarBoletos(this.controlInicio, this.controlActualizar , this);
         comprarBoleto.setVisible(true);
         comprarBoleto.pack();
         comprarBoleto.setLocationRelativeTo(null);
-        this.dispose();        
+        this.setVisible(false);        
     }//GEN-LAST:event_comprarBoletosLabelMouseClicked
 
     private void misBoletosLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_misBoletosLabelMouseClicked
         // TODO add your handling code here:
-        MisBoletos misBoletos = new MisBoletos(this.controlInicio, this.controlActualizar);
+        MisBoletos misBoletos = new MisBoletos(this.controlInicio, this.controlActualizar,this);
         misBoletos.setVisible(true);
         misBoletos.pack();
         misBoletos.setLocationRelativeTo(null);
-        this.dispose();
+        this.setVisible(false);
     }//GEN-LAST:event_misBoletosLabelMouseClicked
 
     private void venderBoletosLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_venderBoletosLabelMouseClicked
         // TODO add your handling code here:
-        VenderBoletos venderBoletos = new VenderBoletos(this.controlInicio, this.controlActualizar);
+        VenderBoletos venderBoletos = new VenderBoletos(this.controlInicio, this.controlActualizar,this);
         venderBoletos.setVisible(true);
         venderBoletos.pack();
         venderBoletos.setLocationRelativeTo(null);
-        this.dispose();
+        this.setVisible(false);
     }//GEN-LAST:event_venderBoletosLabelMouseClicked
 
     private void cerrarSesionLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cerrarSesionLabelMouseClicked
@@ -242,25 +242,25 @@ public class Menu extends javax.swing.JFrame {
         login.setVisible(true);
         login.pack();
         login.setLocationRelativeTo(null);
-        this.dispose();
+        this.setVisible(false);
     }//GEN-LAST:event_cerrarSesionLabelMouseClicked
 
     private void boletosApartadosLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boletosApartadosLabelMouseClicked
         // TODO add your handling code here:
-        BoletosApartados boletosApartados = new BoletosApartados(this.controlInicio, this.controlActualizar);
+        BoletosApartados boletosApartados = new BoletosApartados(this.controlInicio, this.controlActualizar , this);
         boletosApartados.setVisible(true);
         boletosApartados.pack();
         boletosApartados.setLocationRelativeTo(null);
-        dispose();
+        this.setVisible(false);
     }//GEN-LAST:event_boletosApartadosLabelMouseClicked
 
     private void transaccionesLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transaccionesLabelMouseClicked
         // TODO add your handling code here:
-        HistorialTransacciones historialTransacciones = new HistorialTransacciones(this.controlInicio, this.controlActualizar);
+        HistorialTransacciones historialTransacciones = new HistorialTransacciones(this.controlInicio, this.controlActualizar,this);
         historialTransacciones.setVisible(true);
         historialTransacciones.pack();
         historialTransacciones.setLocationRelativeTo(null);
-        dispose();
+        this.setVisible(false);
     }//GEN-LAST:event_transaccionesLabelMouseClicked
 
 

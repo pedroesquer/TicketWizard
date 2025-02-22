@@ -18,9 +18,11 @@ public class HistorialTransacciones extends javax.swing.JFrame {
      */
     private final ControlIniciarSesion controlInicio;
     private final ControlActualizarBoleto controlActualizar;
-    public HistorialTransacciones(ControlIniciarSesion controlInicio, ControlActualizarBoleto controlActualizar) {
+    private final Menu menu;
+    public HistorialTransacciones(ControlIniciarSesion controlInicio, ControlActualizarBoleto controlActualizar , Menu menu) {
         initComponents();
         this.controlInicio = controlInicio;
+        this.menu = menu;
         this.controlActualizar = controlActualizar;
     }
 
@@ -56,11 +58,7 @@ public class HistorialTransacciones extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        Menu menu = new Menu(this.controlInicio, this.controlActualizar);
         menu.setVisible(true);
-        menu.pack();
-        menu.setLocationRelativeTo(null);
-        dispose();
     }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

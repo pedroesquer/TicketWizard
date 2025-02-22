@@ -13,8 +13,11 @@ public class agregarSaldo extends javax.swing.JFrame {
     /**
      * Creates new form agregarSaldo
      */
-    public agregarSaldo() {
+    
+    private final Menu menu;
+    public agregarSaldo(Menu menu) {
         initComponents();
+        this.menu = menu;
     }
 
     /**
@@ -37,6 +40,11 @@ public class agregarSaldo extends javax.swing.JFrame {
         btnRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         pnlSuperior.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -140,6 +148,11 @@ public class agregarSaldo extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRegresarActionPerformed
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        menu.setVisible(true);
+    }//GEN-LAST:event_formWindowClosing
+    
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

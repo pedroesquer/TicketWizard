@@ -7,14 +7,13 @@ package itson.usuariosDTOs;
 import itson.entidades.Usuario;
 import itson.presentacion.Login;
 import itson.presentacion.Menu;
-import javax.swing.JOptionPane;
 
 /**
  *
  * @author rauln
  */
 
-public class SesionDTO extends JOptionPane {
+public class SesionDTO{
 
     private static SesionDTO instancia;
     private Usuario usuarioActual;
