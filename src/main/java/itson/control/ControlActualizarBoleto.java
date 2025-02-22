@@ -15,16 +15,17 @@ public class ControlActualizarBoleto {
 
     private BoletosDAO boletosDAO;
     private ComprarBoletos formComprarBoletos;
-    private ControlIniciarSesion controlSesion;
-    private final Menu menu;
-    public ControlActualizarBoleto(BoletosDAO boletosDAO, ComprarBoletos formComprarBoletos , Menu menu) {
+    private Menu menu;
+    public ControlActualizarBoleto(BoletosDAO boletosDAO) {
         this.boletosDAO = boletosDAO;
-        this.formComprarBoletos = formComprarBoletos;
-        this.menu = menu;
     }
 
     public void iniciarCasoUso() {
-        this.formComprarBoletos = new ComprarBoletos(controlSesion, this , menu);
+        if (this.formComprarBoletos == null) { // Solo se crea una vez
+            this.formComprarBoletos = new ComprarBoletos(this);
+        }
+        this.formComprarBoletos.setVisible(true);
+        this.formComprarBoletos.setLocationRelativeTo(null);        
     }
 
     public void actualizarBoleto(ActualizarBoletoDTO actualizarBoletoDTO) {
@@ -33,7 +34,7 @@ public class ControlActualizarBoleto {
     }
 
     public void mostrarBoletos() {
-        this.formComprarBoletos = new ComprarBoletos(controlSesion, this , menu);
+        this.formComprarBoletos = new ComprarBoletos(this);
     }
 
     public List<Boleto> consultarListaArtistas() {

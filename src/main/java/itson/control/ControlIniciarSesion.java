@@ -58,7 +58,7 @@ public class ControlIniciarSesion {
 
     public void mostrarMenu() {
         if (this.formMenu == null) { // Solo se crea una vez
-            this.formMenu = new Menu(this, controlActualizar);
+            this.formMenu = new Menu();
         }
         this.formMenu.setVisible(true);
         this.formMenu.setLocationRelativeTo(null);
