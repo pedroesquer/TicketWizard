@@ -249,6 +249,7 @@ public class Menu extends javax.swing.JFrame {
         login.setVisible(true);
         login.pack();
         login.setLocationRelativeTo(null);
+        this.dispose();
         //this.setVisible(false);
     }//GEN-LAST:event_cerrarSesionLabelMouseClicked
 
