@@ -19,13 +19,20 @@ public class ControlRegistrarDeposito {
     
     private agregarSaldo formAgregarSaldo;
 
+    public void iniciarFlujo(){
+        this.formAgregarSaldo = new agregarSaldo(this);
+        this.formAgregarSaldo.setVisible(true);
+        this.formAgregarSaldo.setLocationRelativeTo(null);
+    }
     public ControlRegistrarDeposito(DepositosDAO depositosDAO) {
         this.depositosDAO = depositosDAO;
     }
     
     public Deposito RegistrarDeposito(NuevoDepositoDTO nuevoDepositoDTO){
-        if(validarCantidadDeposito(nuevoDepositoDTO.getMonto())) {
-            Deposito deposito = this.depositosDAO.registrarDeposito(nuevoDepositoDTO);
+        if(validarCantidadDeposito(nuevoDepositoDTO.getMonto())) { //Primero validamos que la cantidad no sea negativa o un texto
+            Deposito deposito = this.depositosDAO.registrarDeposito(nuevoDepositoDTO); //Si se validó procedemos a registrar el deposito
+            JOptionPane.showMessageDialog(null, "Registro exitoso", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            this.formAgregarSaldo.dispose();
             return deposito;
         }
         JOptionPane.showMessageDialog(null, "Revisa que en el monto\n-No ingresaras un texto\n-No ingresaras cantidades negativas","Error de depósito", JOptionPane.ERROR_MESSAGE);
