@@ -260,11 +260,8 @@ public class Menu extends javax.swing.JFrame {
 
     private void cerrarSesionLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cerrarSesionLabelMouseClicked
         // TODO add your handling code here:
-        Login login = new Login(this.controlInicio);
-        login.setVisible(true);
-        login.pack();
-        login.setLocationRelativeTo(null);
         this.dispose();
+        controlInicio.iniciarFlujo();
         //this.setVisible(false);
     }//GEN-LAST:event_cerrarSesionLabelMouseClicked
 

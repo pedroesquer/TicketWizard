@@ -6,6 +6,13 @@ package itson.presentacion;
 
 import itson.control.ControlActualizarBoleto;
 import itson.control.ControlIniciarSesion;
+import itson.entidades.Usuario;
+import itson.persistencia.BoletosDAO;
+import itson.persistencia.ManejadorConexiones;
+import itson.usuariosDTOs.NuevoBoletoEventoDTO;
+import itson.usuariosDTOs.SesionDTO;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -16,10 +23,32 @@ public class MisBoletos extends javax.swing.JFrame {
     /**
      * Creates new form MisBoletos
      */
-   
+    ManejadorConexiones manejadorConexiones = new ManejadorConexiones();
 
     public MisBoletos() {
         initComponents();
+        mostrarDatosUsuario();
+        this.llenarTablaBoletos();
+    }
+
+    private void llenarTablaBoletos() {
+        BoletosDAO boletosDAO = new BoletosDAO(manejadorConexiones);
+
+        List<NuevoBoletoEventoDTO> listaBoletos = boletosDAO.consultarMisBoletos();
+        DefaultTableModel modelo = (DefaultTableModel) this.tablaBoletos.getModel();
+        //Por cada artista devuelto por la clase control lo agregamos a la JTable
+        for (NuevoBoletoEventoDTO boleto : listaBoletos) {
+            Object[] fillTable = {
+                boleto.getID(),
+                boleto.getFechaHora(),
+                boleto.getNombreEv(),
+                boleto.getAsiento(),
+                boleto.getPrecioOriginal(),
+                boleto.getLugar()
+            };
+            modelo.addRow(fillTable);
+        }
+
     }
 
     /**
@@ -31,6 +60,12 @@ public class MisBoletos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaBoletos = new javax.swing.JTable();
+        lblUsuario = new javax.swing.JLabel();
+        lblSaldo = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -38,15 +73,76 @@ public class MisBoletos extends javax.swing.JFrame {
             }
         });
 
+        tablaBoletos.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        tablaBoletos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Fecha", "Evento", "Asiento", "Precio", "Lugar"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tablaBoletos);
+        if (tablaBoletos.getColumnModel().getColumnCount() > 0) {
+            tablaBoletos.getColumnModel().getColumn(0).setResizable(false);
+            tablaBoletos.getColumnModel().getColumn(1).setResizable(false);
+            tablaBoletos.getColumnModel().getColumn(2).setResizable(false);
+            tablaBoletos.getColumnModel().getColumn(3).setResizable(false);
+            tablaBoletos.getColumnModel().getColumn(4).setResizable(false);
+            tablaBoletos.getColumnModel().getColumn(5).setResizable(false);
+        }
+
+        lblUsuario.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        lblUsuario.setText("Bienvenido:");
+
+        lblSaldo.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        lblSaldo.setText("Saldo:");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(165, 165, 165)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(183, 183, 183)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(182, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addComponent(lblUsuario)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblSaldo)
+                .addGap(66, 66, 66)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(151, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -54,9 +150,20 @@ public class MisBoletos extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        
-    }//GEN-LAST:event_formWindowClosing
 
+    }//GEN-LAST:event_formWindowClosing
+    private void mostrarDatosUsuario() {
+        Usuario usuarioActual = SesionDTO.getInstancia().getUsuarioActual();
+        if (usuarioActual != null) {
+            lblUsuario.setText("Bienvenido, " + usuarioActual.getNombre());
+            lblSaldo.setText("Saldo: $" + usuarioActual.getSaldo());
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblSaldo;
+    private javax.swing.JLabel lblUsuario;
+    private javax.swing.JTable tablaBoletos;
     // End of variables declaration//GEN-END:variables
 }

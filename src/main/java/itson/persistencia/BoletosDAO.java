@@ -1,8 +1,10 @@
 package itson.persistencia;
 
 import itson.entidades.Boleto;
+import itson.entidades.Usuario;
 import itson.usuariosDTOs.ActualizarBoletoDTO;
 import itson.usuariosDTOs.NuevoBoletoEventoDTO;
+import itson.usuariosDTOs.SesionDTO;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,6 +21,7 @@ import java.util.List;
 public class BoletosDAO {
 
     private final ManejadorConexiones manejadorConexiones;
+    Usuario usuarioActual = SesionDTO.getInstancia().getUsuarioActual();
 
     public BoletosDAO(ManejadorConexiones manejadorConexiones) {
         this.manejadorConexiones = manejadorConexiones;
@@ -129,5 +132,45 @@ SELECT numeroControl as Id, ev.fechaHora as 'Fecha', ev.nombre as 'Evento', conc
             System.out.println("Error ejecutando el stored procedure.");
             e.printStackTrace();
         }
+    }
+
+    public List<NuevoBoletoEventoDTO> consultarMisBoletos() {
+        int usuarioActual = this.usuarioActual.getCodigoUsuario();
+        String codigoSQL = """
+        SELECT bo.numeroControl as Id, 
+                           	   ev.fechaHora as 'Fecha', 
+                                  ev.nombre as 'Evento', 
+                                  concat(asiento, fila) as 'Asiento', 
+                                  bo.precioOriginal, 
+                                  concat(recinto, ', ', ciudad) as 'Lugar', 
+                                  bo.numeroserie
+                           FROM boletos bo
+                           INNER JOIN eventos ev
+                           ON ev.codigoEvento = bo.codigoEvento
+                           WHERE codigoUsuario = ?;     
+                           """;
+        List<NuevoBoletoEventoDTO> ListaBoletos = new LinkedList<>();
+        try {
+            Connection conexion = this.manejadorConexiones.crearConexion();
+            PreparedStatement comando = conexion.prepareStatement(codigoSQL);
+            comando.setInt(1, usuarioActual);
+            ResultSet resultadosConsulta = comando.executeQuery();
+
+            while (resultadosConsulta.next()) {
+                String Id = resultadosConsulta.getString("Id");
+                LocalDateTime fecha = resultadosConsulta.getTimestamp("Fecha").toLocalDateTime();
+                String evento = resultadosConsulta.getString("Evento");
+                String asiento = resultadosConsulta.getString("Asiento");
+                float precioOriginal = resultadosConsulta.getFloat("precioOriginal");
+                String lugar = resultadosConsulta.getString("lugar");
+                NuevoBoletoEventoDTO boletoEvento = new NuevoBoletoEventoDTO(Id, asiento, precioOriginal, fecha, evento, lugar);
+                ListaBoletos.add(boletoEvento);
+
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error al consultar los boletos: " + ex.getMessage());
+
+        }
+        return ListaBoletos;
     }
 }

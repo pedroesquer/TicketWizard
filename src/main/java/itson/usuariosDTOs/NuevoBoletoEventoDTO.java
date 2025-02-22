@@ -30,6 +30,15 @@ public class NuevoBoletoEventoDTO {
         this.tipo = tipo;
     }
 
+    public NuevoBoletoEventoDTO(String ID, String asiento, float precioOriginal, LocalDateTime fechaHora, String nombreEv, String lugar) {
+        this.ID = ID;
+        this.asiento = asiento;
+        this.precioOriginal = precioOriginal;
+        this.fechaHora = fechaHora;
+        this.nombreEv = nombreEv;
+        this.lugar = lugar;
+    }
+    
     public String getID() {
         return ID;
     }
