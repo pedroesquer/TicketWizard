@@ -3,6 +3,7 @@ package itson.persistencia;
 import itson.entidades.Boleto;
 import itson.usuariosDTOs.ActualizarBoletoDTO;
 import itson.usuariosDTOs.NuevoBoletoEventoDTO;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -81,8 +82,8 @@ public class BoletosDAO {
         }
         return ListaBoletos;
     }
-    
-        public List<NuevoBoletoEventoDTO> consultarBoletosEventos() {
+
+    public List<NuevoBoletoEventoDTO> consultarBoletosEventos() {
         String codigoSQL = """
 SELECT numeroControl as Id, ev.fechaHora as 'Fecha', ev.nombre as 'Evento', concat(asiento, fila) as 'Asiento', precioOriginal, concat(recinto, ', ', ciudad) as 'Lugar', bo.numeroserie, 
                            		CASE 
@@ -105,7 +106,7 @@ SELECT numeroControl as Id, ev.fechaHora as 'Fecha', ev.nombre as 'Evento', conc
                 float precioOriginal = resultadosConsulta.getFloat("precioOriginal");
                 String lugar = resultadosConsulta.getString("lugar");
                 String tipo = resultadosConsulta.getString("Tipo");
-                NuevoBoletoEventoDTO boletoEvento = new NuevoBoletoEventoDTO(Id,asiento, precioOriginal, fecha, evento, lugar, tipo);
+                NuevoBoletoEventoDTO boletoEvento = new NuevoBoletoEventoDTO(Id, asiento, precioOriginal, fecha, evento, lugar, tipo);
                 ListaBoletos.add(boletoEvento);
 
             }
@@ -114,5 +115,19 @@ SELECT numeroControl as Id, ev.fechaHora as 'Fecha', ev.nombre as 'Evento', conc
 
         }
         return ListaBoletos;
+    }
+
+    public static void comprarBoleto(Connection conn, int codigoUsuario, String numeroControl) {
+        String storedProcedure = "{CALL comprarBoleto(?, ?)}";
+
+        try (CallableStatement cs = conn.prepareCall(storedProcedure)) {
+            cs.setInt(1, codigoUsuario);
+            cs.setString(2, numeroControl);
+            cs.executeUpdate();
+            System.out.println("Transacción de compra completada.");
+        } catch (SQLException e) {
+            System.out.println("Error ejecutando el stored procedure.");
+            e.printStackTrace();
+        }
     }
 }

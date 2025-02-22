@@ -2,9 +2,12 @@ package itson.control;
 
 import itson.entidades.Boleto;
 import itson.persistencia.BoletosDAO;
+import itson.persistencia.ManejadorConexiones;
 import itson.presentacion.ComprarBoletos;
 import itson.presentacion.Menu;
 import itson.usuariosDTOs.ActualizarBoletoDTO;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -37,8 +40,16 @@ public class ControlActualizarBoleto {
         this.formComprarBoletos = new ComprarBoletos(this);
     }
 
-    public List<Boleto> consultarListaArtistas() {
+    public List<Boleto> consultarListaBoletos() {
         return this.boletosDAO.consultarBoletos();
+    }
+    
+    public void procesarCompraBoleto(ManejadorConexiones manejadorConexiones, int codigoUsuario, String numeroControl) {
+        try (Connection conn = manejadorConexiones.crearConexion()) {
+            boletosDAO.comprarBoleto(conn, codigoUsuario, numeroControl);
+        } catch (SQLException e) {
+            e.getMessage();
+        }
     }
     
 }

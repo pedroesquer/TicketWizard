@@ -5,8 +5,6 @@
 package itson.presentacion;
 
 import itson.control.ControlActualizarBoleto;
-import itson.control.ControlIniciarSesion;
-import itson.entidades.Boleto;
 import itson.entidades.Usuario;
 import itson.persistencia.BoletosDAO;
 import itson.persistencia.ManejadorConexiones;
@@ -16,15 +14,12 @@ import itson.usuariosDTOs.SesionDTO;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -52,7 +47,7 @@ public class ComprarBoletos extends javax.swing.JFrame {
         this.controlActualizar = controlActualizar;
 
         setSize(800, 500);
-        pack();  // Ajusta el tamaño de la ventana según los componentes
+        pack();
         setResizable(true);
         setLocationRelativeTo(null);
         setVisible(true);
@@ -137,7 +132,6 @@ public class ComprarBoletos extends javax.swing.JFrame {
         btnComprar = new JButton("Comprar boletos");
         btnComprar.setBounds(320, 410, 150, 30);
         panelPrincipal.add(btnComprar);
-
         btnComprar.addActionListener((ActionEvent e) -> {
             // Obtener las filas seleccionadas de la tabla
             Integer usuarioActualCodigo = SesionDTO.getInstancia().getUsuarioActual().getCodigoUsuario();
@@ -147,6 +141,7 @@ public class ComprarBoletos extends javax.swing.JFrame {
                     String idBoleto = (String) tablaBoletos.getValueAt(i, 0); // Suponiendo que la primera columna es el ID
                     System.out.println("Número de control seleccionado: " + idBoleto);
                     ActualizarBoletoDTO actualizarBoletoDTO = new ActualizarBoletoDTO(idBoleto, usuarioActualCodigo, ActualizarBoletoDTO.Estado.Vendido);
+                    this.controlActualizar.procesarCompraBoleto(manejadorConexiones, SesionDTO.getInstancia().getUsuarioActual().getCodigoUsuario(), idBoleto);
                     this.controlActualizar.actualizarBoleto(actualizarBoletoDTO);
                 }
             }
