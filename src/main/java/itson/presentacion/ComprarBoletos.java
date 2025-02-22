@@ -152,12 +152,6 @@ public class ComprarBoletos extends javax.swing.JFrame {
             }
         });
 
-        // Configuración del JFrame
-        setLayout(null);
-        setTitle("Comprar Boleto");
-        setSize(800, 501);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     private void llenarTablaBoletos() {
