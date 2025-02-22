@@ -16,15 +16,10 @@ public class MisBoletos extends javax.swing.JFrame {
     /**
      * Creates new form MisBoletos
      */
-    private final ControlIniciarSesion controlInicio;
-    private final ControlActualizarBoleto controlActualizar;
-    private final Menu menu;
+   
 
-    public MisBoletos(ControlIniciarSesion controlInicio, ControlActualizarBoleto controlActualizar, Menu menu) {
+    public MisBoletos() {
         initComponents();
-        this.controlInicio = controlInicio;
-        this.menu = menu;
-        this.controlActualizar = controlActualizar;
     }
 
     /**
@@ -59,7 +54,7 @@ public class MisBoletos extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        menu.setVisible(true);
+        
     }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

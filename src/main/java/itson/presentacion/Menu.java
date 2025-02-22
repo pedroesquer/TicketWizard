@@ -8,6 +8,7 @@ import itson.control.ControlActualizarBoleto;
 import itson.control.ControlIniciarSesion;
 import itson.entidades.Usuario;
 import itson.persistencia.BoletosDAO;
+import itson.persistencia.DepositosDAO;
 import itson.persistencia.ManejadorConexiones;
 import itson.persistencia.UsuariosDAO;
 import itson.usuariosDTOs.SesionDTO;
@@ -24,7 +25,7 @@ public class Menu extends javax.swing.JFrame {
     ManejadorConexiones manejadorConexiones = new ManejadorConexiones();
     UsuariosDAO usuariosDAO = new UsuariosDAO(manejadorConexiones);
     BoletosDAO boletosDAO = new BoletosDAO(manejadorConexiones);
-
+    DepositosDAO depositosDAO = new DepositosDAO(manejadorConexiones);
     ControlIniciarSesion controlInicio = new ControlIniciarSesion(usuariosDAO);
     ControlActualizarBoleto controlActualizar = new ControlActualizarBoleto(boletosDAO);
 
@@ -227,7 +228,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void misBoletosLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_misBoletosLabelMouseClicked
         // TODO add your handling code here:
-        MisBoletos misBoletos = new MisBoletos(this.controlInicio, this.controlActualizar, this);
+        MisBoletos misBoletos = new MisBoletos();
         misBoletos.setVisible(true);
         misBoletos.pack();
         misBoletos.setLocationRelativeTo(null);
@@ -236,7 +237,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void venderBoletosLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_venderBoletosLabelMouseClicked
         // TODO add your handling code here:
-        VenderBoletos venderBoletos = new VenderBoletos(this.controlInicio, this.controlActualizar, this);
+        VenderBoletos venderBoletos = new VenderBoletos();
         venderBoletos.setVisible(true);
         venderBoletos.pack();
         venderBoletos.setLocationRelativeTo(null);
@@ -255,7 +256,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void boletosApartadosLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boletosApartadosLabelMouseClicked
         // TODO add your handling code here:
-        BoletosApartados boletosApartados = new BoletosApartados(this.controlInicio, this.controlActualizar, this);
+        BoletosApartados boletosApartados = new BoletosApartados();
         boletosApartados.setVisible(true);
         boletosApartados.pack();
         boletosApartados.setLocationRelativeTo(null);
@@ -264,7 +265,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void transaccionesLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transaccionesLabelMouseClicked
         // TODO add your handling code here:
-        HistorialTransacciones historialTransacciones = new HistorialTransacciones(this.controlInicio, this.controlActualizar, this);
+        HistorialTransacciones historialTransacciones = new HistorialTransacciones();
         historialTransacciones.setVisible(true);
         historialTransacciones.pack();
         historialTransacciones.setLocationRelativeTo(null);

@@ -16,15 +16,11 @@ public class VenderBoletos extends javax.swing.JFrame {
     /**
      * Creates new form VenderBoletos
      */
-    private final ControlIniciarSesion controlInicio;
-    private final ControlActualizarBoleto controlActualizar;
-    private final Menu menu;
+    
 
-    public VenderBoletos(ControlIniciarSesion controlInicio, ControlActualizarBoleto controlActualizar , Menu menu) {
+    public VenderBoletos() {
         initComponents();
-        this.controlInicio = controlInicio;
-        this.controlActualizar = controlActualizar;
-        this.menu = menu;
+        
     }
 
     /**
@@ -69,7 +65,7 @@ public class VenderBoletos extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        menu.setVisible(true);
+        
     }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

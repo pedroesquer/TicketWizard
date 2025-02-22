@@ -4,6 +4,12 @@
  */
 package itson.presentacion;
 
+import itson.control.ControlRegistrarDeposito;
+import itson.usuariosDTOs.NuevoDepositoDTO;
+import itson.usuariosDTOs.SesionDTO;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  *
  * @author juanpheras
@@ -13,11 +19,11 @@ public class agregarSaldo extends javax.swing.JFrame {
     /**
      * Creates new form agregarSaldo
      */
+    private final ControlRegistrarDeposito control;
     
-    private final Menu menu;
-    public agregarSaldo(Menu menu) {
+    public agregarSaldo(ControlRegistrarDeposito control) {
         initComponents();
-        this.menu = menu;
+        this.control = control;
     }
 
     /**
@@ -94,6 +100,11 @@ public class agregarSaldo extends javax.swing.JFrame {
         jLabel4.setText("$");
 
         btnAceptarDeposito.setText("Aceptar");
+        btnAceptarDeposito.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarDepositoActionPerformed(evt);
+            }
+        });
 
         btnRegresar.setText("Regresar");
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
@@ -150,10 +161,33 @@ public class agregarSaldo extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        menu.setVisible(true);
+        //menu.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
-    
-    
+
+    private void btnAceptarDepositoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarDepositoActionPerformed
+        Float monto;
+        try {
+            monto = Float.valueOf(this.campoDeposito.getText()); //Intentamos convertir el campo del saldo a Decimal
+            // Realizar operaciones con monto
+        } catch (NumberFormatException e) {
+            monto = -1.1f;
+
+        }
+        LocalDateTime now = LocalDateTime.now();
+        
+        // Definir el formato deseado
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        
+        // Formatear el timestamp
+        String fechaHoraDeposito = now.format(formatter);
+        
+        Integer codigoUsuario= SesionDTO.getInstancia().getUsuarioActual().getCodigoUsuario();
+        
+        NuevoDepositoDTO nuevoDepositoDTO = new  NuevoDepositoDTO(fechaHoraDeposito, monto, codigoUsuario);
+        control.RegistrarDeposito(nuevoDepositoDTO);
+        
+    }//GEN-LAST:event_btnAceptarDepositoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptarDeposito;

@@ -17,15 +17,10 @@ public class BoletosApartados extends javax.swing.JFrame {
     /**
      * Creates new form BoletosApartados
      */
-    private final ControlIniciarSesion control;
-    private final ControlActualizarBoleto controlActualizar;
-    private final Menu menu;
     
-    public BoletosApartados(ControlIniciarSesion control, ControlActualizarBoleto controlActualizar, Menu menu) {
+    
+    public BoletosApartados() {
         initComponents();
-        this.control = control;
-        this.menu = menu;
-        this.controlActualizar = controlActualizar;
     }
 
     /**
@@ -59,8 +54,7 @@ public class BoletosApartados extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        // TODO add your handling code here:
-        menu.setVisible(true);
+        // TODO add your handling code here
     }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

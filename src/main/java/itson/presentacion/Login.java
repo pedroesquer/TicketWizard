@@ -206,19 +206,12 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_campoCorreoElectronicoActionPerformed
 
     private void botonIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonIngresarActionPerformed
-        String regexCorreo = "^[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}$";
         String correo = this.campoCorreoElectronico.getText();
 
         char[] contraseniaConvertir = campoContrasenia.getPassword();
         String contraseniaPlana = new String(contraseniaConvertir);
 
-        Pattern pattern = Pattern.compile(regexCorreo);
-        Matcher matcher = pattern.matcher(correo);
-
-//        if (!matcher.matches()) {
-//            JOptionPane.showMessageDialog(null, "Ingresa un correo válido.", "Información", JOptionPane.INFORMATION_MESSAGE);
-//        }
-
+        
         AccesoUsuarioDTO accesoDTO = new AccesoUsuarioDTO(correo, contraseniaPlana);
         Usuario usuario =control.autenticarUsuario(accesoDTO);
         if (usuario != null) {
