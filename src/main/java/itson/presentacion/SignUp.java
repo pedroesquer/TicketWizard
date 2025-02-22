@@ -462,11 +462,7 @@ public class SignUp extends javax.swing.JFrame {
     }//GEN-LAST:event_campoCorreoActionPerformed
 
     private void botonIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonIniciarSesionActionPerformed
-        // TODO add your handling code here:
-        Login LoginFrame = new Login(this.controlInicio);
-        LoginFrame.setVisible(true);
-        LoginFrame.pack();
-        LoginFrame.setLocationRelativeTo(null);
+        controlInicio.iniciarFlujo(); //Llamamos al iniciar flujo para que en caso de que no    
         this.dispose();
     }//GEN-LAST:event_botonIniciarSesionActionPerformed
 

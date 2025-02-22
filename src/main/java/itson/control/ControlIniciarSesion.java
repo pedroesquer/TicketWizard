@@ -14,6 +14,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 
 public class ControlIniciarSesion {
 
@@ -122,25 +124,37 @@ public class ControlIniciarSesion {
 
     private boolean validarFechaNacimiento(String fechaNacimiento) {
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-        formato.setLenient(false);
+        formato.setLenient(false);//Desactiva la posibilidad de que en caso de recibir por ejemplo un mes 13 lo tome como enero. O asi con el dia
 
         try {
-            formato.parse(fechaNacimiento);
-            return true;
+            Date fechaNacimientoDate = formato.parse(fechaNacimiento); //Analiza la cadena fecha nacimiento, . Si la fecha está en el formato esperado y es válida, la fecha será parseada correctamente.
+            
+            LocalDate fechaNacimientoLocal = new java.sql.Date(fechaNacimientoDate.getTime()).toLocalDate();
+            LocalDate fechaActual = LocalDate.now();
+            // Verificar si la fecha de nacimiento no es en el futuro
+            // Obtiene la fecha actual
+            return !fechaNacimientoLocal.isAfter(fechaActual);
         } catch (ParseException e) {
             return false;
         }
     }
 
     private boolean validarFormatoCorreo(String correo) {
+        //Creamos una expresion regular
         String regexCorreo = "^[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}$";
-
+        //Utilizamos patten y matcher para ver si nuestro correo concuerda con la regex
         Pattern pattern = Pattern.compile(regexCorreo);
         Matcher matcher = pattern.matcher(correo);
 
         return matcher.matches();
     }
 
+    /**Metodo que verifica que en el login no se dejen campos vacios
+     * 
+     * @param correoElectronico el correo electronico que recibe el usuairo
+     * @param contrasenia contrasenia que el usuario ingresa
+     * @return True if the form is right, false if not. 
+     */
     private boolean validarFormulario(String correoElectronico, String contrasenia) {
         return !(correoElectronico.trim().isEmpty() || contrasenia.trim().isEmpty());
     }
