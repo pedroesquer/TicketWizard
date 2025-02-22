@@ -221,7 +221,7 @@ public class Menu extends javax.swing.JFrame {
         comprarBoletos.setVisible(true);
         comprarBoletos.pack();
         comprarBoletos.setLocationRelativeTo(null);
-        this.setVisible(false);
+        //this.setVisible(false);
 
     }//GEN-LAST:event_comprarBoletosLabelMouseClicked
 
@@ -231,7 +231,7 @@ public class Menu extends javax.swing.JFrame {
         misBoletos.setVisible(true);
         misBoletos.pack();
         misBoletos.setLocationRelativeTo(null);
-        this.setVisible(false);
+        //this.setVisible(false);
     }//GEN-LAST:event_misBoletosLabelMouseClicked
 
     private void venderBoletosLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_venderBoletosLabelMouseClicked
@@ -240,7 +240,7 @@ public class Menu extends javax.swing.JFrame {
         venderBoletos.setVisible(true);
         venderBoletos.pack();
         venderBoletos.setLocationRelativeTo(null);
-        this.setVisible(false);
+        //this.setVisible(false);
     }//GEN-LAST:event_venderBoletosLabelMouseClicked
 
     private void cerrarSesionLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cerrarSesionLabelMouseClicked
@@ -249,7 +249,7 @@ public class Menu extends javax.swing.JFrame {
         login.setVisible(true);
         login.pack();
         login.setLocationRelativeTo(null);
-        this.setVisible(false);
+        //this.setVisible(false);
     }//GEN-LAST:event_cerrarSesionLabelMouseClicked
 
     private void boletosApartadosLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boletosApartadosLabelMouseClicked
@@ -258,7 +258,7 @@ public class Menu extends javax.swing.JFrame {
         boletosApartados.setVisible(true);
         boletosApartados.pack();
         boletosApartados.setLocationRelativeTo(null);
-        this.setVisible(false);
+        //this.setVisible(false);
     }//GEN-LAST:event_boletosApartadosLabelMouseClicked
 
     private void transaccionesLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transaccionesLabelMouseClicked
@@ -267,7 +267,7 @@ public class Menu extends javax.swing.JFrame {
         historialTransacciones.setVisible(true);
         historialTransacciones.pack();
         historialTransacciones.setLocationRelativeTo(null);
-        this.setVisible(false);
+        //this.setVisible(false);
     }//GEN-LAST:event_transaccionesLabelMouseClicked
 
 

@@ -482,10 +482,10 @@ public class SignUp extends javax.swing.JFrame {
         try {
             Date fechaNacimientoDate = campoFechaNacimiento.getDate();
             SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-             fechaNacimiento = formato.format(fechaNacimientoDate);
+            fechaNacimiento = formato.format(fechaNacimientoDate);
         } catch (NullPointerException e) {
             System.out.println("Se atrapó el error");
-             fechaNacimiento = " ";
+            fechaNacimiento = " ";
 
         }
 
@@ -502,10 +502,10 @@ public class SignUp extends javax.swing.JFrame {
                 fechaNacimiento, ciudad, calle, colonia, numeroCasa);
         Usuario usuario = this.controlInicio.registrarUsuario(nuevoUsuarioDTO);
         if (usuario != null) {
-        JOptionPane.showMessageDialog(this, "Usuario registrado exitosamente.", "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
-        this.controlInicio.mostrarMenu();
-        this.dispose(); // Cierra SignUp y libera memoria
-    }
+            JOptionPane.showMessageDialog(this, "Usuario registrado exitosamente.", "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
+            this.controlInicio.mostrarMenu();
+            this.dispose(); // Cierra SignUp y libera memoria
+        }
 
     }//GEN-LAST:event_botonRegistrarseActionPerformed
 
