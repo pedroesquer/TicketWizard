@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
  */
 public class NuevoBoletoEventoDTO {
 
-    private String ID;
+    private String numeroControl;
     private String asiento; //numero de fila
     private float precioOriginal; //Precio del boleto desde la boletera
     private LocalDateTime fechaHora; //Fecha hora del evento
@@ -20,8 +20,8 @@ public class NuevoBoletoEventoDTO {
         return tipo;
     }
 
-    public NuevoBoletoEventoDTO(String ID, String asiento, float precioOriginal, LocalDateTime fechaHora, String nombreEv, String lugar, String tipo) {
-        this.ID = ID; 
+    public NuevoBoletoEventoDTO(String numeroControl, String asiento, float precioOriginal, LocalDateTime fechaHora, String nombreEv, String lugar, String tipo) {
+        this.numeroControl = numeroControl; 
         this.asiento = asiento;
         this.precioOriginal = precioOriginal;
         this.fechaHora = fechaHora;
@@ -30,8 +30,8 @@ public class NuevoBoletoEventoDTO {
         this.tipo = tipo;
     }
 
-    public NuevoBoletoEventoDTO(String ID, String asiento, float precioOriginal, LocalDateTime fechaHora, String nombreEv, String lugar) {
-        this.ID = ID;
+    public NuevoBoletoEventoDTO(String numeroControl, String asiento, float precioOriginal, LocalDateTime fechaHora, String nombreEv, String lugar) {
+        this.numeroControl = numeroControl;
         this.asiento = asiento;
         this.precioOriginal = precioOriginal;
         this.fechaHora = fechaHora;
@@ -40,7 +40,7 @@ public class NuevoBoletoEventoDTO {
     }
     
     public String getID() {
-        return ID;
+        return numeroControl;
     }
 
     public String getAsiento() {

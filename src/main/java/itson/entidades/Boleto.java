@@ -4,7 +4,7 @@ import java.util.Objects;
 
 /**
  *
- * @author Juan Pablo Heras, Ari Montoya & Pedro Esquer
+ * @author Juan Pablo Heras, Ari Montoya & Pedro Morales
  */
 public class Boleto {
     

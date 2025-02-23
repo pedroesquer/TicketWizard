@@ -4,7 +4,7 @@
  */
 package itson.presentacion;
 
-import itson.control.ControlActualizarBoleto;
+import itson.control.ControlComprarBoleto;
 import itson.entidades.Boleto;
 import itson.entidades.Usuario;
 import itson.persistencia.BoletosDAO;
@@ -40,9 +40,9 @@ public class ComprarBoletos extends javax.swing.JFrame {
     private JLabel lblSaldo;
     private JButton btnComprar;
     ManejadorConexiones manejadorConexiones = new ManejadorConexiones();
-    private final ControlActualizarBoleto controlActualizar;
+    private final ControlComprarBoleto controlActualizar;
 
-    public ComprarBoletos(ControlActualizarBoleto controlActualizar) {
+    public ComprarBoletos(ControlComprarBoleto controlActualizar) {
         initComponents();
         inicializarComponentesPersonalizados();
         mostrarDatosUsuario();
@@ -145,10 +145,12 @@ public class ComprarBoletos extends javax.swing.JFrame {
                     boletosTransaccion.add(idBoleto);
 
                     ActualizarBoletoDTO actualizarBoletoDTO = new ActualizarBoletoDTO(idBoleto, usuarioActualCodigo, ActualizarBoletoDTO.Estado.Vendido);
-                    this.controlActualizar.procesarCompraBoleto(manejadorConexiones, SesionDTO.getInstancia().getUsuarioActual().getCodigoUsuario(), boletosTransaccion);
                     this.controlActualizar.actualizarBoleto(actualizarBoletoDTO);
+
                 }
             }
+            
+            this.controlActualizar.procesarCompraBoleto(manejadorConexiones, SesionDTO.getInstancia().getUsuarioActual().getCodigoUsuario(), boletosTransaccion);
             System.out.println(boletosTransaccion);
 
         });

@@ -4,7 +4,7 @@
  */
 package itson.presentacion;
 
-import itson.control.ControlActualizarBoleto;
+import itson.control.ControlComprarBoleto;
 import itson.control.ControlIniciarSesion;
 
 /**

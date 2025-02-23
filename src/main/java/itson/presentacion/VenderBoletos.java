@@ -4,7 +4,7 @@
  */
 package itson.presentacion;
 
-import itson.control.ControlActualizarBoleto;
+import itson.control.ControlComprarBoleto;
 import itson.control.ControlIniciarSesion;
 
 /**
@@ -17,9 +17,9 @@ public class VenderBoletos extends javax.swing.JFrame {
      * Creates new form VenderBoletos
      */
     private final ControlIniciarSesion controlInicio;
-    private final ControlActualizarBoleto controlActualizar;
+    private final ControlComprarBoleto controlActualizar;
 
-    public VenderBoletos(ControlIniciarSesion controlInicio, ControlActualizarBoleto controlActualizar) {
+    public VenderBoletos(ControlIniciarSesion controlInicio, ControlComprarBoleto controlActualizar) {
         initComponents();
         this.controlInicio = controlInicio;
         this.controlActualizar = controlActualizar;

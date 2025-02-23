@@ -3,15 +3,9 @@
  */
 package itson.ticketwizard;
 
-import itson.control.ControlActualizarBoleto;
 import itson.control.ControlIniciarSesion;
-import itson.persistencia.BoletosDAO;
 import itson.persistencia.ManejadorConexiones;
 import itson.persistencia.UsuariosDAO;
-import itson.presentacion.Login;
-import java.util.List;
-import java.util.Scanner;
-import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *

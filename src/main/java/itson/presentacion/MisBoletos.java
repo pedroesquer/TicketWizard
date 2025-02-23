@@ -4,8 +4,6 @@
  */
 package itson.presentacion;
 
-import itson.control.ControlActualizarBoleto;
-import itson.control.ControlIniciarSesion;
 import itson.entidades.Usuario;
 import itson.persistencia.BoletosDAO;
 import itson.persistencia.ManejadorConexiones;

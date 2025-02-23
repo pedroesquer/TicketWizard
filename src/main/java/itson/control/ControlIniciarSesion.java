@@ -23,7 +23,7 @@ public class ControlIniciarSesion {
     private Login formLogin;
     private Menu formMenu;
     private SignUp formRegistro;
-    private ControlActualizarBoleto controlActualizar;
+    private ControlComprarBoleto controlActualizar;
 
     public ControlIniciarSesion(UsuariosDAO usuariosDAO) {
         this.usuariosDAO = usuariosDAO;

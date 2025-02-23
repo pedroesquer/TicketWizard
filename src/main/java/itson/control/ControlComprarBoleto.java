@@ -14,12 +14,12 @@ import java.util.List;
  *
  * @author Juan Pablo Heras, Pedro Morales, Ari Raul Montoya
  */
-public class ControlActualizarBoleto {
+public class ControlComprarBoleto {
 
     private BoletosDAO boletosDAO;
     private ComprarBoletos formComprarBoletos;
     private Menu menu;
-    public ControlActualizarBoleto(BoletosDAO boletosDAO) {
+    public ControlComprarBoleto(BoletosDAO boletosDAO) {
         this.boletosDAO = boletosDAO;
     }
 

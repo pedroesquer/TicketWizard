@@ -4,7 +4,7 @@
  */
 package itson.presentacion;
 
-import itson.control.ControlActualizarBoleto;
+import itson.control.ControlComprarBoleto;
 import itson.control.ControlIniciarSesion;
 import itson.control.ControlRegistrarDeposito;
 import itson.entidades.Usuario;
@@ -28,7 +28,7 @@ public class Menu extends javax.swing.JFrame {
     BoletosDAO boletosDAO = new BoletosDAO(manejadorConexiones);
     DepositosDAO depositosDAO = new DepositosDAO(manejadorConexiones);
     ControlIniciarSesion controlInicio = new ControlIniciarSesion(usuariosDAO);
-    ControlActualizarBoleto controlActualizar = new ControlActualizarBoleto(boletosDAO);
+    ControlComprarBoleto controlActualizar = new ControlComprarBoleto(boletosDAO);
     ControlRegistrarDeposito  controlDeposito = new ControlRegistrarDeposito(depositosDAO);
 
     public Menu() {
@@ -55,6 +55,7 @@ public class Menu extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel5 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -71,6 +72,8 @@ public class Menu extends javax.swing.JFrame {
         jLabel5.setBackground(new java.awt.Color(0, 102, 102));
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel5.setText("SIGN UP");
+
+        jTextField1.setText("jTextField1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 500));
@@ -297,6 +300,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel misBoletosLabel;
     private javax.swing.JLabel saludoLabel;
     private javax.swing.JLabel transaccionesLabel;
