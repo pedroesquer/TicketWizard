@@ -5,6 +5,7 @@
 package itson.presentacion;
 
 import itson.control.ControlActualizarBoleto;
+import itson.entidades.Boleto;
 import itson.entidades.Usuario;
 import itson.persistencia.BoletosDAO;
 import itson.persistencia.ManejadorConexiones;
@@ -14,6 +15,7 @@ import itson.usuariosDTOs.SesionDTO;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -135,11 +137,13 @@ public class ComprarBoletos extends javax.swing.JFrame {
         btnComprar.addActionListener((ActionEvent e) -> {
             // Obtener las filas seleccionadas de la tabla
             Integer usuarioActualCodigo = SesionDTO.getInstancia().getUsuarioActual().getCodigoUsuario();
+            List<String> boletosTransaccion = new LinkedList<>();
             for (int i = 0; i < tablaBoletos.getRowCount(); i++) {
                 Boolean seleccionado = (Boolean) tablaBoletos.getValueAt(i, 7); // Columna 7 es el checkbox
                 if (seleccionado != null && seleccionado) {
                     String idBoleto = (String) tablaBoletos.getValueAt(i, 0); // Suponiendo que la primera columna es el ID
-                    System.out.println("Número de control seleccionado: " + idBoleto);
+                    boletosTransaccion.add(idBoleto);
+
                     ActualizarBoletoDTO actualizarBoletoDTO = new ActualizarBoletoDTO(idBoleto, usuarioActualCodigo, ActualizarBoletoDTO.Estado.Vendido);
                     this.controlActualizar.procesarCompraBoleto(manejadorConexiones, SesionDTO.getInstancia().getUsuarioActual().getCodigoUsuario(), idBoleto);
                     this.controlActualizar.actualizarBoleto(actualizarBoletoDTO);

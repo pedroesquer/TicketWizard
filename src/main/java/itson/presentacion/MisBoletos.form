@@ -51,7 +51,7 @@
                           <EmptySpace min="-2" pref="183" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="lblSaldo" min="-2" pref="130" max="-2" attributes="0"/>
-                              <Component id="lblUsuario" min="-2" pref="130" max="-2" attributes="0"/>
+                              <Component id="lblUsuario" min="-2" pref="230" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
