@@ -44,9 +44,9 @@ public class ControlActualizarBoleto {
         return this.boletosDAO.consultarBoletos();
     }
     
-    public void procesarCompraBoleto(ManejadorConexiones manejadorConexiones, int codigoUsuario, String numeroControl) {
+    public void procesarCompraBoleto(ManejadorConexiones manejadorConexiones, int codigoUsuario, List<String> listaBoletos) {
         try (Connection conn = manejadorConexiones.crearConexion()) {
-            boletosDAO.comprarBoleto(conn, codigoUsuario, numeroControl);
+            boletosDAO.comprarBoleto(conn, codigoUsuario, listaBoletos);
         } catch (SQLException e) {
             e.getMessage();
         }

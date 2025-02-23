@@ -120,12 +120,13 @@ SELECT numeroControl as Id, ev.fechaHora as 'Fecha', ev.nombre as 'Evento', conc
         return ListaBoletos;
     }
 
-    public static void comprarBoleto(Connection conn, int codigoUsuario, String numeroControl) {
+    public static void comprarBoleto(Connection conn, int codigoUsuario, List<String> listaBoletos) {
         String storedProcedure = "{CALL comprarBoleto(?, ?)}";
+        String boletosConcatenados = String.join(",", listaBoletos);
 
         try (CallableStatement cs = conn.prepareCall(storedProcedure)) {
             cs.setInt(1, codigoUsuario);
-            cs.setString(2, numeroControl);
+            cs.setString(2, boletosConcatenados);
             cs.executeUpdate();
             System.out.println("Transacción de compra completada.");
         } catch (SQLException e) {

@@ -145,10 +145,12 @@ public class ComprarBoletos extends javax.swing.JFrame {
                     boletosTransaccion.add(idBoleto);
 
                     ActualizarBoletoDTO actualizarBoletoDTO = new ActualizarBoletoDTO(idBoleto, usuarioActualCodigo, ActualizarBoletoDTO.Estado.Vendido);
-                    this.controlActualizar.procesarCompraBoleto(manejadorConexiones, SesionDTO.getInstancia().getUsuarioActual().getCodigoUsuario(), idBoleto);
+                    this.controlActualizar.procesarCompraBoleto(manejadorConexiones, SesionDTO.getInstancia().getUsuarioActual().getCodigoUsuario(), boletosTransaccion);
                     this.controlActualizar.actualizarBoleto(actualizarBoletoDTO);
                 }
             }
+            System.out.println(boletosTransaccion);
+
         });
 
     }
