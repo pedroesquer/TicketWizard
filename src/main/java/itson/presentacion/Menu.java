@@ -251,7 +251,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void venderBoletosLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_venderBoletosLabelMouseClicked
         // TODO add your handling code here:
-        VenderBoletos venderBoletos = new VenderBoletos();
+        VenderBoletos venderBoletos = new VenderBoletos(controlInicio , controlActualizar);
         venderBoletos.setVisible(true);
         venderBoletos.pack();
         venderBoletos.setLocationRelativeTo(null);

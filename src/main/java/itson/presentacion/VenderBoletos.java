@@ -16,11 +16,42 @@ public class VenderBoletos extends javax.swing.JFrame {
     /**
      * Creates new form VenderBoletos
      */
-    
+    private final ControlIniciarSesion controlInicio;
+    private final ControlActualizarBoleto controlActualizar;
 
-    public VenderBoletos() {
+    public VenderBoletos(ControlIniciarSesion controlInicio, ControlActualizarBoleto controlActualizar) {
         initComponents();
+        this.controlInicio = controlInicio;
+        this.controlActualizar = controlActualizar;
+
+        // Quitar el borde del JDesktopPane y poner fondo blanco
+        campoTabla.setBorder(null);
+        campoTabla.setOpaque(true);
+        campoTabla.setBackground(new java.awt.Color(255, 255, 255));
         
+        // Crear la instancia de TablaVenderBoletos
+        TablaVenderBoletos tablaVenderBoletos = new TablaVenderBoletos();
+
+        // Deshabilitar todas las opciones de redimensionamiento y movimiento
+        tablaVenderBoletos.setClosable(false);  // No se puede cerrar
+        tablaVenderBoletos.setResizable(false); // No se puede redimensionar
+        tablaVenderBoletos.setMaximizable(false); // No se puede maximizar
+        tablaVenderBoletos.setIconifiable(false); // No se puede minimizar
+        tablaVenderBoletos.setTitle(null); // Sin título en el borde superior
+
+        // Quitar el borde superior para evitar que se arrastre
+        ((javax.swing.plaf.basic.BasicInternalFrameUI) tablaVenderBoletos.getUI()).setNorthPane(null);
+
+        // Fijar el tamaño y posición dentro del JDesktopPane
+        tablaVenderBoletos.setBounds(0, 0, 700, 300); // Tamaño fijo (ancho x alto)
+
+        // Añadir y hacer visible
+        campoTabla.add(tablaVenderBoletos);
+        tablaVenderBoletos.setVisible(true);
+
+        // Actualizar el panel
+        campoTabla.revalidate();
+        campoTabla.repaint();
     }
 
     /**
@@ -32,32 +63,80 @@ public class VenderBoletos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        campoTabla = new javax.swing.JDesktopPane();
+        nombreLabel = new javax.swing.JLabel();
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/usuarioIcon.png"))); // NOI18N
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/usuarioIcon.png"))); // NOI18N
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
         });
 
-        jLabel1.setText("Vender Boletos");
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/usuarioIcon.png"))); // NOI18N
+
+        campoTabla.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout campoTablaLayout = new javax.swing.GroupLayout(campoTabla);
+        campoTabla.setLayout(campoTablaLayout);
+        campoTablaLayout.setHorizontalGroup(
+            campoTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 700, Short.MAX_VALUE)
+        );
+        campoTablaLayout.setVerticalGroup(
+            campoTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
+        nombreLabel.setFont(new java.awt.Font("Segoe UI Black", 0, 36)); // NOI18N
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(50, Short.MAX_VALUE)
+                .addComponent(campoTabla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(104, 104, 104)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(nombreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(nombreLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addComponent(campoTabla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(107, 107, 107)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(552, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(62, 62, 62)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(363, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -65,10 +144,15 @@ public class VenderBoletos extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JDesktopPane campoTabla;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel nombreLabel;
     // End of variables declaration//GEN-END:variables
 }
