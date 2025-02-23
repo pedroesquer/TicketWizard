@@ -206,32 +206,35 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_campoCorreoElectronicoActionPerformed
 
     private void botonIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonIngresarActionPerformed
+                                             
+        String regexCorreo = "^[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}$";
         String correo = this.campoCorreoElectronico.getText();
 
         char[] contraseniaConvertir = campoContrasenia.getPassword();
         String contraseniaPlana = new String(contraseniaConvertir);
 
-        
+        Pattern pattern = Pattern.compile(regexCorreo);
+        Matcher matcher = pattern.matcher(correo);
+
         AccesoUsuarioDTO accesoDTO = new AccesoUsuarioDTO(correo, contraseniaPlana);
-        Usuario usuario =control.autenticarUsuario(accesoDTO);
+        Usuario usuario = control.autenticarUsuario(accesoDTO);
+
         if (usuario != null) {
             // Login exitoso
             SesionDTO.getInstancia().iniciarSesion(usuario);
-//            this.dispose();
-//            new Menu().setVisible(true);
+            System.out.println("Usuario en sesión: " + usuario); // Verificación
+            this.dispose();
+            control.mostrarMenu(); // <-- Ahora muestra el menú aquí
         } else {
             JOptionPane.showMessageDialog(this,
                     "Correo o contraseña incorrectos",
                     "Error de autenticación",
                     JOptionPane.ERROR_MESSAGE);
         }
-        // Obtener la contraseña en char[]
-        char[] contraseniaChars = campoContrasenia.getPassword();
-
         // Limpiar la contraseña del array por seguridad
-        java.util.Arrays.fill(contraseniaChars, '0');
-        setVisible(false);
-        
+        java.util.Arrays.fill(contraseniaConvertir, '0');
+
+
     }//GEN-LAST:event_botonIngresarActionPerformed
 
     /**

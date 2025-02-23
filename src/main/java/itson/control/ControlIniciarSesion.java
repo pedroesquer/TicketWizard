@@ -38,12 +38,11 @@ public class ControlIniciarSesion {
     }
 
     public Usuario autenticarUsuario(AccesoUsuarioDTO accesoUsuarioDTO) {
-        // Primero validamos que las entradas no sean vacías
         if (validarFormulario(accesoUsuarioDTO.getCorreoElectronico(), accesoUsuarioDTO.getContrasenia())) {
             Usuario usuario = this.usuariosDAO.autenticarUsuario(accesoUsuarioDTO);
-            if (usuario != null) { // Si el usuario es válido
-                this.mostrarMenu();
-                this.formLogin.setVisible(false); // Ocultamos el Login
+            if (usuario != null) {
+                // ¡No navegues aquí al menú!
+                this.formLogin.setVisible(false); // Solo oculta el Login
             }
             return usuario;
         } else if (!validarFormatoCorreo(accesoUsuarioDTO.getCorreoElectronico())) {
