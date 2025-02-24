@@ -160,37 +160,50 @@ public class agregarSaldo extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void btnAceptarDepositoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarDepositoActionPerformed
-    // Obtener el valor ingresado desde el campo de texto
-    
-    
-    try {
-        // Validar y convertir el depósito a float
-        float deposito = Float.parseFloat(campoDeposito.getText().trim());
-        if (deposito <= 0) {
-            JOptionPane.showMessageDialog(this, "El depósito debe ser mayor a 0.");
-            return; // Detener el proceso si el depósito no es válido
+        // Obtener el valor ingresado desde el campo de texto
+
+        float monto= 0;
+        try {
+            
+            monto = Float.parseFloat(this.campoDeposito.getText()); //Intentamos convertir el campo del saldo a Decimal
+            // Validar y convertir el depósito a float
+            float deposito = Float.parseFloat(campoDeposito.getText().trim());
+            if (deposito <= 0) {
+                JOptionPane.showMessageDialog(this, "El depósito debe ser mayor a 0.");
+                return; // Detener el proceso si el depósito no es válido
+            }
+
+            // Obtener el usuario actual de la sesión
+            Usuario usuario = SesionDTO.getInstancia().getUsuarioActual();
+            if (usuario != null) {
+                // Actualizar el saldo
+                float saldoActual = usuario.getSaldo();
+                usuario.setSaldo(saldoActual + deposito);
+                SesionDTO.getInstancia().setUsuarioActual(usuario);
+
+                // Confirmación de éxito
+                JOptionPane.showMessageDialog(this, "Saldo actualizado correctamente.");
+                this.dispose(); // Cerrar la ventana de depósito
+            } else {
+                JOptionPane.showMessageDialog(this, "No hay usuario en sesión.");
+                monto = -1.1f;
+            }
+        } catch (NumberFormatException e) {
+            // Manejo de excepción si el valor no es numérico
+            JOptionPane.showMessageDialog(this, "Ingrese un número válido para el depósito.");
         }
-
-        // Obtener el usuario actual de la sesión
-        Usuario usuario = SesionDTO.getInstancia().getUsuarioActual();
-        if (usuario != null) {
-            // Actualizar el saldo
-            float saldoActual = usuario.getSaldo();
-            usuario.setSaldo(saldoActual + deposito);
-
-            // Notificar a los observadores (como el menú)
-            SesionDTO.getInstancia().setUsuarioActual(usuario);
-
-            // Confirmación de éxito
-            JOptionPane.showMessageDialog(this, "Saldo actualizado correctamente.");
-            this.dispose(); // Cerrar la ventana de depósito
-        } else {
-            JOptionPane.showMessageDialog(this, "No hay usuario en sesión.");
-        }
-    } catch (NumberFormatException e) {
-        // Manejo de excepción si el valor no es numérico
-        JOptionPane.showMessageDialog(this, "Ingrese un número válido para el depósito.");
-    }
+        LocalDateTime now = LocalDateTime.now();
+        
+        // Definir el formato deseado
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        
+        // Formatear el timestamp
+        String fechaHoraDeposito = now.format(formatter);
+        
+        Integer codigoUsuario= SesionDTO.getInstancia().getUsuarioActual().getCodigoUsuario();
+        
+        NuevoDepositoDTO nuevoDepositoDTO = new  NuevoDepositoDTO(fechaHoraDeposito, monto, codigoUsuario);
+        control.RegistrarDeposito(nuevoDepositoDTO);
 
     }//GEN-LAST:event_btnAceptarDepositoActionPerformed
 
