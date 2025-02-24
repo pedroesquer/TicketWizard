@@ -165,13 +165,13 @@ public class ComprarBoletos extends javax.swing.JFrame {
         //Por cada artista devuelto por la clase control lo agregamos a la JTable
         for (NuevoBoletoEventoDTO boleto : listaBoletos) {
             Object[] fillTable = {
-                boleto.getID(),
+                boleto.getNumeroControl(),
                 boleto.getFechaHora(),
                 boleto.getNombreEv(),
                 boleto.getAsiento(),
                 boleto.getPrecioOriginal(),
                 boleto.getLugar(),
-                boleto.getTipo()
+                boleto.getTipoCompra()
             };
             modelo.addRow(fillTable);
         }

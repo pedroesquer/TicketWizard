@@ -68,7 +68,6 @@ public class ControlIniciarSesion {
         this.formRegistro = new SignUp(this);
         this.formRegistro.setVisible(true);
         this.formRegistro.setLocationRelativeTo(formLogin);
-        this.formLogin.setVisible(false); // Ocultamos el Login
     }
 
     public void mostrarLogin() {
