@@ -13,12 +13,13 @@ import itson.persistencia.DepositosDAO;
 import itson.persistencia.ManejadorConexiones;
 import itson.persistencia.UsuariosDAO;
 import itson.usuariosDTOs.SesionDTO;
+import observador.Observer;
 
 /**
  *
  * @author rauln
  */
-public class Menu extends javax.swing.JFrame {
+public class Menu extends javax.swing.JFrame implements Observer {
 
     /**
      * Creates new form Menu
@@ -29,19 +30,27 @@ public class Menu extends javax.swing.JFrame {
     DepositosDAO depositosDAO = new DepositosDAO(manejadorConexiones);
     ControlIniciarSesion controlInicio = new ControlIniciarSesion(usuariosDAO);
     ControlComprarBoleto controlActualizar = new ControlComprarBoleto(boletosDAO);
-    ControlRegistrarDeposito  controlDeposito = new ControlRegistrarDeposito(depositosDAO);
+    ControlRegistrarDeposito controlDeposito = new ControlRegistrarDeposito(depositosDAO);
 
     public Menu() {
         initComponents();
-        mostrarDatosUsuario();
-
+        // Suscribirse a los cambios en SesionDTO
+        SesionDTO.getInstancia().agregarObservador(this);
+        actualizarLabels();
     }
 
-    // Para obtener datos del usuario actual
-    private void mostrarDatosUsuario() {
-        Usuario usuarioActual = SesionDTO.getInstancia().getUsuarioActual();
-        if (usuarioActual != null) {
-            usuarioLabel.setText(usuarioActual.getNombre() + "!");
+    // Método de la interfaz Observer
+    @Override
+    public void actualizar() {
+        actualizarLabels();
+    }
+
+    private void actualizarLabels() {
+        Usuario usuario = SesionDTO.getInstancia().getUsuarioActual();
+        if (usuario != null) {
+            saldoLabel.setText("Saldo: $" + usuario.getSaldo());
+            usuarioLabel.setText(usuario.getNombre());
+
         }
     }
 
@@ -68,6 +77,8 @@ public class Menu extends javax.swing.JFrame {
         botonAgregarSaldo = new javax.swing.JButton();
         usuarioLabel = new javax.swing.JLabel();
         saludoLabel = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        saldoLabel = new javax.swing.JLabel();
 
         jLabel5.setBackground(new java.awt.Color(0, 102, 102));
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -187,6 +198,8 @@ public class Menu extends javax.swing.JFrame {
         saludoLabel.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         saludoLabel.setText("Bienvenido,");
 
+        jLabel1.setText("SALDO:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -201,9 +214,16 @@ public class Menu extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(162, 162, 162)
-                .addComponent(saludoLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(usuarioLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(saldoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(saludoLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(usuarioLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -214,7 +234,11 @@ public class Menu extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(usuarioLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(saludoLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(saldoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
@@ -254,7 +278,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void venderBoletosLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_venderBoletosLabelMouseClicked
         // TODO add your handling code here:
-        VenderBoletos venderBoletos = new VenderBoletos(controlInicio , controlActualizar);
+        VenderBoletos venderBoletos = new VenderBoletos(controlInicio, controlActualizar);
         venderBoletos.setVisible(true);
         venderBoletos.pack();
         venderBoletos.setLocationRelativeTo(null);
@@ -296,12 +320,14 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton botonAgregarSaldo;
     private javax.swing.JLabel cerrarSesionLabel;
     private javax.swing.JLabel comprarBoletosLabel;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel misBoletosLabel;
+    private javax.swing.JLabel saldoLabel;
     private javax.swing.JLabel saludoLabel;
     private javax.swing.JLabel transaccionesLabel;
     private javax.swing.JLabel usuarioLabel;

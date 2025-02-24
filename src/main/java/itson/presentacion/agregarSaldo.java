@@ -5,10 +5,12 @@
 package itson.presentacion;
 
 import itson.control.ControlRegistrarDeposito;
+import itson.entidades.Usuario;
 import itson.usuariosDTOs.NuevoDepositoDTO;
 import itson.usuariosDTOs.SesionDTO;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,7 +22,7 @@ public class agregarSaldo extends javax.swing.JFrame {
      * Creates new form agregarSaldo
      */
     private final ControlRegistrarDeposito control;
-    
+
     public agregarSaldo(ControlRegistrarDeposito control) {
         initComponents();
         this.control = control;
@@ -158,27 +160,38 @@ public class agregarSaldo extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void btnAceptarDepositoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarDepositoActionPerformed
-        Float monto;
-        try {
-            monto = Float.valueOf(this.campoDeposito.getText()); //Intentamos convertir el campo del saldo a Decimal
-            // Realizar operaciones con monto
-        } catch (NumberFormatException e) {
-            monto = -1.1f;
-
+    // Obtener el valor ingresado desde el campo de texto
+    
+    
+    try {
+        // Validar y convertir el depósito a float
+        float deposito = Float.parseFloat(campoDeposito.getText().trim());
+        if (deposito <= 0) {
+            JOptionPane.showMessageDialog(this, "El depósito debe ser mayor a 0.");
+            return; // Detener el proceso si el depósito no es válido
         }
-        LocalDateTime now = LocalDateTime.now();
-        
-        // Definir el formato deseado
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        
-        // Formatear el timestamp
-        String fechaHoraDeposito = now.format(formatter);
-        
-        Integer codigoUsuario= SesionDTO.getInstancia().getUsuarioActual().getCodigoUsuario();
-        
-        NuevoDepositoDTO nuevoDepositoDTO = new  NuevoDepositoDTO(fechaHoraDeposito, monto, codigoUsuario);
-        control.RegistrarDeposito(nuevoDepositoDTO);
-        
+
+        // Obtener el usuario actual de la sesión
+        Usuario usuario = SesionDTO.getInstancia().getUsuarioActual();
+        if (usuario != null) {
+            // Actualizar el saldo
+            float saldoActual = usuario.getSaldo();
+            usuario.setSaldo(saldoActual + deposito);
+
+            // Notificar a los observadores (como el menú)
+            SesionDTO.getInstancia().setUsuarioActual(usuario);
+
+            // Confirmación de éxito
+            JOptionPane.showMessageDialog(this, "Saldo actualizado correctamente.");
+            this.dispose(); // Cerrar la ventana de depósito
+        } else {
+            JOptionPane.showMessageDialog(this, "No hay usuario en sesión.");
+        }
+    } catch (NumberFormatException e) {
+        // Manejo de excepción si el valor no es numérico
+        JOptionPane.showMessageDialog(this, "Ingrese un número válido para el depósito.");
+    }
+
     }//GEN-LAST:event_btnAceptarDepositoActionPerformed
 
 

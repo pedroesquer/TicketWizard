@@ -7,9 +7,10 @@ import itson.usuariosDTOs.SesionDTO;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import observador.Observer;
 import org.mindrot.jbcrypt.BCrypt;
 
-public class Login extends javax.swing.JFrame {
+public class Login extends javax.swing.JFrame{
 
     private final ControlIniciarSesion control;
     
@@ -18,6 +19,7 @@ public class Login extends javax.swing.JFrame {
         this.control = control;
       
     }
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -221,7 +223,7 @@ public class Login extends javax.swing.JFrame {
 
         if (usuario != null) {
             // Login exitoso
-            SesionDTO.getInstancia().iniciarSesion(usuario);
+            SesionDTO.getInstancia().setUsuarioActual(usuario);
             System.out.println("Usuario en sesión: " + usuario); // Verificación
             this.dispose();
             control.mostrarMenu(); // <-- Ahora muestra el menú aquí
