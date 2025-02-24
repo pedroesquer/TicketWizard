@@ -1,35 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package itson.usuariosDTOs;
 
 import itson.entidades.Usuario;
-import itson.presentacion.Login;
-import itson.presentacion.Menu;
+import java.util.ArrayList;
+import java.util.List;
+import observador.Observer;
 
-/**
- *
- * @author rauln
- */
-
-public class SesionDTO{
-
+public class SesionDTO {
     private static SesionDTO instancia;
     private Usuario usuarioActual;
+    private List<Observer> observadores;
 
-    // Constructor privado para Singleton
     private SesionDTO() {
-        this.usuarioActual = null;
+        observadores = new ArrayList<>();
     }
 
-
-
-    /**
-     * Obtiene la instancia única de SesionDTO
-     *
-     * @return instancia de SesionDTO
-     */
     public static SesionDTO getInstancia() {
         if (instancia == null) {
             instancia = new SesionDTO();
@@ -37,37 +21,27 @@ public class SesionDTO{
         return instancia;
     }
 
-    /**
-     * Inicia una nueva sesión con el usuario especificado
-     *
-     * @param usuario El usuario que inició sesión
-     */
-    public void iniciarSesion(Usuario usuario) {
-        this.usuarioActual = usuario;
-    }
-
-    /**
-     * Cierra la sesión actual
-     */
-    public void cerrarSesion() {
-        this.usuarioActual = null;
-    }
-
-    /**
-     * Obtiene el usuario que tiene la sesión activa
-     *
-     * @return Usuario actual o null si no hay sesión activa
-     */
     public Usuario getUsuarioActual() {
         return usuarioActual;
     }
 
-    /**
-     * Verifica si hay una sesión activa
-     *
-     * @return true si hay un usuario con sesión activa, false en caso contrario
-     */
-    public boolean haySesionActiva() {
-        return usuarioActual != null;
+    public void setUsuarioActual(Usuario usuarioActual) {
+        this.usuarioActual = usuarioActual;
+        notificarObservadores();
+    }
+
+    // Métodos para Observer
+    public void agregarObservador(Observer observador) {
+        observadores.add(observador);
+    }
+
+    public void eliminarObservador(Observer observador) {
+        observadores.remove(observador);
+    }
+
+    private void notificarObservadores() {
+        for (Observer observador : observadores) {
+            observador.actualizar();
+        }
     }
 }
