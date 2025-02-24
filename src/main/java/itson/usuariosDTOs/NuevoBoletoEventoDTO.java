@@ -14,20 +14,19 @@ public class NuevoBoletoEventoDTO {
     private LocalDateTime fechaHora; //Fecha hora del evento
     private String nombreEv; //Nombre evento
     private String lugar; //Lugar
-    private String tipo;
+    private String fechaLimiteEvento;
+    private String tipoCompra;
+            
 
-    public String getTipo() {
-        return tipo;
-    }
-
-    public NuevoBoletoEventoDTO(String numeroControl, String asiento, float precioOriginal, LocalDateTime fechaHora, String nombreEv, String lugar, String tipo) {
+    
+    public NuevoBoletoEventoDTO(String numeroControl, String asiento, float precioOriginal, LocalDateTime fechaHora, String nombreEv, String lugar, String tipoCompra) {
         this.numeroControl = numeroControl; 
         this.asiento = asiento;
         this.precioOriginal = precioOriginal;
         this.fechaHora = fechaHora;
         this.nombreEv = nombreEv;
         this.lugar = lugar;
-        this.tipo = tipo;
+        this.tipoCompra = tipoCompra;
     }
 
     public NuevoBoletoEventoDTO(String numeroControl, String asiento, float precioOriginal, LocalDateTime fechaHora, String nombreEv, String lugar) {
@@ -38,8 +37,8 @@ public class NuevoBoletoEventoDTO {
         this.nombreEv = nombreEv;
         this.lugar = lugar;
     }
-    
-    public String getID() {
+
+    public String getNumeroControl() {
         return numeroControl;
     }
 
@@ -62,6 +61,16 @@ public class NuevoBoletoEventoDTO {
     public String getLugar() {
         return lugar;
     }
+
+    public String getFechaLimiteEvento() {
+        return fechaLimiteEvento;
+    }
+
+    public String getTipoCompra() {
+        return tipoCompra;
+    }
+    
+
     
     
     

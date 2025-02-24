@@ -88,11 +88,7 @@ public class BoletosDAO {
 
     public List<NuevoBoletoEventoDTO> consultarBoletosEventos() {
         String codigoSQL = """
-SELECT numeroControl as Id, ev.fechaHora as 'Fecha', ev.nombre as 'Evento', concat(asiento, fila) as 'Asiento', precioOriginal, concat(recinto, ', ', ciudad) as 'Lugar', bo.numeroserie, 
-                           		CASE 
-                                   WHEN codigoUsuario IS NULL THEN 'Boletera'
-                                   ELSE 'Reventa'
-                               END AS Tipo 
+SELECT numeroControl as Id, ev.fechaHora as 'Fecha', ev.nombre as 'Evento', concat(asiento, fila) as 'Asiento', precioOriginal, concat(recinto, ', ', ciudad) as 'Lugar', bo.tipoCompra
                            FROM BOLETOS AS BO INNER JOIN EVENTOS AS EV ON BO.CODIGOEVENTO = EV.CODIGOEVENTO WHERE BO.ESTADO = "Disponible";                           
                            """;
         List<NuevoBoletoEventoDTO> ListaBoletos = new LinkedList<>();
@@ -108,8 +104,8 @@ SELECT numeroControl as Id, ev.fechaHora as 'Fecha', ev.nombre as 'Evento', conc
                 String asiento = resultadosConsulta.getString("Asiento");
                 float precioOriginal = resultadosConsulta.getFloat("precioOriginal");
                 String lugar = resultadosConsulta.getString("lugar");
-                String tipo = resultadosConsulta.getString("Tipo");
-                NuevoBoletoEventoDTO boletoEvento = new NuevoBoletoEventoDTO(Id, asiento, precioOriginal, fecha, evento, lugar, tipo);
+                String tipoCompra = resultadosConsulta.getString("tipoCompra");
+                NuevoBoletoEventoDTO boletoEvento = new NuevoBoletoEventoDTO(Id, asiento, precioOriginal, fecha, evento, lugar, tipoCompra);
                 ListaBoletos.add(boletoEvento);
 
             }
@@ -138,17 +134,19 @@ SELECT numeroControl as Id, ev.fechaHora as 'Fecha', ev.nombre as 'Evento', conc
     public List<NuevoBoletoEventoDTO> consultarMisBoletos() {
         int usuarioActual = this.usuarioActual.getCodigoUsuario();
         String codigoSQL = """
-        SELECT bo.numeroControl as Id, 
-                           	   ev.fechaHora as 'Fecha', 
-                                  ev.nombre as 'Evento', 
-                                  concat(asiento, fila) as 'Asiento', 
-                                  bo.precioOriginal, 
-                                  concat(recinto, ', ', ciudad) as 'Lugar', 
-                                  bo.numeroserie
-                           FROM boletos bo
-                           INNER JOIN eventos ev
-                           ON ev.codigoEvento = bo.codigoEvento
-                           WHERE codigoUsuario = ?;     
+        SELECT  bo.numeroControl as Id, 
+                ev.fechaHora as 'Fecha', 
+                ev.nombre as 'Evento', 
+                concat(asiento, fila) as 'Asiento', 
+                bo.precioOriginal, 
+                concat(recinto, ', ', ciudad) as 'Lugar', 
+                bo.numeroserie,
+                bo.fechalimiteventa,
+                bo.tipoCompra
+            FROM boletos bo
+            INNER JOIN eventos ev
+            ON ev.codigoEvento = bo.codigoEvento
+            WHERE codigoUsuario = ?;     
                            """;
         List<NuevoBoletoEventoDTO> ListaBoletos = new LinkedList<>();
         try {
@@ -164,7 +162,8 @@ SELECT numeroControl as Id, ev.fechaHora as 'Fecha', ev.nombre as 'Evento', conc
                 String asiento = resultadosConsulta.getString("Asiento");
                 float precioOriginal = resultadosConsulta.getFloat("precioOriginal");
                 String lugar = resultadosConsulta.getString("lugar");
-                NuevoBoletoEventoDTO boletoEvento = new NuevoBoletoEventoDTO(Id, asiento, precioOriginal, fecha, evento, lugar);
+                String tipoCompra = resultadosConsulta.getString("tipoCompra");
+                NuevoBoletoEventoDTO boletoEvento = new NuevoBoletoEventoDTO(Id, asiento, precioOriginal, fecha, evento, lugar, tipoCompra);
                 ListaBoletos.add(boletoEvento);
 
             }

@@ -503,7 +503,6 @@ public class SignUp extends javax.swing.JFrame {
         Usuario usuario = this.controlInicio.registrarUsuario(nuevoUsuarioDTO);
         if (usuario != null) {
             JOptionPane.showMessageDialog(this, "Usuario registrado exitosamente.", "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
-            this.controlInicio.mostrarMenu();
             this.dispose(); // Cierra SignUp y libera memoria
         }
 
