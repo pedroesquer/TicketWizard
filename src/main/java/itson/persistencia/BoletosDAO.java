@@ -29,8 +29,15 @@ public class BoletosDAO {
 
     public Boleto actualizarBoleto(ActualizarBoletoDTO boletoDTOActualizado) {
         String codigoSQL = """
-                UPDATE BOLETOS SET codigoUsuario = ?, estado = ? WHERE numeroControl = ?;
-            """;
+            UPDATE boletos 
+            SET codigoUsuario = ?, estado = ? 
+            WHERE numeroControl = ? 
+              AND numeroControl IN (
+                SELECT bt.codigoBoleto
+                FROM boletosTransacciones bt
+                JOIN transacciones t ON bt.codigoTransaccion = t.codigoTransaccion
+                WHERE t.estado = 'Completado'
+              );            """;
 
         try {
             //Establece la conexión con el server de BD
