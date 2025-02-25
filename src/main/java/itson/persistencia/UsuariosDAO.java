@@ -2,6 +2,7 @@ package itson.persistencia;
 
 import itson.entidades.Usuario;
 import itson.usuariosDTOs.AccesoUsuarioDTO;
+import itson.usuariosDTOs.ActualizarUsuarioDTO;
 import itson.usuariosDTOs.NuevoUsuarioDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -139,6 +140,40 @@ public class UsuariosDAO {
 
         return false; // Si no hay coincidencias, el correo no está registrado
     }
+    
+    public void actualizarUsuario(ActualizarUsuarioDTO usuarioDTO) {
+        String codigoSQL = """
+            UPDATE usuarios
+            SET CALLE = ?,
+                COLONIA = ?,
+                NUMERO = ?,                         
+                CIUDAD = ?
+            WHERE CODIGOUSUARIO = ?;
+                           """;
+
+        try {
+            //establece la conexion con la base de datos
+            Connection conexion = manejadorConexiones.crearConexion();
+            //Construye un comando SQL
+            PreparedStatement comando = conexion.prepareStatement(codigoSQL);
+            comando.setString(1, usuarioDTO.getCalle());
+            comando.setString(2, usuarioDTO.getColonia());
+            comando.setString(3, usuarioDTO.getNumero());
+            comando.setString(4, usuarioDTO.getCiudad());
+            comando.setInt(5, usuarioDTO.getCodigoUsuario());
+            
+
+            // Ejecutar la inserción
+            comando.executeUpdate();
+
+          
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+            
+        }
+
+    }
+
     
     
     

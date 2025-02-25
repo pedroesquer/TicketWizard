@@ -4,16 +4,26 @@
  */
 package itson.presentacion;
 
+import itson.control.ControlActualizarPerfil;
+import itson.entidades.Usuario;
+import itson.usuariosDTOs.ActualizarUsuarioDTO;
+import itson.usuariosDTOs.SesionDTO;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author pedro
  */
 public class ActualizarPerfil extends javax.swing.JFrame {
 
+    private ControlActualizarPerfil control;
+
     /**
      * Creates new form ActualizarPerfil
+     *
+     * @param control
      */
-    public ActualizarPerfil() {
+    public ActualizarPerfil(ControlActualizarPerfil control) {
         initComponents();
         String[] estados = {
             "Aguascalientes", "Baja California", "Baja California Sur", "Campeche", "Chiapas", "Chihuahua",
@@ -22,6 +32,7 @@ public class ActualizarPerfil extends javax.swing.JFrame {
             "Quintana Roo", "San Luis Potosí", "Sinaloa", "Sonora", "Tabasco", "Tamaulipas", "Tlaxcala",
             "Veracruz", "Yucatán", "Zacatecas"
         };
+        this.control = control;
         estadosBox.removeAllItems(); // Limpia cualquier dato previo
         for (String estado : estados) {
             estadosBox.addItem(estado); // Agrega cada estado al JComboBox
@@ -54,6 +65,7 @@ public class ActualizarPerfil extends javax.swing.JFrame {
         estadosBox = new javax.swing.JComboBox<>();
         lblColonia = new javax.swing.JLabel();
         campoColonia = new javax.swing.JTextField();
+        aceptarBoton = new javax.swing.JButton();
 
         jLabel3.setText("jLabel3");
 
@@ -143,6 +155,13 @@ public class ActualizarPerfil extends javax.swing.JFrame {
             }
         });
 
+        aceptarBoton.setText("Aceptar");
+        aceptarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aceptarBotonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -151,26 +170,32 @@ public class ActualizarPerfil extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(161, 161, 161)
-                        .addComponent(lbActualizarPerfil))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(89, 89, 89)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblColonia)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(campoCiudad, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
-                                    .addComponent(lblCalle, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(campoCalle)
-                                    .addComponent(lblCiudad))
-                                .addGap(58, 58, 58)
+                                .addGap(161, 161, 161)
+                                .addComponent(lbActualizarPerfil))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(89, 89, 89)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(campoNumeroCasa, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblNumeroCasa)
-                                    .addComponent(estadosBox, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblEstado)))
-                            .addComponent(campoColonia))))
-                .addContainerGap(52, Short.MAX_VALUE))
+                                    .addComponent(lblColonia)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(campoCiudad, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                                            .addComponent(lblCalle, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(campoCalle)
+                                            .addComponent(lblCiudad))
+                                        .addGap(58, 58, 58)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(campoNumeroCasa, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblNumeroCasa)
+                                            .addComponent(estadosBox, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblEstado)))
+                                    .addComponent(campoColonia))))
+                        .addContainerGap(52, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(aceptarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(88, 88, 88))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -201,6 +226,8 @@ public class ActualizarPerfil extends javax.swing.JFrame {
                 .addComponent(lblColonia)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(campoColonia, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(55, 55, 55)
+                .addComponent(aceptarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -230,11 +257,30 @@ public class ActualizarPerfil extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_campoColoniaActionPerformed
 
+    private void aceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarBotonActionPerformed
+        String calle = campoCalle.getText();
+        String ciudad = campoCiudad.getText();
+        String colonia = campoColonia.getText();
+        String numero = campoNumeroCasa.getText();
+        int codigoUsuario;
+        Usuario usuario = SesionDTO.getInstancia().getUsuarioActual();
+        if (usuario != null) {
+            // Actualizar el saldo
+             codigoUsuario = usuario.getCodigoUsuario();
+        } else {
+             codigoUsuario = 0;
+        }
+        
+        ActualizarUsuarioDTO actualizarUsuarioDTO =  new ActualizarUsuarioDTO(calle, colonia, numero, ciudad, codigoUsuario);
+        this.control.actualizarPerfil(actualizarUsuarioDTO);
+    }//GEN-LAST:event_aceptarBotonActionPerformed
+
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton aceptarBoton;
     private javax.swing.JTextField campoCalle;
     private javax.swing.JTextField campoCiudad;
     private javax.swing.JTextField campoColonia;
