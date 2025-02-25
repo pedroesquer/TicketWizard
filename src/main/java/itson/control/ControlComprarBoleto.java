@@ -18,7 +18,7 @@ public class ControlComprarBoleto {
 
     private BoletosDAO boletosDAO;
     private ComprarBoletos formComprarBoletos;
-    private Menu menu;
+    
     public ControlComprarBoleto(BoletosDAO boletosDAO) {
         this.boletosDAO = boletosDAO;
     }

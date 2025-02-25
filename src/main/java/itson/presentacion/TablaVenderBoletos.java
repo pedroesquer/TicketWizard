@@ -1,30 +1,33 @@
 package itson.presentacion;
 
 import com.toedter.calendar.JDateChooser;
+import itson.control.ControlVenderBoletos;
 import itson.persistencia.ManejadorConexiones;
+import itson.usuariosDTOs.ActualizarBoletoDTO;
 import itson.usuariosDTOs.SesionDTO;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dialog;
-import java.awt.GridLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import javax.swing.AbstractCellEditor;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -37,10 +40,14 @@ public class TablaVenderBoletos extends JInternalFrame {
     private DefaultTableModel modeloTabla;
     private JButton btnConfirmar;
     private int codigoUsuario;
+    // Se guardan los índices de las filas seleccionadas (en la columna "Seleccionar" del modelo principal)
     private ArrayList<Integer> boletosSeleccionados = new ArrayList<>();
+    private ControlVenderBoletos controlVenderBoletos;
+    private ManejadorConexiones manejadorConexiones = new ManejadorConexiones();
 
-    public TablaVenderBoletos() {
-        // Verificación de sesión
+    public TablaVenderBoletos(ControlVenderBoletos controlVenderBoletos) {
+        this.controlVenderBoletos = controlVenderBoletos;
+        // Verificar sesión
         if (SesionDTO.getInstancia().getUsuarioActual() != null) {
             this.codigoUsuario = SesionDTO.getInstancia().getUsuarioActual().getCodigoUsuario();
         } else {
@@ -59,75 +66,72 @@ public class TablaVenderBoletos extends JInternalFrame {
         setFocusable(false);
         setEnabled(false);
         setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
-
-        // Quitar el borde superior para evitar arrastrar
         ((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
-
-        // Layout para el contenido de la tabla
         setLayout(new BorderLayout());
 
-        // Modelo de la tabla
+        // Modelo de la tabla principal: se incluye una columna oculta "Número de Control"
         modeloTabla = new DefaultTableModel(new Object[][]{}, new String[]{
-            "Evento", "Asiento", "Fecha", "Recinto", "Precio Original", "Precio Máximo", "Seleccionar"
+            "Número de Control", "Evento", "Asiento", "Fecha", "Recinto", "Precio Original", "Precio Máximo", "Seleccionar"
         }) {
             @Override
             public Class<?> getColumnClass(int columnIndex) {
-                return columnIndex == 6 ? Boolean.class : String.class;
+                if (columnIndex == 7) {
+                    return Boolean.class;
+                }
+                if (columnIndex == 3) {
+                    return Date.class;
+                }
+                return String.class;
             }
 
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 6;
+                return column == 7;
             }
         };
 
-        // Configuración de la tabla
         tablaBoletos = new JTable(modeloTabla);
+        // Ocultar la columna "Número de Control" (índice 0)
+        tablaBoletos.getColumnModel().getColumn(0).setMinWidth(0);
+        tablaBoletos.getColumnModel().getColumn(0).setMaxWidth(0);
+        tablaBoletos.getColumnModel().getColumn(0).setPreferredWidth(0);
 
-        // Fondo blanco para toda la tabla y celdas
+        // Estilos de la tabla
         tablaBoletos.setOpaque(false);
         tablaBoletos.setBackground(new java.awt.Color(255, 255, 255));
         tablaBoletos.setForeground(new java.awt.Color(0, 0, 0));
-
-        // Sin líneas visibles de separación
         tablaBoletos.setShowGrid(false);
-        tablaBoletos.setIntercellSpacing(new java.awt.Dimension(0, 0));
+        tablaBoletos.setIntercellSpacing(new Dimension(0, 0));
         tablaBoletos.setShowHorizontalLines(false);
         tablaBoletos.setShowVerticalLines(false);
 
-        // Centrar el texto en todas las columnas (excepto la última que es checkbox)
+        // Centrar texto en columnas (desde índice 1 hasta penúltima, ya que el checkbox es índice 7)
         DefaultTableCellRenderer centrarTexto = new DefaultTableCellRenderer();
         centrarTexto.setHorizontalAlignment(SwingConstants.CENTER);
-        for (int i = 0; i < tablaBoletos.getColumnCount() - 1; i++) {
+        for (int i = 1; i < tablaBoletos.getColumnCount() - 1; i++) {
             tablaBoletos.getColumnModel().getColumn(i).setCellRenderer(centrarTexto);
         }
 
-        // Fondo blanco en el JScrollPane
         JScrollPane scrollPane = new JScrollPane(tablaBoletos);
         scrollPane.getViewport().setBackground(new java.awt.Color(255, 255, 255));
         scrollPane.setBorder(null);
-
-        // Sin borde en el JInternalFrame
-        this.setBorder(null);
-
-        // Añadir el JScrollPane al JInternalFrame
+        setBorder(null);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Botón Confirmar
+        // Botón para confirmar selección (se guardan los índices de las filas seleccionadas)
         btnConfirmar = new JButton("Confirmar Selección");
         add(btnConfirmar, BorderLayout.SOUTH);
-
         btnConfirmar.addActionListener(e -> confirmarSeleccion());
 
-        // Cargar datos en la tabla
         cargarBoletos();
     }
 
+    // Carga los boletos del usuario en la tabla principal
     private void cargarBoletos() {
         modeloTabla.setRowCount(0);
-        ManejadorConexiones manejador = new ManejadorConexiones();
         String consultaSQL = """
             SELECT 
+                b.numeroControl AS numeroControl,
                 e.nombre AS evento, 
                 b.asiento, 
                 e.fechaHora AS fecha, 
@@ -140,22 +144,27 @@ public class TablaVenderBoletos extends JInternalFrame {
             WHERE 
                 b.codigoUsuario = ?;
         """;
-
-        try (Connection conn = manejador.crearConexion(); PreparedStatement stmt = conn.prepareStatement(consultaSQL)) {
+        try (Connection conn = manejadorConexiones.crearConexion();
+             PreparedStatement stmt = conn.prepareStatement(consultaSQL)) {
             stmt.setInt(1, codigoUsuario);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
+                String numeroControl = rs.getString("numeroControl");
+                String evento = rs.getString("evento");
+                int asiento = rs.getInt("asiento");
+                Date fecha = rs.getTimestamp("fecha");
+                String recinto = rs.getString("recinto");
                 float precioOriginal = rs.getBigDecimal("precioOriginal").floatValue();
                 float precioMaximo = precioOriginal + (precioOriginal * 0.03f);
-
                 Object[] fila = {
-                    rs.getString("evento"),
-                    rs.getInt("asiento"),
-                    rs.getTimestamp("fecha"),
-                    rs.getString("recinto"),
-                    String.format("%.2f", precioOriginal),
-                    String.format("%.2f", precioMaximo),
-                    false
+                    numeroControl, // Columna 0: Número de Control (oculta)
+                    evento, // Columna 1: Evento
+                    String.valueOf(asiento), // Columna 2: Asiento
+                    fecha, // Columna 3: Fecha del Evento
+                    recinto, // Columna 4: Recinto
+                    String.format("%.2f", precioOriginal), // Columna 5: Precio Original
+                    String.format("%.2f", precioMaximo), // Columna 6: Precio Máximo
+                    false // Columna 7: Checkbox de Selección
                 };
                 modeloTabla.addRow(fila);
             }
@@ -164,9 +173,8 @@ public class TablaVenderBoletos extends JInternalFrame {
         }
     }
 
-    // Agregar esta clase interna para el editor personalizado
+    // Editor para JDateChooser en la ventana emergente (para la columna "Fecha Límite")
     private class DateChooserCellEditor extends AbstractCellEditor implements TableCellEditor {
-
         private JDateChooser dateChooser;
 
         public DateChooserCellEditor() {
@@ -175,7 +183,7 @@ public class TablaVenderBoletos extends JInternalFrame {
 
         @Override
         public Component getTableCellEditorComponent(JTable table, Object value,
-                boolean isSelected, int row, int column) {
+                                                      boolean isSelected, int row, int column) {
             if (value instanceof Date) {
                 dateChooser.setDate((Date) value);
             } else {
@@ -190,9 +198,8 @@ public class TablaVenderBoletos extends JInternalFrame {
         }
     }
 
-    // Agregar esta clase interna para el renderer personalizado
+    // Renderer para JDateChooser en la ventana emergente (para la columna "Fecha Límite")
     private class DateChooserCellRenderer extends DefaultTableCellRenderer {
-
         private JDateChooser dateChooser;
 
         public DateChooserCellRenderer() {
@@ -201,7 +208,7 @@ public class TablaVenderBoletos extends JInternalFrame {
 
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value,
-                boolean isSelected, boolean hasFocus, int row, int column) {
+                                                      boolean isSelected, boolean hasFocus, int row, int column) {
             if (value instanceof Date) {
                 dateChooser.setDate((Date) value);
                 return dateChooser;
@@ -210,67 +217,47 @@ public class TablaVenderBoletos extends JInternalFrame {
         }
     }
 
+    // Ventana emergente para confirmar la venta de los boletos seleccionados
     private void mostrarVentanaEmergente() {
         JDialog dialog = new JDialog(SwingUtilities.getWindowAncestor(this), "Boletos Seleccionados", Dialog.ModalityType.APPLICATION_MODAL);
         dialog.setSize(900, 400);
         dialog.setLayout(new BorderLayout());
-
-        // Centrar la ventana en la pantalla
         dialog.setLocationRelativeTo(null);
 
-        // Modelo de la tabla para la ventana emergente
+        // Modelo para la ventana emergente: se copian solo las filas seleccionadas
         DefaultTableModel modeloSeleccion = new DefaultTableModel(new Object[][]{}, new String[]{
-            "Evento", "Asiento", "Fecha", "Recinto", "Precio Original", "Precio Máximo",
-            "Nuevo Precio Máximo", "Fecha Límite", "Confirmar Venta"
+            "Número de Control", "Evento", "Asiento", "Fecha", "Recinto", "Precio Original", "Precio Máximo", "Nuevo Precio Máximo", "Fecha Límite"
         }) {
             @Override
-            public Class<?> getColumnClass(int columnIndex) {
-                if (columnIndex == 8) { // Confirmar Venta
-                    return Boolean.class;
-                }
-                return Object.class;
-            }
-
-            @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 6 || column == 7 || column == 8;
+                return column == 7 || column == 8;
             }
         };
 
-        // Cargar datos seleccionados en el nuevo modelo
-        boletosSeleccionados.forEach(index -> {
+        // Copiar solo las filas seleccionadas (usando los índices guardados en boletosSeleccionados)
+        for (Integer index : boletosSeleccionados) {
             Object[] fila = new Object[9];
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < modeloTabla.getColumnCount(); i++) {
                 fila[i] = modeloTabla.getValueAt(index, i);
             }
-
-            float precioOriginal = Float.parseFloat((String) modeloTabla.getValueAt(index, 4));
-            float precioMaximo = precioOriginal + (precioOriginal * 0.03f);
-            fila[5] = String.format("%.2f", precioMaximo);
-
-            fila[6] = ""; // Nuevo Precio Máximo
-            fila[7] = null; // Fecha Límite (será manejada por el DateChooser)
-            fila[8] = false; // Confirmar Venta
+            fila[7] = "";      // Nuevo Precio Máximo (a ingresar)
+            fila[8] = null;    // Fecha Límite (a seleccionar con JDateChooser)
             modeloSeleccion.addRow(fila);
-        });
+        }
 
-        // Crear la tabla con el nuevo modelo
         JTable tablaSeleccion = new JTable(modeloSeleccion);
+        // Configurar editor y renderer para la columna "Fecha Límite" (índice 8)
+        tablaSeleccion.getColumnModel().getColumn(8).setCellEditor(new DateChooserCellEditor());
+        tablaSeleccion.getColumnModel().getColumn(8).setCellRenderer(new DateChooserCellRenderer());
 
-        // Configurar el editor y renderer personalizado para la columna de fecha
-        tablaSeleccion.getColumnModel().getColumn(7).setCellEditor(new DateChooserCellEditor());
-        tablaSeleccion.getColumnModel().getColumn(7).setCellRenderer(new DateChooserCellRenderer());
-
-        // Centrar el texto en las columnas (excepto la de fecha y checkbox)
         DefaultTableCellRenderer centrarTexto = new DefaultTableCellRenderer();
         centrarTexto.setHorizontalAlignment(SwingConstants.CENTER);
         for (int i = 0; i < tablaSeleccion.getColumnCount(); i++) {
-            if (i != 7 && i != 8) {
+            if (i != 8) {
                 tablaSeleccion.getColumnModel().getColumn(i).setCellRenderer(centrarTexto);
             }
         }
 
-        // Ajustes de la tabla emergente
         tablaSeleccion.getTableHeader().setReorderingAllowed(false);
         tablaSeleccion.setShowGrid(true);
         tablaSeleccion.setGridColor(new java.awt.Color(200, 200, 200));
@@ -279,23 +266,39 @@ public class TablaVenderBoletos extends JInternalFrame {
         tablaSeleccion.setForeground(new java.awt.Color(0, 0, 0));
         tablaSeleccion.setFillsViewportHeight(true);
 
-        // Añadir la tabla al dialogo
         JScrollPane scrollPane = new JScrollPane(tablaSeleccion);
         scrollPane.getViewport().setBackground(new java.awt.Color(255, 255, 255));
         scrollPane.setBorder(null);
         dialog.add(scrollPane, BorderLayout.CENTER);
 
-        // Botón Confirmar Venta
+        // Botón Confirmar Venta con validaciones
         JButton btnConfirmarVenta = new JButton("Confirmar Venta");
-        btnConfirmarVenta.addActionListener(e -> {
+        btnConfirmarVenta.addActionListener((ActionEvent e) -> {
+            // Forzar que se detenga la edición en curso, para que se guarden los valores de la celda
+            if (tablaSeleccion.isEditing()) {
+                tablaSeleccion.getCellEditor().stopCellEditing();
+            }
+            
             boolean datosValidos = true;
+            Date hoy = new Date();
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+            Integer usuarioActualCodigo = SesionDTO.getInstancia().getUsuarioActual().getCodigoUsuario();
+            List<String> boletosSeleccionadosList = new LinkedList<>();
 
             for (int i = 0; i < modeloSeleccion.getRowCount(); i++) {
-                // Validar que el nuevo precio máximo sea un float válido
-                String nuevoPrecioMaximoStr = (String) modeloSeleccion.getValueAt(i, 6);
+                // Validar "Nuevo Precio Máximo" (columna 7)
+                String nuevoPrecioMaximoStr = (String) modeloSeleccion.getValueAt(i, 7);
                 try {
                     if (nuevoPrecioMaximoStr.isEmpty() || Float.parseFloat(nuevoPrecioMaximoStr) <= 0) {
                         JOptionPane.showMessageDialog(dialog, "Nuevo Precio Máximo inválido en la fila " + (i + 1));
+                        datosValidos = false;
+                        break;
+                    }
+                    float nuevoPrecioMaximo = Float.parseFloat(nuevoPrecioMaximoStr);
+                    float precioOriginal = Float.parseFloat((String) modeloSeleccion.getValueAt(i, 5));
+                    float precioMaximoPermitido = precioOriginal * 1.03f;
+                    if (nuevoPrecioMaximo > precioMaximoPermitido) {
+                        JOptionPane.showMessageDialog(dialog, "El Nuevo Precio Máximo no puede exceder el 103% del Precio Original en la fila " + (i + 1));
                         datosValidos = false;
                         break;
                     }
@@ -305,30 +308,49 @@ public class TablaVenderBoletos extends JInternalFrame {
                     break;
                 }
 
-                // Validar que la fecha límite no sea nula
-                Date fechaLimite = (Date) modeloSeleccion.getValueAt(i, 7);
+                // Validar "Fecha Límite" (columna 8)
+                String fechaLimiteStr = "";
+                Date fechaLimite = (Date) modeloSeleccion.getValueAt(i, 8);
+                if (fechaLimite != null) {
+                    fechaLimiteStr = formato.format(fechaLimite);
+                } else {
+                    System.out.println("La Fecha Límite es null en la fila " + (i + 1));
+                }
+                
+                Date fechaEvento = (Date) modeloSeleccion.getValueAt(i, 3);
                 if (fechaLimite == null) {
-                    JOptionPane.showMessageDialog(dialog, "Debe seleccionar una fecha límite en la fila " + (i + 1));
+                    JOptionPane.showMessageDialog(dialog, "Debe seleccionar una Fecha Límite en la fila " + (i + 1));
+                    datosValidos = false;
+                    break;
+                }
+                if (fechaLimite.before(hoy)) {
+                    JOptionPane.showMessageDialog(dialog, "La Fecha Límite no puede ser antes de hoy en la fila " + (i + 1));
+                    datosValidos = false;
+                    break;
+                }
+                if (fechaLimite.after(fechaEvento)) {
+                    JOptionPane.showMessageDialog(dialog, "La Fecha Límite no puede ser después de la Fecha del Evento en la fila " + (i + 1));
                     datosValidos = false;
                     break;
                 }
 
-                // Validar que el checkbox de confirmar venta esté marcado
-                Boolean confirmarVenta = (Boolean) modeloSeleccion.getValueAt(i, 8);
-                if (confirmarVenta == null || !confirmarVenta) {
-                    JOptionPane.showMessageDialog(dialog, "Debe confirmar la venta en la fila " + (i + 1));
-                    datosValidos = false;
-                    break;
-                }
+                // Usar el "Número de Control" (columna 0) como identificador
+                String numeroControl = (String) modeloSeleccion.getValueAt(i, 0);
+                boletosSeleccionadosList.add(numeroControl);
+
+                // Crear el DTO con estado Disponible
+                ActualizarBoletoDTO actualizarBoletoDTO = new ActualizarBoletoDTO(numeroControl, usuarioActualCodigo, ActualizarBoletoDTO.Estado.Disponible);
+                this.controlVenderBoletos.actualizarBoleto(actualizarBoletoDTO);
             }
 
             if (datosValidos) {
+                this.controlVenderBoletos.procesarVentaBoletos(manejadorConexiones, usuarioActualCodigo, boletosSeleccionadosList);
                 JOptionPane.showMessageDialog(dialog, "¡Venta confirmada!");
                 dialog.dispose();
+                System.out.println("Boletos puestos a la venta: " + boletosSeleccionadosList);
             }
         });
 
-        // Panel para el botón
         JPanel panelBoton = new JPanel();
         panelBoton.add(btnConfirmarVenta);
         dialog.add(panelBoton, BorderLayout.SOUTH);
@@ -336,10 +358,11 @@ public class TablaVenderBoletos extends JInternalFrame {
         dialog.setVisible(true);
     }
 
+    // Método para obtener los índices de las filas seleccionadas en la tabla principal (columna "Seleccionar" índice 7)
     private void confirmarSeleccion() {
         boletosSeleccionados.clear();
         for (int i = 0; i < modeloTabla.getRowCount(); i++) {
-            if (Boolean.TRUE.equals(modeloTabla.getValueAt(i, 6))) {
+            if (Boolean.TRUE.equals(modeloTabla.getValueAt(i, 7))) {
                 boletosSeleccionados.add(i);
             }
         }

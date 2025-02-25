@@ -6,6 +6,7 @@ package itson.presentacion;
 
 import itson.control.ControlComprarBoleto;
 import itson.control.ControlIniciarSesion;
+import itson.control.ControlVenderBoletos;
 
 /**
  *
@@ -16,13 +17,12 @@ public class VenderBoletos extends javax.swing.JFrame {
     /**
      * Creates new form VenderBoletos
      */
-    private final ControlIniciarSesion controlInicio;
-    private final ControlComprarBoleto controlActualizar;
+   
+    private final ControlVenderBoletos controlVenderBoletos;
 
-    public VenderBoletos(ControlIniciarSesion controlInicio, ControlComprarBoleto controlActualizar) {
+    public VenderBoletos(ControlVenderBoletos controlVenderBoletos) {
         initComponents();
-        this.controlInicio = controlInicio;
-        this.controlActualizar = controlActualizar;
+        this.controlVenderBoletos = controlVenderBoletos;
 
         // Quitar el borde del JDesktopPane y poner fondo blanco
         campoTabla.setBorder(null);
@@ -30,7 +30,7 @@ public class VenderBoletos extends javax.swing.JFrame {
         campoTabla.setBackground(new java.awt.Color(255, 255, 255));
         
         // Crear la instancia de TablaVenderBoletos
-        TablaVenderBoletos tablaVenderBoletos = new TablaVenderBoletos();
+        TablaVenderBoletos tablaVenderBoletos = new TablaVenderBoletos(controlVenderBoletos);
 
         // Deshabilitar todas las opciones de redimensionamiento y movimiento
         tablaVenderBoletos.setClosable(false);  // No se puede cerrar
