@@ -138,6 +138,19 @@ SELECT numeroControl as Id, ev.fechaHora as 'Fecha', ev.nombre as 'Evento', conc
         }
     }
 
+//    
+    public void venderBoletos(Connection conn, int codigoUsuario, List<String> listaBoletos) throws SQLException {
+        String call = "{call venderBoleto(?, ?)}";
+        try (CallableStatement cs = conn.prepareCall(call)) {
+            for (String numeroControl : listaBoletos) {
+                cs.setString(1, numeroControl);
+                cs.setInt(2, codigoUsuario); // Asegúrate de usar setInt aquí
+                cs.executeUpdate();
+            }
+        }
+    }
+
+    
     public List<NuevoBoletoEventoDTO> consultarMisBoletos() {
         int usuarioActual = this.usuarioActual.getCodigoUsuario();
         String codigoSQL = """
