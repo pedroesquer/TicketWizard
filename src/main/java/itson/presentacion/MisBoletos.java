@@ -25,16 +25,17 @@ public class MisBoletos extends javax.swing.JFrame {
 
     public MisBoletos() {
         initComponents();
-        mostrarDatosUsuario();
         this.llenarTablaBoletos();
     }
 
+     /**
+     * Método que funciona para llenar 
+     */
     private void llenarTablaBoletos() {
         BoletosDAO boletosDAO = new BoletosDAO(manejadorConexiones);
 
         List<NuevoBoletoEventoDTO> listaBoletos = boletosDAO.consultarMisBoletos();
         DefaultTableModel modelo = (DefaultTableModel) this.tablaBoletos.getModel();
-        //Por cada artista devuelto por la clase control lo agregamos a la JTable
         for (NuevoBoletoEventoDTO boleto : listaBoletos) {
             Object[] fillTable = {
                 boleto.getNumeroControl(),
@@ -62,8 +63,9 @@ public class MisBoletos extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaBoletos = new javax.swing.JTable();
-        lblUsuario = new javax.swing.JLabel();
-        lblSaldo = new javax.swing.JLabel();
+        lblHome = new javax.swing.JLabel();
+        iconLabel = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -98,35 +100,48 @@ public class MisBoletos extends javax.swing.JFrame {
             tablaBoletos.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        lblUsuario.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        lblUsuario.setText("Bienvenido:");
+        lblHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/homeIcon.png"))); // NOI18N
+        lblHome.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblHomeMouseClicked(evt);
+            }
+        });
 
-        lblSaldo.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        lblSaldo.setText("Saldo:");
+        iconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/smallerIcon.png"))); // NOI18N
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        jLabel1.setText("Mis Boletos");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(183, 183, 183)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(125, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 575, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(100, 100, 100))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(65, 65, 65)
+                .addComponent(lblHome)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(134, 134, 134)
+                .addComponent(iconLabel)
+                .addGap(54, 54, 54))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(lblUsuario)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblSaldo)
-                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(iconLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1)
+                            .addComponent(lblHome))))
+                .addGap(10, 10, 10)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(110, Short.MAX_VALUE))
         );
@@ -149,18 +164,18 @@ public class MisBoletos extends javax.swing.JFrame {
         // TODO add your handling code here:
 
     }//GEN-LAST:event_formWindowClosing
-    private void mostrarDatosUsuario() {
-        Usuario usuarioActual = SesionDTO.getInstancia().getUsuarioActual();
-        if (usuarioActual != null) {
-            lblUsuario.setText("Bienvenido, " + usuarioActual.getNombre());
-            lblSaldo.setText("Saldo: $" + usuarioActual.getSaldo());
-        }
-    }
+
+    private void lblHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHomeMouseClicked
+        this.dispose();
+    }//GEN-LAST:event_lblHomeMouseClicked
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel iconLabel;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblSaldo;
-    private javax.swing.JLabel lblUsuario;
+    private javax.swing.JLabel lblHome;
     private javax.swing.JTable tablaBoletos;
     // End of variables declaration//GEN-END:variables
 }

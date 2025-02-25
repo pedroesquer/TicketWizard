@@ -46,7 +46,6 @@ public class ComprarBoletos extends javax.swing.JFrame implements Observer{
     public ComprarBoletos(ControlComprarBoleto controlActualizar) {
         initComponents();
         inicializarComponentesPersonalizados();
-        mostrarDatosUsuario();
         this.controlActualizar = controlActualizar;
 
         setSize(800, 500);
@@ -75,14 +74,7 @@ public class ComprarBoletos extends javax.swing.JFrame implements Observer{
     /**
      * Inicializa componentes personalizados sin modificar initComponents()
      */
-    // Para obtener datos del usuario actual
-    private void mostrarDatosUsuario() {
-        Usuario usuarioActual = SesionDTO.getInstancia().getUsuarioActual();
-        if (usuarioActual != null) {
-            lblUsuario.setText("Bienvenido, " + usuarioActual.getNombre());
-            lblSaldo.setText("Saldo: $" + usuarioActual.getSaldo());
-        }
-    }
+
 
     private void inicializarComponentesPersonalizados() {
         // Panel principal para mantener el layout personalizado
@@ -172,7 +164,9 @@ public class ComprarBoletos extends javax.swing.JFrame implements Observer{
         });
 
     }
-
+    /**
+     * 
+     */
     private void llenarTablaBoletos() {
         BoletosDAO boletosDAO = new BoletosDAO(manejadorConexiones);
 
@@ -203,6 +197,10 @@ public class ComprarBoletos extends javax.swing.JFrame implements Observer{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        iconLabel = new javax.swing.JLabel();
+        lblHome = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setName("comprarBoletoFrame"); // NOI18N
         setSize(new java.awt.Dimension(800, 500));
@@ -212,15 +210,41 @@ public class ComprarBoletos extends javax.swing.JFrame implements Observer{
             }
         });
 
+        iconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/smallerIcon.png"))); // NOI18N
+
+        lblHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/homeIcon.png"))); // NOI18N
+        lblHome.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblHomeMouseClicked(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        jLabel1.setText("Comprar Boletos");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(lblHome)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(153, 153, 153)
+                .addComponent(iconLabel))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(iconLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 385, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addComponent(lblHome))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -230,6 +254,13 @@ public class ComprarBoletos extends javax.swing.JFrame implements Observer{
 
     }//GEN-LAST:event_formWindowClosing
 
+    private void lblHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHomeMouseClicked
+        this.dispose();
+    }//GEN-LAST:event_lblHomeMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel iconLabel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblHome;
     // End of variables declaration//GEN-END:variables
 }
