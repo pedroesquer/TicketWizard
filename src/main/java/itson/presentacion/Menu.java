@@ -4,6 +4,7 @@
  */
 package itson.presentacion;
 
+import itson.control.ControlActualizarPerfil;
 import itson.control.ControlComprarBoleto;
 import itson.control.ControlIniciarSesion;
 import itson.control.ControlRegistrarDeposito;
@@ -33,6 +34,7 @@ public class Menu extends javax.swing.JFrame implements Observer {
     ControlComprarBoleto controlActualizar = new ControlComprarBoleto(boletosDAO);
     ControlRegistrarDeposito controlDeposito = new ControlRegistrarDeposito(depositosDAO);
     ControlVenderBoletos controlVenderBoletos = new ControlVenderBoletos(boletosDAO);
+    ControlActualizarPerfil controlActualizarPerfil = new ControlActualizarPerfil(usuariosDAO);
 
     public Menu() {
         initComponents();
@@ -330,7 +332,7 @@ public class Menu extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_botonAgregarSaldoActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        // TODO add your handling code here:
+        this.controlActualizarPerfil.inciarFlujo();
     }//GEN-LAST:event_btnActualizarActionPerformed
 
 
