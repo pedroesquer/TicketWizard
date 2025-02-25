@@ -1,35 +1,43 @@
 package itson.entidades;
 
+import java.util.Date;
 import java.util.Objects;
 
 /**
- *
- * @author Juan Pablo Heras, Ari Montoya & Pedro Morales
+ * Clase que representa un Boleto en el sistema.
+ * Incluye información sobre el asiento, precio, estado, usuario y evento.
  */
 public class Boleto {
     
-    private String numeroControl; //Numero interno de control
-    private Integer numeroAsiento; //Numero de asiento
-    private String fila; //numero de fila
-    private String numeroSerie; //Numero de serie el cual es generado cada que el boleto se cambia de usuario
-    private float precioOriginal; //Precio del boleto desde la boletera
-    private String estado; //Disponibilidad del boleto
-    private Integer codigoUsuario; //codigo de usuario al cual le pertenece el boleto
-    private Integer codigoEvento; //codigo al cual Evento le pertenece el boleto
+    public enum Estado {
+        Disponible, Vendido, PendienteDePago;
+        
+        public static Estado fromString(String estadoStr) {
+            switch (estadoStr) {
+                case "Disponible":
+                    return Disponible;
+                case "Vendido":
+                    return Vendido;
+                case "Pendiente de pago":
+                    return PendienteDePago;
+                default:
+                    throw new IllegalArgumentException("Estado desconocido: " + estadoStr);
+            }
+        }
+    }
+    
+    private String numeroControl;
+    private Integer numeroAsiento;
+    private String fila;
+    private String numeroSerie;
+    private float precioOriginal;
+    private Estado estado; // Ahora es enum
+    private Integer codigoUsuario;
+    private Integer codigoEvento;
+    private float precioActual;
+    private Date fechaLimite;
 
-    
-    
-    /**
-     * Constructor el cual recibe todos los atributos.
-     * @param numeroControl Numero interno del control.
-     * @param numeroAsiento El numero de asiento que ira acompañado del atributo fila.
-     * @param numeroSerie = El número de serie de cada boleto.
-     * @param fila Numero de fila donde se ubica el asiento.
-     * @param precioOriginal Precio al cual se adquirió el boleto desde la boletera directa.
-     * @param estado    Disponible, Vendido o Pendiente de pago.
-     * @param codigoEvento El evento al cual pertenece el boleto. 
-     */
-    public Boleto(String numeroControl, Integer numeroAsiento, String fila, String numeroSerie, float precioOriginal, String estado, Integer codigoUsuario, Integer codigoEvento) {
+    public Boleto(String numeroControl, Integer numeroAsiento, String fila, String numeroSerie, float precioOriginal, Estado estado, Integer codigoUsuario, Integer codigoEvento) {
         this.numeroControl = numeroControl;
         this.numeroAsiento = numeroAsiento;
         this.fila = fila;
@@ -40,41 +48,19 @@ public class Boleto {
         this.codigoEvento = codigoEvento;
     }
 
-    
-    /**
-     * Constructor el cual recibe todos los atributos menos los que dependen de que el boleto lo tenga un usuario.
-     * @param numeroControl Numero interno del control.
-     * @param numeroAsiento El numero de asiento que ira acompañado del atributo fila.
-     * @param fila Numero de fila donde se ubica el asiento.
-     * @param precioOriginal Precio al cual se adquirió el boleto desde la boletera directa.
-     * @param estado    Disponible, Vendido o Pendiente de pago.
-     * @param codigoEvento El evento al cual pertenece el boleto. 
-     */
-    public Boleto(String numeroControl, Integer numeroAsiento, String fila, float precioOriginal, String estado, Integer codigoEvento) {
+    public Boleto(String numeroControl, Estado estado, float precioActual, Date fechaLimite) {
         this.numeroControl = numeroControl;
-        this.numeroAsiento = numeroAsiento;
-        this.fila = fila;
-        this.precioOriginal = precioOriginal;
         this.estado = estado;
-        this.codigoEvento = codigoEvento;
+        this.precioActual = precioActual;
+        this.fechaLimite = fechaLimite;
     }
-    
-    
-    /**
-     * Constructor que recibe todos los atributos excepto el numeroControl, el codigoUsuario y el numeroSerie
-     * @param numeroAsiento  El numero de asiento que ira acompañado del atributo fila.
-     * @param fila Numero de fila donde se ubica el asiento.
-     * @param precioOriginal  Precio al cual se adquirió el boleto desde la boletera directa.
-     * @param estado Disponible, Vendido o Pendiente de pago.
-     * @param codigoEvento El evento al cual pertenece el boleto. 
-     */
-    
-    public Boleto(Integer numeroAsiento, String fila, float precioOriginal, String estado, Integer codigoEvento) {
-        this.numeroAsiento = numeroAsiento;
-        this.fila = fila;
-        this.precioOriginal = precioOriginal;
+
+    public Estado getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Estado estado) {
         this.estado = estado;
-        this.codigoEvento = codigoEvento;
     }
 
     public String getNumeroControl() {
@@ -117,14 +103,6 @@ public class Boleto {
         this.precioOriginal = precioOriginal;
     }
 
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
     public Integer getCodigoUsuario() {
         return codigoUsuario;
     }
@@ -141,67 +119,60 @@ public class Boleto {
         this.codigoEvento = codigoEvento;
     }
 
+    public float getPrecioActual() {
+        return precioActual;
+    }
+
+    public void setPrecioActual(float precioActual) {
+        this.precioActual = precioActual;
+    }
+
+    public Date getFechaLimite() {
+        return fechaLimite;
+    }
+
+    public void setFechaLimite(Date fechaLimite) {
+        this.fechaLimite = fechaLimite;
+    }
+    
+    
+    
+
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 17 * hash + Objects.hashCode(this.numeroControl);
-        hash = 17 * hash + Objects.hashCode(this.numeroAsiento);
-        hash = 17 * hash + Objects.hashCode(this.fila);
-        hash = 17 * hash + Objects.hashCode(this.numeroSerie);
-        hash = 17 * hash + Float.floatToIntBits(this.precioOriginal);
-        hash = 17 * hash + Objects.hashCode(this.estado);
-        hash = 17 * hash + Objects.hashCode(this.codigoUsuario);
-        hash = 17 * hash + Objects.hashCode(this.codigoEvento);
-        return hash;
+        return Objects.hash(numeroControl, numeroAsiento, fila, numeroSerie, precioOriginal, estado, codigoUsuario, codigoEvento, precioActual, fechaLimite);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Boleto other = (Boleto) obj;
-        if (Float.floatToIntBits(this.precioOriginal) != Float.floatToIntBits(other.precioOriginal)) {
-            return false;
-        }
-        if (!Objects.equals(this.numeroControl, other.numeroControl)) {
-            return false;
-        }
-        if (!Objects.equals(this.fila, other.fila)) {
-            return false;
-        }
-        if (!Objects.equals(this.numeroSerie, other.numeroSerie)) {
-            return false;
-        }
-        if (!Objects.equals(this.estado, other.estado)) {
-            return false;
-        }
-        if (!Objects.equals(this.numeroAsiento, other.numeroAsiento)) {
-            return false;
-        }
-        if (!Objects.equals(this.codigoUsuario, other.codigoUsuario)) {
-            return false;
-        }
-        return Objects.equals(this.codigoEvento, other.codigoEvento);
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Boleto other = (Boleto) obj;
+        return Float.compare(other.precioOriginal, precioOriginal) == 0 &&
+                Float.compare(other.precioActual, precioActual) == 0 &&
+                Objects.equals(numeroControl, other.numeroControl) &&
+                Objects.equals(numeroAsiento, other.numeroAsiento) &&
+                Objects.equals(fila, other.fila) &&
+                Objects.equals(numeroSerie, other.numeroSerie) &&
+                estado == other.estado &&
+                Objects.equals(codigoUsuario, other.codigoUsuario) &&
+                Objects.equals(codigoEvento, other.codigoEvento) &&
+                Objects.equals(fechaLimite, other.fechaLimite);
     }
 
     @Override
     public String toString() {
-        return "Boleto{" + "numeroControl=" + numeroControl + ", numeroAsiento=" + numeroAsiento + ", fila=" + fila + ", numeroSerie=" + numeroSerie + ", precioOriginal=" + precioOriginal + ", estado=" + estado + ", codigoUsuario=" + codigoUsuario + ", codigoEvento=" + codigoEvento + '}';
+        return "Boleto{" +
+                "numeroControl='" + numeroControl + '\'' +
+                ", numeroAsiento=" + numeroAsiento +
+                ", fila='" + fila + '\'' +
+                ", numeroSerie='" + numeroSerie + '\'' +
+                ", precioOriginal=" + precioOriginal +
+                ", estado=" + estado +
+                ", codigoUsuario=" + codigoUsuario +
+                ", codigoEvento=" + codigoEvento +
+                ", precioActual=" + precioActual +
+                ", fechaLimite=" + fechaLimite +
+                '}';
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }

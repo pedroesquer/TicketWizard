@@ -1,13 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package itson.control;
 
 import itson.entidades.Boleto;
 import itson.persistencia.BoletosDAO;
 import itson.persistencia.ManejadorConexiones;
-import itson.presentacion.ComprarBoletos;
 import itson.presentacion.VenderBoletos;
 import itson.usuariosDTOs.ActualizarBoletoDTO;
 import java.sql.Connection;
@@ -24,9 +19,8 @@ public class ControlVenderBoletos {
 
     public ControlVenderBoletos(BoletosDAO boletosDAO) {
         this.boletosDAO = boletosDAO;
-        
     }
-    
+
     public void iniciarCasoUso(){
         if (this.formVenderBoletos == null ){
             this.formVenderBoletos = new VenderBoletos(this);
@@ -34,30 +28,32 @@ public class ControlVenderBoletos {
         this.formVenderBoletos.setVisible(true);
         this.formVenderBoletos.setLocationRelativeTo(null);
     }
-    
+
     public void mostrarBoletos() {
         this.formVenderBoletos = new VenderBoletos(this);
     }
-    
+
     public void actualizarBoleto(ActualizarBoletoDTO actualizarBoletoDTO) {
         Boleto boleto = this.boletosDAO.actualizarBoleto(actualizarBoletoDTO);
         this.mostrarBoletos();
     }
 
+    public void actualizarBoletoVenta(ActualizarBoletoDTO actualizarBoletoDTO) {
+        // Se corrige para llamar al método correcto en BoletosDAO
+        this.boletosDAO.actualizarBoletoVenta(actualizarBoletoDTO);
+        this.mostrarBoletos();
+    }
 
     public List<Boleto> consultarListaBoletos() {
         return this.boletosDAO.consultarBoletos();
     }
-    
-    public void procesarVentaBoletos(ManejadorConexiones manejadorConexiones, int codigoUsuario, List<String> listaBoletos) {
+
+    public void procesarVentaBoletos(ManejadorConexiones manejadorConexiones, int codigoUsuario, List<ActualizarBoletoDTO> listaBoletosDTO) {
         try (Connection conn = manejadorConexiones.crearConexion()) {
-            boletosDAO.venderBoletos(conn, codigoUsuario, listaBoletos);
+            // Se pasa la lista de DTO al método venderBoletos en BoletosDAO
+            boletosDAO.venderBoletos(conn, codigoUsuario, listaBoletosDTO);
         } catch (SQLException e) {
-            e.getMessage();
+            System.err.println("Error procesando venta de boletos: " + e.getMessage());
         }
     }
-    
-    
-    
-    
 }

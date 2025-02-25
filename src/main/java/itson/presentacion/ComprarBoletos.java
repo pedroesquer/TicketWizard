@@ -53,6 +53,7 @@ public class ComprarBoletos extends javax.swing.JFrame implements Observer{
         setResizable(true);
         setLocationRelativeTo(null);
         setVisible(true);
+        actualizar();
 
     }
     

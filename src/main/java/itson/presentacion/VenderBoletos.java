@@ -7,12 +7,15 @@ package itson.presentacion;
 import itson.control.ControlComprarBoleto;
 import itson.control.ControlIniciarSesion;
 import itson.control.ControlVenderBoletos;
+import itson.entidades.Usuario;
+import itson.usuariosDTOs.SesionDTO;
+import observador.Observer;
 
 /**
  *
  * @author rauln
  */
-public class VenderBoletos extends javax.swing.JFrame {
+public class VenderBoletos extends javax.swing.JFrame implements Observer {
 
     /**
      * Creates new form VenderBoletos
@@ -50,8 +53,22 @@ public class VenderBoletos extends javax.swing.JFrame {
         tablaVenderBoletos.setVisible(true);
 
         // Actualizar el panel
+        actualizar();
         campoTabla.revalidate();
         campoTabla.repaint();
+    }
+    
+    @Override
+    public void actualizar() {
+        actualizarLabels();
+    }
+
+    private void actualizarLabels() {
+        Usuario usuario = SesionDTO.getInstancia().getUsuarioActual();
+        if (usuario != null) {
+            nombreLabel.setText("Hola! "+usuario.getNombre());
+
+        }
     }
 
     /**
@@ -69,6 +86,10 @@ public class VenderBoletos extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         campoTabla = new javax.swing.JDesktopPane();
         nombreLabel = new javax.swing.JLabel();
+        nombreLabel1 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        nombreLabel2 = new javax.swing.JLabel();
+        nomrbreLabel = new javax.swing.JLabel();
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/usuarioIcon.png"))); // NOI18N
 
@@ -100,6 +121,16 @@ public class VenderBoletos extends javax.swing.JFrame {
         );
 
         nombreLabel.setFont(new java.awt.Font("Segoe UI Black", 0, 36)); // NOI18N
+        nombreLabel.setText("Hola!");
+
+        nombreLabel1.setFont(new java.awt.Font("Segoe UI Black", 0, 36)); // NOI18N
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
+        jLabel1.setText("Vende tus boletos aqui!");
+
+        nombreLabel2.setFont(new java.awt.Font("Segoe UI Black", 0, 36)); // NOI18N
+
+        nomrbreLabel.setFont(new java.awt.Font("Segoe UI Black", 0, 36)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -113,7 +144,16 @@ public class VenderBoletos extends javax.swing.JFrame {
                 .addGap(104, 104, 104)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nombreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(nombreLabel)
+                        .addGap(89, 89, 89)
+                        .addComponent(nombreLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nombreLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(nomrbreLabel))
+                    .addComponent(jLabel1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -122,8 +162,16 @@ public class VenderBoletos extends javax.swing.JFrame {
                 .addGap(42, 42, 42)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(nombreLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(nombreLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(nombreLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(nombreLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(nomrbreLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(campoTabla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
         );
@@ -149,10 +197,14 @@ public class VenderBoletos extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane campoTabla;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel nombreLabel;
+    private javax.swing.JLabel nombreLabel1;
+    private javax.swing.JLabel nombreLabel2;
+    private javax.swing.JLabel nomrbreLabel;
     // End of variables declaration//GEN-END:variables
 }

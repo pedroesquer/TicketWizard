@@ -57,16 +57,16 @@ public class BoletosDAO {
 
     public List<Boleto> consultarBoletos() {
         String codigoSQL = """
-                           SELECT numeroControl, 
-                           asiento, 
-                           fila, 
-                           numeroSerie, 
-                           precioOriginal, 
-                           estado, 
-                           codigoUsuario, 
-                           codigoEvento 
-                           FROM BOLETOS;
-                           """;
+                       SELECT numeroControl, 
+                              asiento, 
+                              fila, 
+                              numeroSerie, 
+                              precioOriginal, 
+                              estado, 
+                              codigoUsuario, 
+                              codigoEvento 
+                       FROM BOLETOS;
+                       """;
         List<Boleto> ListaBoletos = new LinkedList<>();
         try {
             Connection conexion = this.manejadorConexiones.crearConexion();
@@ -77,18 +77,18 @@ public class BoletosDAO {
                 String numeroControl = resultadosConsulta.getString("numeroControl");
                 int asiento = resultadosConsulta.getInt("asiento");
                 String fila = resultadosConsulta.getString("fila");
-                String numeroSerie = resultadosConsulta.getString("numeroSerie");;
+                String numeroSerie = resultadosConsulta.getString("numeroSerie");
                 float precioOriginal = resultadosConsulta.getFloat("precioOriginal");
-                String estado = resultadosConsulta.getString("estado");
+                String estadoStr = resultadosConsulta.getString("estado");
+                Boleto.Estado estado = Boleto.Estado.fromString(estadoStr); // Convertir a enum
                 int codigoUsuario = resultadosConsulta.getInt("codigoUsuario");
                 int codigoEvento = resultadosConsulta.getInt("codigoEvento");
+
                 Boleto boleto = new Boleto(numeroControl, asiento, fila, numeroSerie, precioOriginal, estado, codigoUsuario, codigoEvento);
                 ListaBoletos.add(boleto);
-
             }
         } catch (SQLException ex) {
             System.err.println("Error al consultar los boletos: " + ex.getMessage());
-
         }
         return ListaBoletos;
     }
@@ -138,19 +138,25 @@ SELECT numeroControl as Id, ev.fechaHora as 'Fecha', ev.nombre as 'Evento', conc
         }
     }
 
-//    
-    public void venderBoletos(Connection conn, int codigoUsuario, List<String> listaBoletos) throws SQLException {
-        String call = "{call venderBoleto(?, ?)}";
+    public void venderBoletos(Connection conn, int codigoUsuario, List<ActualizarBoletoDTO> listaBoletosDTO) throws SQLException {
+        String call = "{CALL venderBoleto(?, ?, ?, ?)}"; // Se esperan 4 parámetros
         try (CallableStatement cs = conn.prepareCall(call)) {
-            for (String numeroControl : listaBoletos) {
+            for (ActualizarBoletoDTO boletoDTO : listaBoletosDTO) {
+                String numeroControl = boletoDTO.getNumeroControl(); 
+                float precioActual = boletoDTO.getPrecioActual();
+                java.sql.Date fechaLimiteVenta = new java.sql.Date(boletoDTO.getFechaLimite().getTime());
+
+                // Se envían los 4 parámetros
                 cs.setString(1, numeroControl);
-                cs.setInt(2, codigoUsuario); // Asegúrate de usar setInt aquí
+                cs.setInt(2, codigoUsuario);
+                cs.setFloat(3, precioActual);
+                cs.setDate(4, fechaLimiteVenta);
                 cs.executeUpdate();
             }
         }
     }
 
-    
+
     public List<NuevoBoletoEventoDTO> consultarMisBoletos() {
         int usuarioActual = this.usuarioActual.getCodigoUsuario();
         String codigoSQL = """
@@ -222,7 +228,7 @@ SELECT numeroControl as Id, ev.fechaHora as 'Fecha', ev.nombre as 'Evento', conc
                 String lugar = resultadosConsulta.getString("lugar");
                 String tipoCompra = resultadosConsulta.getString("tipoCompra");
                 String estado = resultadosConsulta.getString("Estado");
-                NuevoBoletoEventoDTO boletoEvento = new NuevoBoletoEventoDTO(numeroControl, asiento, precioActual,fecha, evento, lugar, tipoCompra, estado);
+                NuevoBoletoEventoDTO boletoEvento = new NuevoBoletoEventoDTO(numeroControl, asiento, precioActual, fecha, evento, lugar, tipoCompra, estado);
                 ListaBoletos.add(boletoEvento);
 
             }
@@ -232,4 +238,45 @@ SELECT numeroControl as Id, ev.fechaHora as 'Fecha', ev.nombre as 'Evento', conc
         }
         return ListaBoletos;
     }
+
+    public List<Boleto> actualizarBoletoVenta(ActualizarBoletoDTO boletoDTOActualizado) {
+        String codigoSQL = """
+    UPDATE boletos 
+    SET codigoUsuario = ?, 
+        estado = ?, 
+        precioActual = ?, 
+        fechaLimiteVenta = ? 
+    WHERE numeroControl = ? 
+      AND estado = 'Disponible';
+    """;
+
+        try (Connection conexion = manejadorConexiones.crearConexion(); PreparedStatement comando = conexion.prepareStatement(codigoSQL)) {
+
+            comando.setInt(1, boletoDTOActualizado.getCodigoUsuario());
+            comando.setString(2, boletoDTOActualizado.getEstado().name());
+            comando.setFloat(3, boletoDTOActualizado.getPrecioActual());
+            comando.setDate(4, boletoDTOActualizado.getFechaLimite() != null
+                    ? new java.sql.Date(boletoDTOActualizado.getFechaLimite().getTime()) : null);
+            comando.setString(5, boletoDTOActualizado.getNumeroControl());
+
+            int filasAfectadas = comando.executeUpdate();
+            System.out.println("Se actualizó el boleto, filas afectadas: " + filasAfectadas);
+
+            if (filasAfectadas > 0) {
+                List<Boleto> boletosActualizados = new LinkedList<>();
+                Boleto boletoActualizado = new Boleto(
+                        boletoDTOActualizado.getNumeroControl(),
+                        Boleto.Estado.valueOf(boletoDTOActualizado.getEstado().name()),
+                        boletoDTOActualizado.getPrecioActual(),
+                        boletoDTOActualizado.getFechaLimite()
+                );
+                boletosActualizados.add(boletoActualizado);
+                return boletosActualizados;
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error actualizando boleto para venta: " + ex.getMessage());
+        }
+        return new LinkedList<>(); // Devolver una lista vacía en caso de error
+    }
+
 }
