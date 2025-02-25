@@ -23,12 +23,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import observador.Observer;
 
 /**
  *
  * @author Raul Montoya, Pedro Morales, Juan Heras
  */
-public class ComprarBoletos extends javax.swing.JFrame {
+public class ComprarBoletos extends javax.swing.JFrame implements Observer{
 
     /**
      * Creates new form ComprarBoletos
@@ -54,6 +55,21 @@ public class ComprarBoletos extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
+    }
+    
+        // Método de la interfaz Observer
+    @Override
+    public void actualizar() {
+        actualizarLabels();
+    }
+
+    private void actualizarLabels() {
+        Usuario usuario = SesionDTO.getInstancia().getUsuarioActual();
+        if (usuario != null) {
+            lblSaldo.setText("Saldo: $" + usuario.getSaldo());
+            lblUsuario.setText(usuario.getNombre());
+
+        }
     }
 
     /**
