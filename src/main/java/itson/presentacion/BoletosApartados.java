@@ -6,7 +6,12 @@ package itson.presentacion;
 
 import itson.control.ControlComprarBoleto;
 import itson.control.ControlIniciarSesion;
+import itson.persistencia.BoletosDAO;
+import itson.persistencia.ManejadorConexiones;
+import itson.usuariosDTOs.NuevoBoletoEventoDTO;
 import static java.awt.SystemColor.menu;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,11 +23,33 @@ public class BoletosApartados extends javax.swing.JFrame {
      * Creates new form BoletosApartados
      */
     
-    
+    ManejadorConexiones manejadorConexiones = new ManejadorConexiones();
     public BoletosApartados() {
         initComponents();
+        this.llenarTablaBoletos();
     }
 
+        private void llenarTablaBoletos() {
+        BoletosDAO boletosDAO = new BoletosDAO(manejadorConexiones);
+
+        List<NuevoBoletoEventoDTO> listaBoletos = boletosDAO.consultarBoletosApartados();
+        DefaultTableModel modelo = (DefaultTableModel) this.tablaBoletos.getModel();
+        //Por cada artista devuelto por la clase control lo agregamos a la JTable
+        for (NuevoBoletoEventoDTO boleto : listaBoletos) {
+            Object[] fillTable = {
+                boleto.getNumeroControl(),
+                boleto.getFechaHora(),
+                boleto.getNombreEv(),
+                boleto.getAsiento(),
+                boleto.getPrecioOriginal(),
+                boleto.getLugar(),
+                boleto.getTipoCompra(),
+                boleto.getEstado()
+            };
+            modelo.addRow(fillTable);
+        }
+
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -35,7 +62,9 @@ public class BoletosApartados extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaBoletos = new javax.swing.JTable();
+        iconLabel = new javax.swing.JLabel();
+        lblHome = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -44,44 +73,76 @@ public class BoletosApartados extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         jLabel1.setText("Boletos Apartados");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaBoletos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Número Control", "Fecha", "Evento", "Asiento", "Precio Actual", "Lugar", "Tipo Compra", "Estado"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tablaBoletos);
+        if (tablaBoletos.getColumnModel().getColumnCount() > 0) {
+            tablaBoletos.getColumnModel().getColumn(0).setResizable(false);
+            tablaBoletos.getColumnModel().getColumn(1).setResizable(false);
+            tablaBoletos.getColumnModel().getColumn(2).setResizable(false);
+            tablaBoletos.getColumnModel().getColumn(3).setResizable(false);
+            tablaBoletos.getColumnModel().getColumn(4).setResizable(false);
+            tablaBoletos.getColumnModel().getColumn(5).setResizable(false);
+            tablaBoletos.getColumnModel().getColumn(6).setResizable(false);
+            tablaBoletos.getColumnModel().getColumn(7).setResizable(false);
+        }
+
+        iconLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/smallerIcon.png"))); // NOI18N
+
+        lblHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/homeIcon.png"))); // NOI18N
+        lblHome.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblHomeMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(297, 297, 297)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(165, 165, 165)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(182, Short.MAX_VALUE))
+                .addGap(38, 38, 38)
+                .addComponent(lblHome)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(130, 130, 130)
+                .addComponent(iconLabel))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(57, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 693, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jLabel1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(iconLabel)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(lblHome))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(jLabel1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(320, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -102,10 +163,16 @@ public class BoletosApartados extends javax.swing.JFrame {
         // TODO add your handling code here
     }//GEN-LAST:event_formWindowClosing
 
+    private void lblHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHomeMouseClicked
+        this.dispose();
+    }//GEN-LAST:event_lblHomeMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel iconLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lblHome;
+    private javax.swing.JTable tablaBoletos;
     // End of variables declaration//GEN-END:variables
 }

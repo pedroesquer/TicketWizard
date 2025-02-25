@@ -16,6 +16,22 @@ public class NuevoBoletoEventoDTO {
     private String lugar; //Lugar
     private String fechaLimiteEvento;
     private String tipoCompra;
+    private String estado;
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public NuevoBoletoEventoDTO(String numeroControl, String asiento, float precioOriginal, LocalDateTime fechaHora, String nombreEv, String lugar, String tipoCompra, String estado) {
+        this.numeroControl = numeroControl;
+        this.asiento = asiento;
+        this.precioOriginal = precioOriginal;
+        this.fechaHora = fechaHora;
+        this.nombreEv = nombreEv;
+        this.lugar = lugar;
+        this.tipoCompra = tipoCompra;
+        this.estado = estado;
+    }
             
 
     

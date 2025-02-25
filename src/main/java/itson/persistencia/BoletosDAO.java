@@ -180,4 +180,43 @@ SELECT numeroControl as Id, ev.fechaHora as 'Fecha', ev.nombre as 'Evento', conc
         }
         return ListaBoletos;
     }
+
+    public List<NuevoBoletoEventoDTO> consultarBoletosApartados() {
+        String codigoSQL = """
+        SELECT BO.NUMEROCONTROL AS 'Id',
+            CONCAT(ASIENTO,FILA) AS 'Asiento',
+            EV.FECHAHORA AS 'Fecha',
+            EV.NOMBRE AS 'Evento',
+            BO.PRECIOACTUAL AS 'PrecioActual',
+            concat(recinto, ', ', ciudad) AS 'Lugar',
+            BO.TIPOCOMPRA AS 'TipoCompra', 
+            IF(BO.ESTADO = 'Pendiente de pago', 'Apartado','No apartado') AS 'Estado'
+            FROM BOLETOS AS BO INNER JOIN EVENTOS AS EV ON BO.CODIGOEVENTO = EV.CODIGOEVENTO 
+        WHERE BO.ESTADO = "Pendiente de Pago";
+        """;
+        List<NuevoBoletoEventoDTO> ListaBoletos = new LinkedList<>();
+        try {
+            Connection conexion = this.manejadorConexiones.crearConexion();
+            PreparedStatement comando = conexion.prepareStatement(codigoSQL);
+            ResultSet resultadosConsulta = comando.executeQuery();
+
+            while (resultadosConsulta.next()) {
+                String numeroControl = resultadosConsulta.getString("Id");
+                LocalDateTime fecha = resultadosConsulta.getTimestamp("Fecha").toLocalDateTime();
+                String evento = resultadosConsulta.getString("Evento");
+                String asiento = resultadosConsulta.getString("Asiento");
+                float precioActual = resultadosConsulta.getFloat("PrecioActual");
+                String lugar = resultadosConsulta.getString("lugar");
+                String tipoCompra = resultadosConsulta.getString("tipoCompra");
+                String estado = resultadosConsulta.getString("Estado");
+                NuevoBoletoEventoDTO boletoEvento = new NuevoBoletoEventoDTO(numeroControl, asiento, precioActual,fecha, evento, lugar, tipoCompra, estado);
+                ListaBoletos.add(boletoEvento);
+
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error al consultar los boletos: " + ex.getMessage());
+
+        }
+        return ListaBoletos;
+    }
 }
