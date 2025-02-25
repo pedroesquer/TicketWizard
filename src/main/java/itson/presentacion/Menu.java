@@ -7,6 +7,7 @@ package itson.presentacion;
 import itson.control.ControlComprarBoleto;
 import itson.control.ControlIniciarSesion;
 import itson.control.ControlRegistrarDeposito;
+import itson.control.ControlVenderBoletos;
 import itson.entidades.Usuario;
 import itson.persistencia.BoletosDAO;
 import itson.persistencia.DepositosDAO;
@@ -31,6 +32,7 @@ public class Menu extends javax.swing.JFrame implements Observer {
     ControlIniciarSesion controlInicio = new ControlIniciarSesion(usuariosDAO);
     ControlComprarBoleto controlActualizar = new ControlComprarBoleto(boletosDAO);
     ControlRegistrarDeposito controlDeposito = new ControlRegistrarDeposito(depositosDAO);
+    ControlVenderBoletos controlVenderBoletos = new ControlVenderBoletos(boletosDAO);
 
     public Menu() {
         initComponents();
@@ -278,7 +280,7 @@ public class Menu extends javax.swing.JFrame implements Observer {
 
     private void venderBoletosLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_venderBoletosLabelMouseClicked
         // TODO add your handling code here:
-        VenderBoletos venderBoletos = new VenderBoletos(controlInicio, controlActualizar);
+        VenderBoletos venderBoletos = new VenderBoletos(controlVenderBoletos);
         venderBoletos.setVisible(true);
         venderBoletos.pack();
         venderBoletos.setLocationRelativeTo(null);
